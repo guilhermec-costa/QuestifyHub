@@ -1,0 +1,28 @@
+{
+  "name": "questifyhub",
+  "version": "1.0.0",
+  "description": "QuestifyHub is a innovative search platform that reaches to enhance your search experience",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec ts-node ./src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuiC0506/QuestifyHub.git"
+  },
+  "author": "Guilherme China",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GuiC0506/QuestifyHub/issues"
+  },
+  "homepage": "https://github.com/GuiC0506/QuestifyHub#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  auto"devDependencies": {
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
