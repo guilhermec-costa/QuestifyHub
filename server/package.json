@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "QuestifyHub is a innovative search platform that reaches to enhance your search experience",
   "main": "index.js",
+  "type": "commonJS",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon"
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/GuiC0506/QuestifyHub#readme",
   "dependencies": {
+    "dotenv": "^16.4.1",
     "express": "^4.18.2"
   },
   "devDependencies": {
