@@ -17,10 +17,6 @@ app.use(express.json());
 app.use(cors());
 app.use(indexRouter);
 
-app.get("/", (req, res) => {
-    return res.send("Hello");
-})
-
 app.listen(PORT, () => {
     console.log(`QuestifyHub running at port ${PORT}`);
 });
