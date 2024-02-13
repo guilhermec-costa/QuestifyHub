@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  web: 
+    build:
+      context: .
+    container_name: nodejs_server
+    ports:
+      - 3333:3333
+    depends_on:
+      - mongo
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: guilherme
+      MONGO_INITDB_ROOT_PASSWORD: mongo123
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

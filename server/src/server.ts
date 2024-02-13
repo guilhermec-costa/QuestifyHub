@@ -4,12 +4,12 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import indexRouter from "./routes/index";
 
-dotenv.config();
-mongoose.connect("mongodb://localhost/QuestifyHub")
+/* dotenv.config(); */
+mongoose.connect('mongodb://guilherme:mongo123@mongo/QuestifyHub')
+/* mongoose.connect("mongodb://localhost/QuestifyHub") */
     .then(() => console.log("Connected to mongo database"))
     .catch(err => console.log(err));
     
-
 const app: Express = express();
 const PORT: any|number = process.env.PORT || 3333;
 
