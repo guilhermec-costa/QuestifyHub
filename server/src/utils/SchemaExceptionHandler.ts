@@ -9,5 +9,5 @@ export const handleValidationErrors = (res:Response, err:ZodError) => {
         }
     });
 
-    return res.status(400).json(validationErrors);
+    return validationErrors;
 }
