@@ -2,7 +2,7 @@ module.exports = {
     "parser": "@typescript-eslint/parser",
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
     },
     "plugins": ["@typescript-eslint"],
     "extends": [
@@ -28,7 +28,7 @@ module.exports = {
     },
     "rules": {
         'no-unused-vars': 'off',
-        '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': ['error', { 'varsIgnorePattern': '^_', "argsIgnorePattern": "^_" }],
         "semi": "always",
         "quotes": [
             "error",

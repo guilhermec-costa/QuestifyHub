@@ -18,6 +18,10 @@ class UserController {
             return res.status(500).send(err);
         }
     }
+
+    /* public async all(req: Request, res:Response) { */
+    /*     const users = await User. */
+    /* } */
 }
 
 export default new UserController();

@@ -1,14 +1,12 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import indexRouter from "./routes/index";
+import connectToMongo from "database/db";
 
 dotenv.config();
-mongoose.connect("mongodb://127.0.0.1:27017/questify-hub")
-    .then(() => console.log("connected to database"))
-    .catch(e => console.log("Error: ", e.message));
-    
+console.log();
+connectToMongo(process.env.MONGODB_URI as string);
 const app: Express = express();
 const PORT: any|number = process.env.PORT || 3333;
 

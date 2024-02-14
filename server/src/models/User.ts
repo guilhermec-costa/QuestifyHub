@@ -1,5 +1,6 @@
 import mongoose, { Model } from "mongoose";
 const { Types } = mongoose.Schema;
+import User from "../validations/UserValidation";
 
 const UserSchema = new mongoose.Schema({
     fullname: {
@@ -26,7 +27,7 @@ const UserSchema = new mongoose.Schema({
 
 
 
-const User = mongoose.model("User", UserSchema);
+const UserModel = mongoose.model("User", UserSchema);
 
-export default User;
+export default UserModel;
 

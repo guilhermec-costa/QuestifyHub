@@ -11,4 +11,5 @@ const UserSchemaValidation = z.object({
         email("Field is not a valid email"),
 })
 
+export type User = z.infer<typeof UserSchemaValidation>;
 export default UserSchemaValidation;
