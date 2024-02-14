@@ -3,16 +3,17 @@ import User from "../models/User";
 import { handleValidationErrors } from "../utils/SchemaExceptionHandler";
 import userValidation from "../validations/UserValidation";
 import { z } from "zod";
-
+import { hashPassword } from "utils/cryptog";
 
 class UserController {
     public async store(req: Request, res: Response) {
         try {
             const { body } = req;
-            const dataValidated = userValidation.parse(body);
-            const user = new User(dataValidated);
+            const userCreationBody = userValidation.parse(body);
+            userCreationBody.password = await hashPassword(userCreationBody.password);
+            const user = new User(userCreationBody);
             const savedUser = await user.save();
-            return res.status(200).json(savedUser);
+            return res.status(200).json("a");
         } catch(err) {
            if(err instanceof z.ZodError) handleValidationErrors(res, err);
            return res.status(500).send(err);

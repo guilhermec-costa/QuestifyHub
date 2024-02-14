@@ -9,3 +9,4 @@ const connectToMongo = () => {
 }
 
 export default connectToMongo;
+
