@@ -1,32 +1,13 @@
 version: "3.8"
 
-networks:
-    mongonet:
-      driver: bridge
-
 services:
   mongo_db:
     image: mongo:latest
     restart: always
-    container_name: MY_MONGO
     ports:
       - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
     volumes:
       - mongo_db:/data/db
-  api:
-    build: .
-    ports:
-      - 3333:3333
-    environment:
-      PORT: 3333
-      MONGODB_URI: mongodb://mongo_db:27017
-      DB_NAME: questify_hub
-      DB_PASS: mongo123
-    depends_on:
-      - mongo_db
 
 volumes:
   mongo_db:
