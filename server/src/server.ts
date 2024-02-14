@@ -6,7 +6,7 @@ import connectToMongo from "database/db";
 
 dotenv.config();
 console.log();
-connectToMongo(process.env.MONGODB_URI as string);
+connectToMongo();
 const app: Express = express();
 const PORT: any|number = process.env.PORT || 3333;
 

@@ -14,14 +14,15 @@ class UserController {
             const savedUser = await user.save();
             return res.status(200).json(savedUser);
         } catch(err) {
-            /* if(err instanceof z.ZodError) handleValidationErrors(res, err); */
-            return res.status(500).send(err);
+           if(err instanceof z.ZodError) handleValidationErrors(res, err);
+           return res.status(500).send(err);
         }
     }
 
-    /* public async all(req: Request, res:Response) { */
-    /*     const users = await User. */
-    /* } */
+    public async all(req: Request, res:Response) {
+        const users = await User.find().select({"fullname": 1, "email": 1});
+        return res.status(200).json(users);
+    }
 }
 
 export default new UserController();
