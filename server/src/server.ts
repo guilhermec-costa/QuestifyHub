@@ -5,13 +5,12 @@ import indexRouter from "./routes/index";
 import connectToMongo from "database/db";
 
 dotenv.config();
-console.log();
 connectToMongo();
 const app: Express = express();
 const PORT: any|number = process.env.PORT || 3333;
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 app.use(indexRouter);
 
 app.listen(PORT, () => {
