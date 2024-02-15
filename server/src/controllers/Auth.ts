@@ -21,7 +21,10 @@ class AuthController {
             const pwdCorresponds = await checkPassword(password, user.password);
             if(!pwdCorresponds) return res.status(401).json({ error: "Password does not match"});
 
-            return pwdCorresponds? res.status(200).json("LOGGED") : res.status(400).json("FAILED");
+            const token = new Jwt(user.id, 3600); 
+            token.sign();
+            res.cookie("jwt", token.signedToken);
+            return pwdCorresponds? res.status(200).json("Logged in") : res.status(400).json("Failed to login");
         } catch(err) {
             return res.status(400).json(err);
         }
