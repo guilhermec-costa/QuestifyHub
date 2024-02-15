@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { z } from "zod";
 import User from "models/User";
 import { checkPassword } from "utils/cryptog";
+import Jwt from "utils/jwt";
 
 class AuthController {
     public async login(req: Request, res: Response) {
@@ -17,8 +18,9 @@ class AuthController {
             const user = await User.findOne({ email: email });
             if(!user) return res.status(400).json({error: "User not found"});
 
-
             const pwdCorresponds = await checkPassword(password, user.password);
+            if(!pwdCorresponds) return res.status(401).json({ error: "Password does not match"});
+
             return pwdCorresponds? res.status(200).json("LOGGED") : res.status(400).json("FAILED");
         } catch(err) {
             return res.status(400).json(err);
