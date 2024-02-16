@@ -3,9 +3,10 @@ import { z } from "zod";
 import User from "models/User";
 import { checkPassword } from "utils/cryptog";
 import Jwt from "utils/jwt";
+import { customRequest } from "types";
 
 class AuthController {
-    public async login(req: Request, res: Response) {
+    public async login(req: customRequest, res: Response) {
         try {
             const loginBodyValidation = z.object({
                 email: z.string({
@@ -23,6 +24,7 @@ class AuthController {
 
             const token = new Jwt(user.id, 3600); 
             token.sign();
+            req.user = user;
             res.cookie("jwt", token.signedToken, {maxAge: token.expiresIn});
             return pwdCorresponds? res.status(200).json("Logged in") : res.status(400).json("Failed to login");
         } catch(err) {
