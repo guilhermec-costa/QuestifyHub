@@ -31,7 +31,6 @@ class AuthController {
     }
 
     public logout(req: Request, res: Response) {
-
     }
 }
 
