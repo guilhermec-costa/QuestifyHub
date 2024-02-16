@@ -23,7 +23,7 @@ class AuthController {
 
             const token = new Jwt(user.id, 3600); 
             token.sign();
-            res.cookie("jwt", token.signedToken);
+            res.cookie("jwt", token.signedToken, {maxAge: token.expiresIn});
             return pwdCorresponds? res.status(200).json("Logged in") : res.status(400).json("Failed to login");
         } catch(err) {
             return res.status(400).json(err);

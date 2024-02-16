@@ -7,7 +7,7 @@ interface JwtPayload {
 class Jwt {
     private payload: JwtPayload = {id: ""};
     public signedToken:string = "";
-    private expiresIn:number = 3600;
+    public expiresIn:number = 3600;
 
     constructor(id:string, expiresIn:number) {
         this.payload = {

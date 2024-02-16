@@ -20,6 +20,7 @@
   "homepage": "https://github.com/GuiC0506/QuestifyHub#readme",
   "dependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.6",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui": "^3.52.4",
