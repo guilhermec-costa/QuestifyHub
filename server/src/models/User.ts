@@ -1,6 +1,5 @@
 import mongoose, { Model } from "mongoose";
 const { Types } = mongoose.Schema;
-import User from "../validations/UserValidation";
 
 const UserSchema = new mongoose.Schema({
     fullname: {

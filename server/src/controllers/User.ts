@@ -14,7 +14,6 @@ class UserController {
             
             const user = new User(userCreationBody);
             const savedUser = await user.save();
-            req.user as any = "a";
             return res.status(200).json(user);
         } catch(err) {
            err = err instanceof z.ZodError ? handleValidationErrors(res, err) : err;
