@@ -1,5 +1,5 @@
 import { Component, createSignal } from "solid-js";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const Login: Component = () => {
     let loginForm:HTMLFormElement;
@@ -15,28 +15,40 @@ const Login: Component = () => {
         try {
             const { data: { token } } = await axios.post("http://localhost:3333/auth/login", loginBody);
             localStorage.setItem("token", token);
-        } catch(err:any) {
-            console.log(err.message);
+        } catch(err) {
+            if(err instanceof AxiosError) {
+                console.log(err.response?.data);
+            }
+            /* console.log(Object.getPrototypeOf(err)); */
+            /* console.log(err); */
         };
     };
 
     return (
-        <div class="bg-[#FFC107] w-full h-screen flex justify-center items-center">
-            <div class="w-3/5 flex h-3/5">
-                <div class="w-1/2 bg-[#F5F5F5] rounded-l-lg">
+        <div class="bg-[#0D1821] w-full h-screen flex justify-center items-center">
+            <div class="w-[50%] flex h-[55%] relative left-[10%]">
+                <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex justify-center align-middle">
                     <h3>Get started on Questify</h3>
                     <form ref={loginForm}
-                        class="h-1/2 w-1/2 p-3 border-black mx-auto my-[25%]"
+                        class="h-1/2 w-4/5 p-3 border-black mx-auto my-[25%]"
                         onSubmit={handleFormSubmition}>
                         <div class="flex flex-col gap-2">
-                            <input  type="email" name="email" placeholder="Email"/>
-                            <input type="password" name="password" placeholder="Password" />
-                            <input type="submit" value="Login" class="hover:cursor-pointer"/>
+                            <label for="email">Email</label>
+                            <input
+                            class="outline-none bg-transparent border-b-2 border-red-[#454545] focus:outline-none"
+                            type="email" name="email" placeholder="Email"/>
+
+                            <label for="password" class="mt-2">Password</label>
+                            <input
+                            class="outline-none bg-transparent border-b-2 border-red-[#454545] focus:outline-none"
+                            type="password" name="password" placeholder="Password" />
+                            <input
+                            class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] p-1 rounded-md mt-3"
+                            type="submit" value="Login" />
                         </div>
                     </form>
-
                 </div>
-                <div class="bg-[#333333] w-1/2 rounded-r-lg">Aqui</div>
+                <div class="bg-[#B4CDED] w-1/2 rounded-r-xl">Aqui</div>
             </div>
         </div>
     );
