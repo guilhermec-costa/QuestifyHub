@@ -26,24 +26,25 @@ const Login: Component = () => {
 
     return (
         <div class="bg-[#0D1821] w-full h-screen flex justify-center items-center">
-            <div class="w-[50%] flex h-[55%] relative left-[10%]">
-                <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex justify-center align-middle">
-                    <h3>Get started on Questify</h3>
+            <div class="w-1/2 flex h-[55%] mx-auto">
+                <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col justify-center items-center">
+                    <h2 class="text-xl text-[#2d2d2d] mb-4">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
                     <form ref={loginForm}
-                        class="h-1/2 w-4/5 p-3 border-black mx-auto my-[25%]"
+                        class="h-1/2 w-4/5 p-3"
                         onSubmit={handleFormSubmition}>
                         <div class="flex flex-col gap-2">
                             <label for="email">Email</label>
                             <input
-                            class="outline-none bg-transparent border-b-2 border-red-[#454545] focus:outline-none"
+                            class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none"
                             type="email" name="email" placeholder="Email"/>
 
                             <label for="password" class="mt-2">Password</label>
                             <input
-                            class="outline-none bg-transparent border-b-2 border-red-[#454545] focus:outline-none"
+                            class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none"
                             type="password" name="password" placeholder="Password" />
+
                             <input
-                            class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] p-1 rounded-md mt-3"
+                            class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] p-1 rounded-md mt-3 hover:bg-[#2d2d2de5]"
                             type="submit" value="Login" />
                         </div>
                     </form>
