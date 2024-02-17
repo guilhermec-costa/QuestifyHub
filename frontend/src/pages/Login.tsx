@@ -1,8 +1,18 @@
-import { Component, createSignal } from "solid-js";
+import { Component, Show, createSignal } from "solid-js";
+import {createStore} from "solid-js/store";
 import axios, { AxiosError } from "axios";
+import { ZodError } from "zod";
+
+interface IloginErrors {
+    [key: string]: string
+};
 
 const Login: Component = () => {
     let loginForm:HTMLFormElement;
+    const [loginErrors, setLoginErrors] = createStore({
+        email: "",
+        password: ""
+    });
 
     const handleFormSubmition = async (e:Event) => {
         e.preventDefault();
@@ -17,10 +27,18 @@ const Login: Component = () => {
             localStorage.setItem("token", token);
         } catch(err) {
             if(err instanceof AxiosError) {
-                console.log(err.response?.data);
+                const errorData = err.response?.data;
+                console.log(errorData);
+                if(Object.keys(errorData).includes("name") && errorData.name === "ZodError") {
+                    const fieldsWithError = (errorData as ZodError).issues.map(error => error.path[0]);
+                    const newErrors = {};
+                    const zodErrors = (errorData as ZodError).issues.reduce((acc, error) => {
+                        acc[error.path[0]] = error.message;
+                        return acc;
+                     }, {} as Record<string, string>);
+                    setLoginErrors(zodErrors);
+                    };
             }
-            /* console.log(Object.getPrototypeOf(err)); */
-            /* console.log(err); */
         };
     };
 
@@ -37,11 +55,13 @@ const Login: Component = () => {
                             <input
                             class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none"
                             type="email" name="email" placeholder="Email"/>
+                            {loginErrors.email}
 
                             <label for="password" class="mt-2">Password</label>
                             <input
                             class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none"
                             type="password" name="password" placeholder="Password" />
+                            {loginErrors.password}
 
                             <input
                             class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] p-1 rounded-md mt-3 hover:bg-[#2d2d2de5]"

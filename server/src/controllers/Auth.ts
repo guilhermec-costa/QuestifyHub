@@ -9,10 +9,8 @@ class AuthController {
         console.log(req.body);
         try {
             const loginBodyValidation = z.object({
-                email: z.string({
-                    required_error: "Email is empty"
-                }).email(),
-                password: z.string()
+                email: z.string().email(),
+                password: z.string().min(1, {message: "Password too small"})
             });
 
             const { email, password } = loginBodyValidation.parse(req.body);
