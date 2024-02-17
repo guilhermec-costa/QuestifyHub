@@ -12,11 +12,12 @@
   "devDependencies": {
     "solid-devtools": "^0.29.2",
     "typescript": "^5.3.3",
-    "vite": "^5.0.11",
     "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {
+    "babel-preset-solid": "^1.8.15",
     "create-vite": "^5.2.0",
-    "solid-js": "^1.8.11"
+    "solid-js": "^1.8.11",
+    "vite": "^3.0.0"
   }
 }
