@@ -2,10 +2,18 @@ import { Component, createSignal } from "solid-js";
 
 const Login: Component = () => {
     let loginForm:HTMLFormElement;
+
     const handleFormSubmition = (e:Event) => {
         e.preventDefault();
-        console.log(e.target);
-    }
+        const formFields:string[] = ["email", "password"];
+
+        let loginBody = formFields.reduce((acc, field) => {
+            acc[field] = (loginForm.elements.namedItem(field) as HTMLInputElement).value;
+            return acc;
+            }, {} as Record<string, string>)
+        console.log(loginBody);
+    };
+
     return (
         <div class="bg-[#FFC107] w-full h-screen flex justify-center items-center">
             <div class="w-3/5 flex h-3/5">
@@ -15,8 +23,8 @@ const Login: Component = () => {
                         class="h-1/2 w-1/2 p-3 border-black mx-auto my-[25%]"
                         onSubmit={handleFormSubmition}>
                         <div class="flex flex-col gap-2">
-                            <input  type="email"  placeholder="Email"/>
-                            <input type="password" placeholder="Password" />
+                            <input  type="email" name="email" placeholder="Email"/>
+                            <input type="password" name="password" placeholder="Password" />
                             <input type="submit" value="Login" class="hover:cursor-pointer"/>
                         </div>
                     </form>
@@ -25,7 +33,7 @@ const Login: Component = () => {
                 <div class="bg-[#333333] w-1/2 rounded-r-lg">Aqui</div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Login;
