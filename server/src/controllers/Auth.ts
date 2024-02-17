@@ -6,6 +6,7 @@ import Jwt from "utils/jwt";
 
 class AuthController {
     public async login(req: Request, res: Response) {
+        console.log(req.body);
         try {
             const loginBodyValidation = z.object({
                 email: z.string({

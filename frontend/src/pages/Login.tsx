@@ -1,17 +1,23 @@
 import { Component, createSignal } from "solid-js";
+import axios from "axios";
 
 const Login: Component = () => {
     let loginForm:HTMLFormElement;
 
-    const handleFormSubmition = (e:Event) => {
+    const handleFormSubmition = async (e:Event) => {
         e.preventDefault();
         const formFields:string[] = ["email", "password"];
 
-        let loginBody = formFields.reduce((acc, field) => {
+        const loginBody = formFields.reduce((acc, field) => {
             acc[field] = (loginForm.elements.namedItem(field) as HTMLInputElement).value;
             return acc;
-            }, {} as Record<string, string>)
-        console.log(loginBody);
+            }, {} as Record<string, string>);
+        try {
+            const { data: { token } } = await axios.post("http://localhost:3333/auth/login", loginBody);
+            localStorage.setItem("token", token);
+        } catch(err:any) {
+            console.log(err.message);
+        };
     };
 
     return (
