@@ -25,19 +25,27 @@ const Login: Component = () => {
         try {
             const { data: { token } } = await axios.post("http://localhost:3333/auth/login", loginBody);
             localStorage.setItem("token", token);
+            setLoginErrors({email: "", password: ""});
         } catch(err) {
             if(err instanceof AxiosError) {
                 const errorData = err.response?.data;
                 console.log(errorData);
                 if(Object.keys(errorData).includes("name") && errorData.name === "ZodError") {
-                    const fieldsWithError = (errorData as ZodError).issues.map(error => error.path[0]);
-                    const newErrors = {};
                     const zodErrors = (errorData as ZodError).issues.reduce((acc, error) => {
                         acc[error.path[0]] = error.message;
                         return acc;
                      }, {} as Record<string, string>);
-                    setLoginErrors(zodErrors);
+                    for(const key of Object.keys(loginErrors)) {
+                        setLoginErrors((prevErrors) => {
+                            return {
+                                ...prevErrors,
+                                [key]: Object.keys(zodErrors).includes(key) ? zodErrors[key]: ""
+                            };
+                        });
                     };
+                } else {
+                    setLoginErrors(errorData);
+                }
             }
         };
     };
@@ -54,14 +62,14 @@ const Login: Component = () => {
                             <label for="email">Email</label>
                             <input
                             class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none"
-                            type="email" name="email" placeholder="Email"/>
-                            {loginErrors.email}
+                            type="text" name="email" placeholder="Email"/>
+                            <span class="text-red-500 text-sm">{loginErrors.email}</span>
 
                             <label for="password" class="mt-2">Password</label>
                             <input
                             class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none"
                             type="password" name="password" placeholder="Password" />
-                            {loginErrors.password}
+                            <span class="text-red-500 text-sm">{loginErrors.password}</span>
 
                             <input
                             class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] p-1 rounded-md mt-3 hover:bg-[#2d2d2de5]"

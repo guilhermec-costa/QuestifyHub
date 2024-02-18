@@ -15,10 +15,10 @@ class AuthController {
 
             const { email, password } = loginBodyValidation.parse(req.body);
             const user = await User.findOne({ email: email });
-            if(!user) return res.status(400).json({error: "User not found"});
+            if(!user) return res.status(400).json({email: "User not found", password: ""});
 
             const pwdCorresponds = await checkPassword(password, user.password);
-            if(!pwdCorresponds) return res.status(401).json({ error: "Password does not match"});
+            if(!pwdCorresponds) return res.status(401).json({ email:"", password: "Password does not match"});
 
             const token = new Jwt(user.id, 3600); 
             token.sign();
