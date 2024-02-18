@@ -1,12 +1,8 @@
-import { Component, Show, createSignal } from "solid-js";
+import { Component, createSignal } from "solid-js";
 import {createStore} from "solid-js/store";
 import axios, { AxiosError } from "axios";
 import { ZodError } from "zod";
 import {Eye, EyeOff} from "lucide-solid";
-
-interface IloginErrors {
-    [key: string]: string
-};
 
 const Login: Component = () => {
     let loginForm:HTMLFormElement;
@@ -25,14 +21,15 @@ const Login: Component = () => {
             acc[field] = (loginForm.elements.namedItem(field) as HTMLInputElement).value;
             return acc;
             }, {} as Record<string, string>);
+
         try {
             const { data: { token } } = await axios.post("http://localhost:3333/auth/login", loginBody);
             localStorage.setItem("token", token);
             setLoginErrors({email: "", password: ""});
+
         } catch(err) {
             if(err instanceof AxiosError) {
                 const errorData = err.response?.data;
-                console.log(errorData);
                 if(Object.keys(errorData).includes("name") && errorData.name === "ZodError") {
                     const zodErrors = (errorData as ZodError).issues.reduce((acc, error) => {
                         acc[error.path[0]] = error.message;
@@ -53,6 +50,11 @@ const Login: Component = () => {
         };
     };
 
+    const togglePwdVisibility = () => {
+        passwordField.type = passwordField.type === "password" ? "text" : "password";
+        setPwdVisibility(prevVisibility => !prevVisibility);
+    }
+
     return (
         <div class="bg-[#0D1821] w-full h-screen flex justify-center items-center">
             <div class="w-1/2 flex h-[55%] mx-auto">
@@ -64,25 +66,23 @@ const Login: Component = () => {
                         <div class="flex flex-col gap-2">
                             <label for="email">Email</label>
                             <input
-                            class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none"
+                            class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none p-0.5"
                             type="text" name="email" placeholder="Email"/>
                             <span class="text-red-500 text-sm">{loginErrors.email}</span>
 
                             <label for="password" class="mt-2">Password</label>
                             <div class="relative inline-block">
                                 <input
-                                    class="w-[100%] outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none"
+                                    class="w-[100%] outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none p-0.5"
                                     type="password" name="password" ref={passwordField} placeholder="Password" />
-                                    {/* <button type="button" onClick={() => { */}
-                                    {/*     passwordField.type = passwordField.type === "password"? "text" : "password"; */}
-                                    {/* }}> */}
-                                    <Show 
-                                        when={pwdVisibility}
-                                        fallback={
-                                            <EyeOff width={16} class="absolute right-2 bottom-[2px]" onClick={() => setPwdVisibility(true)}/>
-                                        }>
-                                        <Eye width={16} class="absolute right-2 bottom-[2px]" onClick={() => setPwdVisibility(false)}/>
-                                    </Show>
+                                    <button type="button" class="absolute right-2 bottom-[2px] hover:cursor-pointer" onClick={togglePwdVisibility}>
+                                    {pwdVisibility() ? (
+                                        <Eye color={"#454545" }width={16} />
+                                        ) : (
+                                        <EyeOff color={"#454545"} width={16} />
+                                        )
+                                    }
+                                    </button>
                             </div>
                             <span class="text-red-500 text-sm">{loginErrors.password}</span>
 

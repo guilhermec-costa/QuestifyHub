@@ -22,4 +22,7 @@ label {
     color: #454545;
 }
 
-
+input[type=password]:not(:placeholder-shown) {
+    font-size: 10px;
+    letter-spacing: 1px;
+}
