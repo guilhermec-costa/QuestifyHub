@@ -8,7 +8,7 @@ const Home = lazy(() => import("./pages/Home"));
 const App: Component = () => {
     return (
         <Router>
-            <Route path="/signin" component={Login} />   
+            <Route path={["/signin", "/"]} component={Login} />   
             <Route path="/home" component={Home}/>
             <Route path="*" component={NotFound} />
         </Router>

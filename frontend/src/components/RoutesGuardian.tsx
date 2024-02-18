@@ -1,16 +1,16 @@
 import { useNavigate } from "@solidjs/router";
-import { createEffect } from "solid-js";
 
-const checkAuthentication = () => {
-    const navigate = useNavigate();
+export const checkAuthentication = (navigate:any) => {
     const jwt = localStorage.getItem("token");
     
     if(!jwt) {
         navigate("/signin", {replace: true});
-        return;
     };
-
     return;
 };
 
-export default checkAuthentication;
+export const logout = (navigate:any) => {
+    localStorage.removeItem("token");
+    navigate("/signin", { replace: true });
+    return;
+};
