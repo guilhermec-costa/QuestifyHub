@@ -28,7 +28,7 @@ const Login: Component = () => {
         try {
             const { data: { token } } = await axios.post("http://localhost:3333/auth/login", loginBody);
             localStorage.setItem("token", token);
-            navigate("/teste");
+            navigate("/home");
             } catch(err) {
             if(err instanceof AxiosError) {
                 const errorData = err.response?.data;
@@ -94,7 +94,9 @@ const Login: Component = () => {
                         </div>
                     </form>
                 </div>
-                <div class="bg-[#B4CDED] w-1/2 rounded-r-xl">Aqui</div>
+                <div class="bg-[#B4CDED] w-1/2 rounded-r-xl">
+                    <h2>Empower your search capabilities and knowledge</h2>
+                </div>
             </div>
         </div>
     );

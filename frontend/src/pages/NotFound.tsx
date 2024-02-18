@@ -8,7 +8,7 @@ const NotFound: Component = () => {
     setInterval(() => {
         setTimeToRedirect(prevTime => --prevTime)
         if(timeToRedirect() === 0) {
-            navigator("/", {state});
+            navigator("/");
         };
     }, 1000);
 
