@@ -68,7 +68,7 @@ const Login: Component = () => {
                             <input
                             class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none p-0.5"
                             type="text" name="email" placeholder="Email"/>
-                            <span class="text-red-500 text-sm">{loginErrors.email}</span>
+                            <span class="text-red-500 text-xs">{loginErrors.email}</span>
 
                             <label for="password" class="mt-2">Password</label>
                             <div class="relative inline-block">
@@ -84,7 +84,7 @@ const Login: Component = () => {
                                     }
                                     </button>
                             </div>
-                            <span class="text-red-500 text-sm">{loginErrors.password}</span>
+                            <span class="text-red-500 text-xs">{loginErrors.password}</span>
 
                             <input
                             class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] p-1 rounded-md mt-3 hover:bg-[#2d2d2de5]"
