@@ -1,12 +1,15 @@
 import { Component, createSignal } from "solid-js";
 import {createStore} from "solid-js/store";
 import axios, { AxiosError } from "axios";
+import { Navigate, useNavigate } from "@solidjs/router";
 import { ZodError } from "zod";
 import {Eye, EyeOff} from "lucide-solid";
 
 const Login: Component = () => {
     let loginForm:HTMLFormElement;
     let passwordField:HTMLInputElement;
+    const navigate = useNavigate();
+
     const [pwdVisibility, setPwdVisibility] = createSignal(false);
     const [loginErrors, setLoginErrors] = createStore({
         email: "",
@@ -25,9 +28,8 @@ const Login: Component = () => {
         try {
             const { data: { token } } = await axios.post("http://localhost:3333/auth/login", loginBody);
             localStorage.setItem("token", token);
-            setLoginErrors({email: "", password: ""});
-
-        } catch(err) {
+            navigate("/teste");
+            } catch(err) {
             if(err instanceof AxiosError) {
                 const errorData = err.response?.data;
                 if(Object.keys(errorData).includes("name") && errorData.name === "ZodError") {
@@ -60,7 +62,7 @@ const Login: Component = () => {
             <div class="w-1/2 flex h-[55%] mx-auto">
                 <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col justify-center items-center">
                     <h2 class="text-xl text-[#2d2d2d] mb-4">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
-                    <form ref={loginForm}
+                    <form ref={loginForm} method="post" action="http://localhost:3000/rotateste"
                         class="h-1/2 w-4/5 p-3"
                         onSubmit={handleFormSubmition}>
                         <div class="flex flex-col gap-2">
