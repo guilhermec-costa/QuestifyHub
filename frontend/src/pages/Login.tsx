@@ -2,6 +2,7 @@ import { Component, Show, createSignal } from "solid-js";
 import {createStore} from "solid-js/store";
 import axios, { AxiosError } from "axios";
 import { ZodError } from "zod";
+import {Eye, EyeOff} from "lucide-solid";
 
 interface IloginErrors {
     [key: string]: string
@@ -9,6 +10,8 @@ interface IloginErrors {
 
 const Login: Component = () => {
     let loginForm:HTMLFormElement;
+    let passwordField:HTMLInputElement;
+    const [pwdVisibility, setPwdVisibility] = createSignal(false);
     const [loginErrors, setLoginErrors] = createStore({
         email: "",
         password: ""
@@ -66,9 +69,21 @@ const Login: Component = () => {
                             <span class="text-red-500 text-sm">{loginErrors.email}</span>
 
                             <label for="password" class="mt-2">Password</label>
-                            <input
-                            class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none"
-                            type="password" name="password" placeholder="Password" />
+                            <div class="relative inline-block">
+                                <input
+                                    class="w-[100%] outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none"
+                                    type="password" name="password" ref={passwordField} placeholder="Password" />
+                                    {/* <button type="button" onClick={() => { */}
+                                    {/*     passwordField.type = passwordField.type === "password"? "text" : "password"; */}
+                                    {/* }}> */}
+                                    <Show 
+                                        when={pwdVisibility}
+                                        fallback={
+                                            <EyeOff width={16} class="absolute right-2 bottom-[2px]" onClick={() => setPwdVisibility(true)}/>
+                                        }>
+                                        <Eye width={16} class="absolute right-2 bottom-[2px]" onClick={() => setPwdVisibility(false)}/>
+                                    </Show>
+                            </div>
                             <span class="text-red-500 text-sm">{loginErrors.password}</span>
 
                             <input
