@@ -1,18 +1,16 @@
-import { Divide } from "lucide-solid";
-import { Show, Component, onMount, For } from "solid-js"
-
-interface IHomeProfileMenu {
-    domReference: HTMLDivElement|undefined;
-};
+import { Component, For } from "solid-js"
+import { logout } from "../utils/RoutesGuardian"
+import { useNavigate } from "@solidjs/router";
 
 interface IMenuOptions {
     [key:string]: any
 }
 
 const HomeProfileMenu: Component = (props:any) => {
+    const navigator = useNavigate();
     const menuOptions:IMenuOptions = {
         Profile: () => console.log("profile"),
-        Logout: () => console.log("logout")
+        Logout: () => logout(navigator)
     };
 
     return (
