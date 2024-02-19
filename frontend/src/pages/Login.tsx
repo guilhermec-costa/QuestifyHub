@@ -13,7 +13,8 @@ const Login: Component = () => {
     const [pwdVisibility, setPwdVisibility] = createSignal(false);
     const [loginErrors, setLoginErrors] = createStore({
         email: "",
-        password: ""
+        password: "",
+        name: ""
     });
 
     const handleFormSubmition = async (e:Event) => {
@@ -26,8 +27,9 @@ const Login: Component = () => {
             }, {} as Record<string, string>);
 
         try {
-            const { data: { token } } = await axios.post("http://localhost:3333/auth/login", loginBody);
+            const { data: { token, user } } = await axios.post("http://localhost:3333/auth/login", loginBody);
             localStorage.setItem("token", token);
+            localStorage.setItem("username", user.displayName);
             navigate("/home");
             } catch(err) {
             if(err instanceof AxiosError) {
