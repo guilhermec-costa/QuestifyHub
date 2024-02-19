@@ -1,4 +1,4 @@
-import { Component, createSignal } from "solid-js";
+import { Component, JSXElement, createEffect, createSignal, onMount } from "solid-js";
 import { checkAuthentication, logout } from "../utils/RoutesGuardian";
 import { useNavigate } from "@solidjs/router";
 import { Menu, Telescope } from "lucide-solid";
@@ -8,13 +8,20 @@ const Home: Component = () => {
     const navigator = useNavigate();
     const username = localStorage.getItem("username");
     checkAuthentication(navigator);
-    let menuModalRef:HTMLDivElement|undefined;
+    let menuModalRef:HTMLDivElement|any;
+    let menuIcon: SVGSVGElement|any;
+
+    onMount(() => {
+        menuModalRef.hidden = true;
+        })
+
     const [isMenuExpanded, setIsMenuExpanded] = createSignal(false);
 
     const onProfileMenuShow = () => {
         if(menuModalRef) {
             setIsMenuExpanded(menuModalRef.hidden);
             menuModalRef.hidden = !menuModalRef.hidden;
+            /* menuIcon.style.transform = "-200px"; */
         }
     };
 
@@ -22,7 +29,7 @@ const Home: Component = () => {
         <div class="w-full h-screen bg-[#0D1821] relative">
             <div class="absolute right-5 top-2 z-10">
                 <button onClick={onProfileMenuShow}>
-                    <Menu color={isMenuExpanded() ? "black" : "white" } width={30}/>
+                    <Menu ref={menuIcon} color={isMenuExpanded() ? "black" : "white" } width={30}/>
                 </button>
             </div>
             <HomeProfileMenu ref={menuModalRef}/>
