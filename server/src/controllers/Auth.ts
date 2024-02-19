@@ -23,7 +23,7 @@ class AuthController {
             const token = new Jwt(user.id, 3600); 
             token.sign();
             /* req.user = user; */
-            return pwdCorresponds? res.status(200).json({ token: token.signedToken }) : res.status(400).json("Failed to login");
+            return pwdCorresponds? res.status(200).json({ token: token.signedToken, user: user }) : res.status(400).json("Failed to login");
         } catch(err) {
             return res.status(400).json(err);
         }

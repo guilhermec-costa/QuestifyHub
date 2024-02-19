@@ -1,5 +1,5 @@
 import { Component, JSXElement, createEffect, createSignal, onMount } from "solid-js";
-import { checkAuthentication, logout } from "../utils/RoutesGuardian";
+import { checkAuthentication } from "../utils/auth";
 import { useNavigate } from "@solidjs/router";
 import { Menu, Telescope } from "lucide-solid";
 import HomeProfileMenu from "../components/HomeProfileMenu";
@@ -8,31 +8,10 @@ const Home: Component = () => {
     const navigator = useNavigate();
     const username = localStorage.getItem("username");
     checkAuthentication(navigator);
-    let menuModalRef:HTMLDivElement|any;
-    let menuIcon: SVGSVGElement|any;
-
-    onMount(() => {
-        menuModalRef.hidden = true;
-        })
-
-    const [isMenuExpanded, setIsMenuExpanded] = createSignal(false);
-
-    const onProfileMenuShow = () => {
-        if(menuModalRef) {
-            setIsMenuExpanded(menuModalRef.hidden);
-            menuModalRef.hidden = !menuModalRef.hidden;
-            /* menuIcon.style.transform = "-200px"; */
-        }
-    };
 
     return (
         <div class="w-full h-screen bg-[#0D1821] relative">
-            <div class="absolute right-5 top-2 z-10">
-                <button onClick={onProfileMenuShow}>
-                    <Menu ref={menuIcon} color={isMenuExpanded() ? "black" : "white" } width={30}/>
-                </button>
-            </div>
-            <HomeProfileMenu ref={menuModalRef}/>
+            <HomeProfileMenu />
             <div class="w-full flex justify-center">
                 <form method="post" class="w-2/6 mt-[200px] relative">
                     <input type="text"

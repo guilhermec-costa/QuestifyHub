@@ -1,5 +1,3 @@
-import { useNavigate } from "@solidjs/router";
-
 export const checkAuthentication = (navigate:any) => {
     const jwt = localStorage.getItem("token");
     
