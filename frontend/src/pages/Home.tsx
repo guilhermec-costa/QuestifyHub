@@ -1,20 +1,31 @@
-import { Component } from "solid-js";
-import { checkAuthentication, logout } from "../components/RoutesGuardian";
+import { Component, createSignal } from "solid-js";
+import { checkAuthentication, logout } from "../utils/RoutesGuardian";
 import { useNavigate } from "@solidjs/router";
 import { Menu, Telescope } from "lucide-solid";
+import HomeProfileMenu from "../components/HomeProfileMenu";
 
 const Home: Component = () => {
     const navigator = useNavigate();
     const username = localStorage.getItem("username");
     checkAuthentication(navigator);
+    let menuModalRef:HTMLDivElement|undefined;
+    const [isMenuExpanded, setIsMenuExpanded] = createSignal(false);
+
+    const onProfileMenuShow = () => {
+        if(menuModalRef) {
+            setIsMenuExpanded(menuModalRef.hidden);
+            menuModalRef.hidden = !menuModalRef.hidden;
+        }
+    };
 
     return (
         <div class="w-full h-screen bg-[#0D1821] relative">
-            <div class="absolute right-5 top-2">
-                <button>
-                    <Menu color="#F0F4EF" width={30}/>
+            <div class="absolute right-5 top-2 z-10">
+                <button onClick={onProfileMenuShow}>
+                    <Menu color={isMenuExpanded() ? "black" : "white" } width={30}/>
                 </button>
             </div>
+            <HomeProfileMenu ref={menuModalRef}/>
             <div class="w-full flex justify-center">
                 <form method="post" class="w-2/6 mt-[200px] relative">
                     <input type="text"
