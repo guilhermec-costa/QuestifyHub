@@ -1,0 +1,502 @@
+{
+	"kind": "customsearch#search",
+	"url": {
+		"type": "application/json",
+		"template": "https://www.googleapis.com/customsearch/v1?q={searchTerms}&num={count?}&start={startIndex?}&lr={language?}&safe={safe?}&cx={cx?}&sort={sort?}&filter={filter?}&gl={gl?}&cr={cr?}&googlehost={googleHost?}&c2coff={disableCnTwTranslation?}&hq={hq?}&hl={hl?}&siteSearch={siteSearch?}&siteSearchFilter={siteSearchFilter?}&exactTerms={exactTerms?}&excludeTerms={excludeTerms?}&linkSite={linkSite?}&orTerms={orTerms?}&dateRestrict={dateRestrict?}&lowRange={lowRange?}&highRange={highRange?}&searchType={searchType}&fileType={fileType?}&rights={rights?}&imgSize={imgSize?}&imgType={imgType?}&imgColorType={imgColorType?}&imgDominantColor={imgDominantColor?}&alt=json"
+	},
+	"queries": {
+		"request": [
+			{
+				"title": "Google Custom Search - dogs",
+				"totalResults": "6340000000",
+				"searchTerms": "dogs",
+				"count": 10,
+				"startIndex": 1,
+				"inputEncoding": "utf8",
+				"outputEncoding": "utf8",
+				"safe": "off",
+				"cx": "71271c5caba00469c"
+			}
+		],
+		"nextPage": [
+			{
+				"title": "Google Custom Search - dogs",
+				"totalResults": "6340000000",
+				"searchTerms": "dogs",
+				"count": 10,
+				"startIndex": 11,
+				"inputEncoding": "utf8",
+				"outputEncoding": "utf8",
+				"safe": "off",
+				"cx": "71271c5caba00469c"
+			}
+		]
+	},
+	"context": {
+		"title": "QuestifyHub Search Engine"
+	},
+	"searchInformation": {
+		"searchTime": 0.489253,
+		"formattedSearchTime": "0.49",
+		"totalResults": "6340000000",
+		"formattedTotalResults": "6,340,000,000"
+	},
+	"items": [
+		{
+			"kind": "customsearch#result",
+			"title": "Dog, facts and photos",
+			"htmlTitle": "<b>Dog</b>, facts and photos",
+			"link": "https://www.nationalgeographic.com/animals/mammals/facts/domestic-dog",
+			"displayLink": "www.nationalgeographic.com",
+			"snippet": "Evolutionary origins. All dogs descend from a species of wolf, but not the gray wolf (Canis lupus), like many people assume. In fact, DNA evidence suggests that ...",
+			"htmlSnippet": "Evolutionary origins. All <b>dogs</b> descend from a species of wolf, but not the gray wolf (Canis lupus), like many people assume. In fact, DNA evidence suggests that&nbsp;...",
+			"cacheId": "VGirYKV8sLkJ",
+			"formattedUrl": "https://www.nationalgeographic.com/animals/mammals/facts/domestic-dog",
+			"htmlFormattedUrl": "https://www.nationalgeographic.com/animals/mammals/facts/domestic-dog",
+			"pagemap": {
+				"cse_thumbnail": [
+					{
+						"src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTMKf0MPX9NFpK6jYkbE4hFMjGglL86qKrbx4E61iyS3OGJaF8le6WtTiDR",
+						"width": "300",
+						"height": "168"
+					}
+				],
+				"metatags": [
+					{
+						"og:image": "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_16x9.jpg?w=1200",
+						"twitter:app:id:googleplay": "com.natgeomobile.ngmagazine",
+						"og:image:width": "1200",
+						"theme-color": "#ffffff",
+						"twitter:card": "summary_large_image",
+						"article:published_time": "04-16-2021",
+						"og:site_name": "Animals",
+						"twitter:url": "https://www.nationalgeographic.com/animals/mammals/facts/domestic-dog",
+						"twitter:app:name:googleplay": "National Geographic",
+						"medium": "website",
+						"title": "Dog, facts and photos",
+						"twitter:app:id:iphone": "418671597",
+						"twitter:creator": "@NatGeo",
+						"tax:genres": "Reference",
+						"article:publisher": "https://www.facebook.com/natgeo",
+						"twitter:image:alt": "Dog, facts and photos",
+						"twitter:site": "@NatGeo",
+						"article:modified_time": "05-03-2021",
+						"tax:audiences": "General",
+						"og:type": "article",
+						"twitter:title": "Dog, facts and photos",
+						"article:section": "Animals",
+						"og:title": "Dog, facts and photos",
+						"og:image:height": "675",
+						"twitter:image:src": "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_16x9.jpg?w=1200",
+						"tax:firstsubject": "Domestic dogs",
+						"referrer": "origin",
+						"viewport": "initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+						"tax:source": "Animals",
+						"og:locale": "en_US",
+						"guid": "drn:src:natgeo:unison::prod:a10a7e7b-c063-4269-adab-ebf97e8a9437",
+						"og:url": "https://www.nationalgeographic.com/animals/mammals/facts/domestic-dog",
+						"twitter:app:name:iphone": "National Geographic"
+					}
+				],
+				"cse_image": [
+					{
+						"src": "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_16x9.jpg?w=1200"
+					}
+				]
+			}
+		},
+		{
+			"kind": "customsearch#result",
+			"title": "Dog - Wikipedia",
+			"htmlTitle": "<b>Dog</b> - Wikipedia",
+			"link": "https://en.wikipedia.org/wiki/Dog",
+			"displayLink": "en.wikipedia.org",
+			"snippet": "The dog (Canis familiaris or Canis lupus familiaris) is a domesticated descendant of the wolf. Also called the domestic dog, it is derived from extinct gray ...",
+			"htmlSnippet": "The <b>dog</b> (Canis familiaris or Canis lupus familiaris) is a domesticated descendant of the wolf. Also called the domestic <b>dog</b>, it is derived from extinct gray&nbsp;...",
+			"cacheId": "89sj26s1rYUJ",
+			"formattedUrl": "https://en.wikipedia.org/wiki/Dog",
+			"htmlFormattedUrl": "https://en.wikipedia.org/wiki/Dog",
+			"pagemap": {
+				"metatags": [
+					{
+						"referrer": "origin",
+						"og:image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Huskiesatrest.jpg/1200px-Huskiesatrest.jpg",
+						"theme-color": "#eaecf0",
+						"og:image:width": "1200",
+						"og:type": "website",
+						"viewport": "width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0",
+						"og:title": "Dog - Wikipedia",
+						"og:image:height": "797",
+						"format-detection": "telephone=no"
+					}
+				]
+			}
+		},
+		{
+			"kind": "customsearch#result",
+			"title": "Dog Breeds & Types | Petfinder",
+			"htmlTitle": "<b>Dog</b> Breeds &amp; Types | Petfinder",
+			"link": "https://www.petfinder.com/dogs-and-puppies/breeds/",
+			"displayLink": "www.petfinder.com",
+			"snippet": "Browse our list of dog breeds and dog types to find the perfect dog breed for you, and then find adoptable dogs and dog shelters close to you at Petfinder.",
+			"htmlSnippet": "Browse our list of <b>dog</b> breeds and <b>dog</b> types to find the perfect <b>dog</b> breed for you, and then find adoptable <b>dogs</b> and <b>dog</b> shelters close to you at Petfinder.",
+			"cacheId": "c7-HT0ac0osJ",
+			"formattedUrl": "https://www.petfinder.com/dogs-and-puppies/breeds/",
+			"htmlFormattedUrl": "https://www.petfinder.com/<b>dogs</b>-and-puppies/breeds/",
+			"pagemap": {
+				"cse_thumbnail": [
+					{
+						"src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTLuU2TppOr7MBfmB53P29nLJenNyMEkJ0IM_7SP81NL_jAIpUsJOW1hdw",
+						"width": "310",
+						"height": "163"
+					}
+				],
+				"metatags": [
+					{
+						"msapplication-tilecolor": "#6504b5",
+						"image": "https://www.petfinder.com/sites/default/files/images/content/social-media-cover.jpg",
+						"og:image": "https://www.petfinder.com/sites/default/files/images/content/social-media-cover.jpg",
+						"theme-color": "#6504b5",
+						"twitter:card": "summary",
+						"twitter:title": "Dog Breeds & Types | Petfinder",
+						"og:type": "Article",
+						"og:image:alt": "Petfinder Logo",
+						"og:image:width": "630",
+						"twitter:url": "https://www.petfinder.com/dogs-and-puppies/breeds/",
+						"og:title": "Dog Breeds & Types | Petfinder",
+						"og:image:height": "1200",
+						"twitter:creator": "@Petfinder",
+						"og:description": "Browse our list of dog breeds and dog types to find the perfect dog breed for you, and then find adoptable dogs and dog shelters close to you at Petfinder.",
+						"twitter:image": "https://www.petfinder.com/sites/default/files/images/content/social-media-cover.jpg",
+						"viewport": "width=device-width, initial-scale=1, shrink-to-fit=no",
+						"twitter:description": "Browse our list of dog breeds and dog types to find the perfect dog breed for you, and then find adoptable dogs and dog shelters close to you at Petfinder.",
+						"og:url": "https://www.petfinder.com/dogs-and-puppies/breeds/",
+						"twitter:app:name:iphone": "Petfinder - Adopt a Pet"
+					}
+				],
+				"cse_image": [
+					{
+						"src": "https://www.petfinder.com/sites/default/files/images/content/social-media-cover.jpg"
+					}
+				]
+			}
+		},
+		{
+			"kind": "customsearch#result",
+			"title": "Dog Breeds - Types Of Dogs - American Kennel Club",
+			"htmlTitle": "<b>Dog</b> Breeds - Types Of <b>Dogs</b> - American Kennel Club",
+			"link": "https://www.akc.org/dog-breeds/",
+			"displayLink": "www.akc.org",
+			"snippet": "American English Coonhound. These sleek and racy, lean but muscular hounds work dusk to dawn in pursuit of the wily raccoo… See More.",
+			"htmlSnippet": "American English Coonhound. These sleek and racy, lean but muscular hounds work dusk to dawn in pursuit of the wily raccoo… See More.",
+			"cacheId": "5GViT37xTNoJ",
+			"formattedUrl": "https://www.akc.org/dog-breeds/",
+			"htmlFormattedUrl": "https://www.akc.org/dog-breeds/",
+			"pagemap": {
+				"cse_thumbnail": [
+					{
+						"src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTxB7LPxZXfIsAJCzua35EfMr5ECCcCqHb-9jdMTOfeW1tMKElMREfe-ik",
+						"width": "275",
+						"height": "183"
+					}
+				],
+				"document": [
+					{
+						"akc_breed_popularity": "AKC Breed Popularity: Ranks 148 of 201",
+						"life_expectancy": "Life Expectancy: 12-15 years",
+						"weight": "Weight: 7-10 pounds",
+						"height": "Height: 9-11.5 inches",
+						"group": "Group: Toy Group"
+					}
+				],
+				"metatags": [
+					{
+						"p:domain_verify": "48d4515b2a76c369a18a0f41a952afa0",
+						"og:type": "object",
+						"twitter:card": "summary_large_image",
+						"twitter:title": "Dog Breeds - Types Of Dogs - American Kennel Club",
+						"og:site_name": "American Kennel Club",
+						"og:title": "Dog Breeds - Types Of Dogs - American Kennel Club",
+						"msapplication-tileimage": "https://www.akc.org/wp-content/uploads/2017/11/cropped-favicon-512x512-270x270.png",
+						"fb:pages": "93474569120",
+						"article:tag": "Affenpinscher",
+						"fb:app_id": "530726673730940",
+						"twitter:site": "@akcdoglovers",
+						"viewport": "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0",
+						"twitter:description": "Complete list of AKC recognized dog breeds. Includes personality, history, health, nutrition, grooming, pictures, videos and AKC breed standard.",
+						"og:locale": "en_US",
+						"fb:admins": "689743718",
+						"og:url": "https://www.akc.org/dog-breeds/",
+						"slug": "dog-breeds"
+					}
+				],
+				"cse_image": [
+					{
+						"src": "https://www.akc.org/wp-content/uploads/2017/11/Briard-standing-in-the-grass.jpg"
+					}
+				]
+			}
+		},
+		{
+			"kind": "customsearch#result",
+			"title": "#dogs | TikTok",
+			"htmlTitle": "#<b>dogs</b> | TikTok",
+			"link": "https://www.tiktok.com/tag/dogs?lang=en",
+			"displayLink": "www.tiktok.com",
+			"snippet": "dogs | 190.5B views. Watch the latest videos about #dogs on TikTok.",
+			"htmlSnippet": "<b>dogs</b> | 190.5B views. Watch the latest videos about #<b>dogs</b> on TikTok.",
+			"cacheId": "FLrJ14nbWFIJ",
+			"formattedUrl": "https://www.tiktok.com/tag/dogs?lang=en",
+			"htmlFormattedUrl": "https://www.tiktok.com/tag/<b>dogs</b>?lang=en",
+			"pagemap": {
+				"cse_thumbnail": [
+					{
+						"src": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQC10T66ez1eXyP9B3SP33LQPd4OS8L6pZ0g3z_uqfsedSd3CtskdzO",
+						"width": "100",
+						"height": "100"
+					}
+				],
+				"metatags": [
+					{
+						"twitter:app:id:googleplay": "com.zhiliaoapp.musically",
+						"twitter:card": "summary",
+						"og:image:width": "720",
+						"og:site_name": "TikTok",
+						"applicable-device": "pc, mobile",
+						"al:android:package": "com.zhiliaoapp.musically",
+						"pumbaa-ctx": "login=0,ftc=0",
+						"al:ios:url": "snssdk1233://challenge/detail/6117",
+						"twitter:app:id:iphone": "835599320",
+						"og:description": "dogs | 190.5B views. Watch the latest videos about #dogs on TikTok.",
+						"al:ios:app_store_id": "835599320",
+						"twitter:site": "TikTok",
+						"og:type": "website",
+						"twitter:title": "#dogs | TikTok",
+						"og:image:alt": "#dogs | TikTok",
+						"al:ios:app_name": "musical.ly",
+						"og:title": "#dogs | TikTok",
+						"og:image:height": "720",
+						"google": "notranslate",
+						"al:android:url": "snssdk1233://challenge/detail/6117",
+						"fb:app_id": "597615686992125",
+						"viewport": "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no",
+						"twitter:description": "dogs | 190.5B views. Watch the latest videos about #dogs on TikTok.",
+						"og:url": "https://www.tiktok.com/tag/dogs",
+						"al:android:app_name": "musical.ly",
+						"format-detection": "telephone=no"
+					}
+				],
+				"cse_image": [
+					{
+						"src": "https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/dad77f131176fa340910536db41a78bb~c5_100x100.jpeg?lk3s=a5d48078&x-expires=1708477200&x-signature=YUPo4VHVKbr3kF57YklEg64Vb2A%3D"
+					}
+				]
+			}
+		},
+		{
+			"kind": "customsearch#result",
+			"title": "Dog | History, Domestication, Physical Traits, Breeds, & Facts ...",
+			"htmlTitle": "<b>Dog</b> | History, Domestication, Physical Traits, Breeds, &amp; Facts ...",
+			"link": "https://www.britannica.com/animal/dog",
+			"displayLink": "www.britannica.com",
+			"snippet": "3 days ago ... Genetic evidence suggests that dogs descended directly from wolves (Canis) and that the now-extinct wolf lineages that produced dogs branched ...",
+			"htmlSnippet": "3 days ago <b>...</b> Genetic evidence suggests that <b>dogs</b> descended directly from wolves (Canis) and that the now-extinct wolf lineages that produced <b>dogs</b> branched&nbsp;...",
+			"cacheId": "zWUzl6F1QeMJ",
+			"formattedUrl": "https://www.britannica.com/animal/dog",
+			"htmlFormattedUrl": "https://www.britannica.com/animal/dog",
+			"pagemap": {
+				"cse_thumbnail": [
+					{
+						"src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR_CbNxHkIac58knDdGSdTexMwR9ypHF2wzNe3Gf_tBtyshTi4zTc3IrKg",
+						"width": "275",
+						"height": "183"
+					}
+				],
+				"metatags": [
+					{
+						"og:image": "https://cdn.britannica.com/92/212692-050-D53981F5/labradoodle-dog-stick-running-grass.jpg",
+						"twitter:card": "summary_large_image",
+						"og:type": "ARTICLE",
+						"og:site_name": "Encyclopedia Britannica",
+						"og:title": "Dog | History, Domestication, Physical Traits, Breeds, & Facts",
+						"og:image:type": "image/jpeg",
+						"fb:pages": "74442380906",
+						"og:description": "A dog is a domestic mammal of the family Canidae (order Carnivora). It is a subspecies of the gray wolf and is related to foxes and jackals. The dog is one of the two most ubiquitous and most popular domestic animals in the world (the cat is the other). It has lived with humans for more than 12,000 years.",
+						"twitter:image": "https://cdn.britannica.com/92/212692-050-D53981F5/labradoodle-dog-stick-running-grass.jpg",
+						"fb:app_id": "1887621861548296",
+						"twitter:site": "@britannica",
+						"viewport": "width=device-width, initial-scale=1.0",
+						"twitter:description": "A dog is a domestic mammal of the family Canidae (order Carnivora). It is a subspecies of the gray wolf and is related to foxes and jackals. The dog is one of the two most ubiquitous and most popular domestic animals in the world (the cat is the other). It has lived with humans for more than 12,000 years.",
+						"og:url": "https://www.britannica.com/animal/dog"
+					}
+				],
+				"cse_image": [
+					{
+						"src": "https://cdn.britannica.com/92/212692-050-D53981F5/labradoodle-dog-stick-running-grass.jpg"
+					}
+				]
+			}
+		},
+		{
+			"kind": "customsearch#result",
+			"title": "Dogs | The Humane Society of the United States",
+			"htmlTitle": "<b>Dogs</b> | The Humane Society of the United States",
+			"link": "https://www.humanesociety.org/animals/dogs",
+			"displayLink": "www.humanesociety.org",
+			"snippet": "Dogs give us a lifetime of unconditional love and loyalty—what more could we ask for? Show your best friend some love with our stellar care tips, ...",
+			"htmlSnippet": "<b>Dogs</b> give us a lifetime of unconditional love and loyalty—what more could we ask for? Show your best friend some love with our stellar care tips,&nbsp;...",
+			"cacheId": "PO2bfIIJq8YJ",
+			"formattedUrl": "https://www.humanesociety.org/animals/dogs",
+			"htmlFormattedUrl": "https://www.humanesociety.org/animals/<b>dogs</b>",
+			"pagemap": {
+				"metatags": [
+					{
+						"og:type": "website",
+						"og:image:width": "600",
+						"twitter:card": "photo",
+						"og:site_name": "The Humane Society of the United States",
+						"handheldfriendly": "true",
+						"viewport": "width=device-width, initial-scale=1.0",
+						"og:title": "Dogs",
+						"mobileoptimized": "width",
+						"og:image:height": "316",
+						"og:url": "https://www.humanesociety.org/animals/dogs",
+						"og:description": "Dogs are the canine companions who have shared our lives for millennia."
+					}
+				]
+			}
+		},
+		{
+			"kind": "customsearch#result",
+			"title": "Dogs | Healthy Pets, Healthy People | CDC",
+			"htmlTitle": "<b>Dogs</b> | Healthy Pets, Healthy People | CDC",
+			"link": "https://www.cdc.gov/healthypets/pets/dogs.html",
+			"displayLink": "www.cdc.gov",
+			"snippet": "Although dogs can be beneficial to the health and wellbeing of their owners, people should be aware that dogs of any age, including puppies, can sometimes carry ...",
+			"htmlSnippet": "Although <b>dogs</b> can be beneficial to the health and wellbeing of their owners, people should be aware that <b>dogs</b> of any age, including puppies, can sometimes carry&nbsp;...",
+			"cacheId": "Dj243kHCP9kJ",
+			"formattedUrl": "https://www.cdc.gov/healthypets/pets/dogs.html",
+			"htmlFormattedUrl": "https://www.cdc.gov/healthypets/pets/<b>dogs</b>.html",
+			"pagemap": {
+				"cse_thumbnail": [
+					{
+						"src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR8z8YY5FxawRpLcDJ0U48uN3YfRMaex7xf9SaTipv8BaLIown0xU4mgi4",
+						"width": "275",
+						"height": "183"
+					}
+				],
+				"organization": [
+					{
+						"telephone": "Call 800-232-4636",
+						"url": "Email Us"
+					}
+				],
+				"metatags": [
+					{
+						"cdc:content_source": "DIV OF FOODBORNE, WATERBORNE & ENVIRONMENTAL DISEASES; NATL CTR FOR EMERGING & ZOONOTIC INFECTIOUS DISEASES",
+						"theme-color": "#075290",
+						"cdc:content_id": "941",
+						"cdc:maintained_by": "NATL CTR FOR EMERGING & ZOONOTIC INFECTIOUS DISEASES",
+						"cdc:first_published": "March 29, 2018",
+						"cdc:last_updated": "March 8, 2022",
+						"dc.date": "2022-03-08T08:04:48Z",
+						"cdc:wcms_build": "4.22.2 - b.1304",
+						"cdc:template_version": "4.0",
+						"cdc:last_published": "2022-03-10T12:59:53Z",
+						"viewport": "width=device-width, initial-scale=1, shrink-to-fit=no",
+						"apple-mobile-web-app-capable": "yes",
+						"mobile-web-app-capable": "yes",
+						"cdc:last_reviewed": "March 8, 2022"
+					}
+				],
+				"cse_image": [
+					{
+						"src": "https://www.cdc.gov/healthypets/images/pets/cute-dog-headshot.jpg?_=42445"
+					}
+				]
+			}
+		},
+		{
+			"kind": "customsearch#result",
+			"title": "Pet Travel - Bringing Pet Dogs into the United States - USDA APHIS",
+			"htmlTitle": "Pet Travel - Bringing Pet Dogs into the United States - USDA APHIS",
+			"link": "https://www.aphis.usda.gov/aphis/pet-travel/bring-pet-into-the-united-states/pet-travel-dogs-into-us",
+			"displayLink": "www.aphis.usda.gov",
+			"snippet": "Jul 25, 2023 ... Dogs traveling from countries or regions where screwworm is known to exist may enter the United States if they are accompanied by a certificate ...",
+			"htmlSnippet": "Jul 25, 2023 <b>...</b> <b>Dogs</b> traveling from countries or regions where screwworm is known to exist may enter the United States if they are accompanied by a certificate&nbsp;...",
+			"cacheId": "2Ethn7f7OlcJ",
+			"formattedUrl": "https://www.aphis.usda.gov/aphis/pet-travel/.../pet-travel-dogs-into-us",
+			"htmlFormattedUrl": "https://www.aphis.usda.gov/aphis/pet-travel/.../pet-travel-<b>dogs</b>-into-us",
+			"pagemap": {
+				"cse_thumbnail": [
+					{
+						"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNooLIKOY0qEgPleW-EQFA9Pl-gNucGy8y1azTiL9lMTlTjj3j3VqPak1O",
+						"width": "225",
+						"height": "225"
+					}
+				],
+				"metatags": [
+					{
+						"msapplication-tilecolor": "#FFFFFF",
+						"viewport": "width=device-width, initial-scale=1",
+						"msvalidate.01": "E157A82F0C0CA7A8882984268B363E05",
+						"msapplication-tileimage": "/aphisPortal85Theme/assets/images/favicon/favicon-144.png"
+					}
+				],
+				"cse_image": [
+					{
+						"src": "https://www.aphis.usda.gov/contenthandler/dav/fs-type1/themes/aphis.portal.85Theme/images/icon-dot-gov.svg"
+					}
+				]
+			}
+		},
+		{
+			"kind": "customsearch#result",
+			"title": "/r/dogs: Woof",
+			"htmlTitle": "/r/<b>dogs</b>: Woof",
+			"link": "https://www.reddit.com/r/dogs/",
+			"displayLink": "www.reddit.com",
+			"snippet": "r/dogs: /r/dogs is a place for dog owners of all levels of knowledge, skill, and experience to discuss various topics related to responsible dog…",
+			"htmlSnippet": "r/<b>dogs</b>: /r/<b>dogs</b> is a place for <b>dog</b> owners of all levels of knowledge, skill, and experience to discuss various topics related to responsible <b>dog</b>…",
+			"formattedUrl": "https://www.reddit.com/r/dogs/",
+			"htmlFormattedUrl": "https://www.reddit.com/r/<b>dogs</b>/",
+			"pagemap": {
+				"cse_thumbnail": [
+					{
+						"src": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcT-jv5x803kJ_tQDXgXa2Hxn8N-jaXfzb0jUA0s5vPTyIYkDrlFzNihdG43",
+						"width": "225",
+						"height": "225"
+					}
+				],
+				"metatags": [
+					{
+						"og:image": "https://styles.redditmedia.com/t5_2qhhk/styles/communityIcon_n7ckf4gv4ik11.png",
+						"theme-color": "#000000",
+						"og:image:width": "256",
+						"og:type": "website",
+						"twitter:card": "summary",
+						"twitter:title": "r/dogs",
+						"og:site_name": "Reddit",
+						"og:title": "r/dogs",
+						"og:image:height": "256",
+						"bingbot": "noarchive",
+						"msapplication-navbutton-color": "#000000",
+						"og:description": "/r/dogs is a place for dog owners of all levels of knowledge, skill, and experience to discuss various topics related to responsible dog ownership.\n\nThis subreddit is a great starting point for a lot of information, but you should always verify and expand upon what you've read from reputable sources before putting it to use in your daily life. Advice on this forum is not a substitute for advice from a trained and credentialed professional.",
+						"twitter:image": "https://styles.redditmedia.com/t5_2qhhk/styles/communityIcon_n7ckf4gv4ik11.png",
+						"apple-mobile-web-app-status-bar-style": "black",
+						"twitter:site": "@reddit",
+						"viewport": "width=device-width, initial-scale=1, viewport-fit=cover",
+						"apple-mobile-web-app-capable": "yes",
+						"og:ttl": "600",
+						"og:url": "https://www.reddit.com/r/dogs/"
+					}
+				],
+				"cse_image": [
+					{
+						"src": "https://styles.redditmedia.com/t5_2qhhk/styles/communityIcon_n7ckf4gv4ik11.png"
+					}
+				]
+			}
+		}
+	]
+}

@@ -17,23 +17,15 @@ const HomeProfileMenu: Component = () => {
 
     const [menuModal, setMenuModal] = createSignal(false);
 
-    let menuModalRef:HTMLDivElement|undefined;
-    let menuIcon: HTMLButtonElement|undefined;
-    const [isMenuHidden, setIsMenuHidden] = createSignal(false);
-
-    /* const handleOutsideClick = (caller:Event) => { */
-    /*     const target = caller.target as Node; */
-    /*     if(!menuModalRef?.contains(target) && !menuIcon?.contains(target)) { */
-    /*         menuModalRef.hidden = true; */
-    /*     }; */
-    /* }; */
+    let menuIcon: HTMLButtonElement;
+    let menuModalRef: HTMLDivElement;
 
     onMount(() => {
-        document.addEventListener("click", e => handleOutsideClick(setMenuModal, e, menuIcon));
+        document.addEventListener("click", e => handleOutsideClick(setMenuModal, e, [menuModalRef, menuIcon]));
     });
 
     onCleanup(() => {
-        document.removeEventListener("click", e => handleOutsideClick(setMenuModal, e, menuIcon));
+        document.removeEventListener("click", e => handleOutsideClick(setMenuModal, e, [menuModalRef, menuIcon]));
     });
 
     const onProfileMenuShow = () => {
@@ -48,15 +40,15 @@ const HomeProfileMenu: Component = () => {
                 </button>
             </div>
             <Show when={menuModal()}>
-                <div
-                    /* ref={menuModalRef} */
+                <div ref={menuModalRef}
                     class="h-[120px] w-[130px] bg-[#b6ccd8] absolute right-8 top-[5%] z-1
                     rounded-md">
                     <ul class="absolute bottom-1/2">
                         <For each={Object.keys(menuOptions)}>
                             {(item) => {
                                 return (
-                                    <button onClick={menuOptions[item]} class="hover:cursor-pointer block pl-3 text-lg">{item}</button>
+                                    <button onClick={menuOptions[item]}
+                                    class="hover:cursor-pointer hover:underline decoration-[#0D1821] block pl-3 text-lg">{item}</button>
                                 )
                             }}
                         </For>
