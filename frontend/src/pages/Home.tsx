@@ -1,4 +1,4 @@
-import { Component, For, Show, createEffect, onCleanup, onMount} from "solid-js";
+import { Component, For, Show, onCleanup, onMount} from "solid-js";
 import { checkAuthentication } from "../utils/auth";
 import { useNavigate } from "@solidjs/router";
 import { Telescope } from "lucide-solid";
@@ -22,9 +22,13 @@ const Home: Component = () => {
             case "keydown": {
                 const { key } = (event as KeyboardEvent);
                 if(key==="Enter") setSearchItems(items);
+                break;
             };
 
-            default: setSearchItems(items);
+            case "click": {
+                setSearchItems(items);
+                break;
+            };
         };
     };
 
