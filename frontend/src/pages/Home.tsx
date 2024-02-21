@@ -6,6 +6,7 @@ import HomeProfileMenu from "../components/HomeProfileMenu";
 import SearchItem from "../components/SearchItem";
 import data from "../data.json";
 import { createStore } from "solid-js/store";
+import logo from "../assets/logo.png";
 
 const Home: Component = () => {
     const navigator = useNavigate();
@@ -35,13 +36,15 @@ const Home: Component = () => {
     return (
         <div class="min-h-screen bg-[#0D1821] relative">
             <HomeProfileMenu />
+            {/* <img src={logo} alt="" /> */}
             <div class="min-w-4/5 mx-auto flex flex-col justify-center items-center">
-                <form method="post" class="w-[40%] mt-[200px] relative">
+                <form method="post" class="w-[40%] mt-[200px] relative flex justify-between items-center">
                     <input type="text"
                        placeholder="Type anything" class="pl-6 py-3 w-full rounded-md text-xl outline-none hover:outline-none border-3 border-[#cccbc8]"/>
-                    <Telescope width={48} height={30} class="absolute right-3 bottom-[9px] hover:cursor-pointer" color="#344966" onClick={handleSearch}/>
+                    <Telescope width={48} height={30} class="hover:cursor-pointer relative right-12" color="#344966" onClick={handleSearch}/>
                 </form>
-                <div class="py-12">
+                <button class="w-[15%] text-[#ffffff] font-bold bg-[#6c35de] py-2 px-4 rounded-md mt-4 hover:bg-[#a364ff]">Customize your search</button>
+                <div class="bg-[#182938] mt-10">
                     <Show when={searchItems}>
                         <For each={searchItems}>
                             {(search:any, i) => (
