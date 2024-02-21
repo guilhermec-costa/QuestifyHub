@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const UserRegisterFormValidation = z.object({
+export const UserRegisterFormValidation = z.object({
     email: z.string().
         email({
             message: "Not a valid email format"
@@ -9,7 +9,8 @@ const UserRegisterFormValidation = z.object({
         min(7, { message: "Password too short" }),
     confirmPassword: z.string().
         min(7, { message: "Password too short" })
+        .uuid({ message: "NÃO É UUID" })
 
 });
 
-export default UserRegisterFormValidation;
+export type TUserRegistration = z.infer<typeof UserRegisterFormValidation>;

@@ -1,27 +1,58 @@
 import { Component, Setter, createSignal } from "solid-js";
 import EntryPointModal from "../components/EntryPointModal";
 import { Eye, EyeOff } from "lucide-solid";
+import {UserRegisterFormValidation, TUserRegistration} from "../types/TUserRegisterForm";
+import { createStore } from "solid-js/store";
+
+type UserRegistrationErrors = {
+    [key: string]: string[]
+}
 
 const Register: Component = () => {
     const [pwdVisibility, setPwdVisibility] = createSignal(false);
     const [confirmPwdVisibility, setConfirmPwdVisibility] = createSignal(false);
     let passwordField:HTMLInputElement;
     let confirmPasswordField:HTMLInputElement;
+    let registerForm: HTMLFormElement;
+    let userEmail: HTMLInputElement;
+
+    const [registerFormBody, setRegisterFormBody] = createStore<TUserRegistration>({
+        email: "",
+        password: "",
+        confirmPassword: ""
+    });
+
+    const [registerFormErrors, setRegisterFormErrors] = createStore<UserRegistrationErrors>({
+        email: [],
+        password: [],
+        confirmPassword: []
+    });
 
     const togglePwdVisibility = (passwordReference:HTMLInputElement, toggleVisibilityCallback:Setter<boolean>) => {
         passwordReference.type = passwordReference.type === "password" ? "text" : "password";
         toggleVisibilityCallback(prevVisibility => !prevVisibility);
     };
 
+    const handleFormOnChange = () => {
+        setRegisterFormBody({
+            email: userEmail.value,
+            password: passwordField.value,
+            confirmPassword: confirmPasswordField.value
+        });
+        discoverErrors();
+    };
+
+    const discoverErrors = () => {};
+
     return (
         <EntryPointModal>
             <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col items-center relative">
                 <h2 class="text-xl text-[#2d2d2d] mb-4 mt-12">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
-                <form  method="post"
+                <form  method="post" ref={registerForm} onChange={handleFormOnChange}
                     class="h-1/2 w-4/5 p-3">
                     <div class="flex flex-col gap-2">
                         <label for="email">Email</label>
-                        <input
+                        <input ref={userEmail}
                         class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none p-0.5"
                         type="text" name="email" placeholder="Email"/>
                         {/* <span class="text-red-500 text-xs">{loginErrors.email}</span> */}
