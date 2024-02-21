@@ -1,7 +1,7 @@
 module.exports = {
     "parser": "@typescript-eslint/parser",
     "env": {
-        "browser": true,
+        "browser": false,
         "es2021": true,
     },
     "plugins": ["@typescript-eslint"],
