@@ -1,7 +1,7 @@
 import { Component, createSignal } from "solid-js";
 import {createStore} from "solid-js/store";
 import axios, { AxiosError } from "axios";
-import { Navigate, useNavigate } from "@solidjs/router";
+import { useNavigate, A } from "@solidjs/router";
 import { ZodError } from "zod";
 import {Eye, EyeOff} from "lucide-solid";
 import EntryPointModal from "../components/EntryPointModal";
@@ -63,7 +63,7 @@ const Login: Component = () => {
     return (
         <EntryPointModal>
             <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col justify-center items-center">
-                <h2 class="text-xl text-[#2d2d2d] mb-4">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
+                <h2 class="text-xl text-[#2d2d2d] mb-4">Log in</h2>
                 <form ref={loginForm} method="post"
                     class="h-1/2 w-4/5 p-3"
                     onSubmit={handleFormSubmition}>
@@ -94,7 +94,7 @@ const Login: Component = () => {
                         class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] p-1 rounded-md mt-3 hover:bg-[#2d2d2de5]"
                         type="submit" value="Login" />
                     </div>
-                    <p class="text-[#2d2d2d] text-sm mt-3">Already have an account? <span class="text-[#006fff] font-bold"><a href="">Log In</a></span></p>
+                    <p class="text-[#2d2d2d] text-sm mt-3">Don't have an account yet? <span class="text-[#006fff] font-bold"><A href="/register">Register</A></span></p>
                 </form>
             </div>
         </EntryPointModal>
