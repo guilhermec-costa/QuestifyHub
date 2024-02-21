@@ -64,7 +64,7 @@ const Login: Component = () => {
         <EntryPointModal>
             <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col justify-center items-center">
                 <h2 class="text-xl text-[#2d2d2d] mb-4">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
-                <form ref={loginForm} method="post" action="http://localhost:3000/rotateste"
+                <form ref={loginForm} method="post"
                     class="h-1/2 w-4/5 p-3"
                     onSubmit={handleFormSubmition}>
                     <div class="flex flex-col gap-2">
