@@ -1,48 +1,67 @@
-import { Component, Setter, createSignal } from "solid-js";
-import EntryPointModal from "../components/EntryPointModal";
-import { Eye, EyeOff } from "lucide-solid";
-import {UserRegisterFormValidation, TUserRegistration} from "../types/TUserRegisterForm";
-import { createStore } from "solid-js/store";
+    import { Component, Setter, createSignal, For } from "solid-js";
+    import EntryPointModal from "../components/EntryPointModal";
+    import { Eye, EyeOff } from "lucide-solid";
+    import {UserRegisterFormValidation, TUserRegistration} from "../types/TUserRegisterForm";
+    import { createStore } from "solid-js/store";
+    import { ZodError, string } from "zod";
 
-type UserRegistrationErrors = {
-    [key: string]: string[]
-}
-
-const Register: Component = () => {
-    const [pwdVisibility, setPwdVisibility] = createSignal(false);
-    const [confirmPwdVisibility, setConfirmPwdVisibility] = createSignal(false);
-    let passwordField:HTMLInputElement;
-    let confirmPasswordField:HTMLInputElement;
-    let registerForm: HTMLFormElement;
-    let userEmail: HTMLInputElement;
-
-    const [registerFormBody, setRegisterFormBody] = createStore<TUserRegistration>({
-        email: "",
-        password: "",
-        confirmPassword: ""
-    });
-
-    const [registerFormErrors, setRegisterFormErrors] = createStore<UserRegistrationErrors>({
-        email: [],
-        password: [],
-        confirmPassword: []
-    });
-
-    const togglePwdVisibility = (passwordReference:HTMLInputElement, toggleVisibilityCallback:Setter<boolean>) => {
-        passwordReference.type = passwordReference.type === "password" ? "text" : "password";
-        toggleVisibilityCallback(prevVisibility => !prevVisibility);
+    type UserRegistrationErrors = {
+        email: Set<string>
+        password: Set<string>
+        confirmPassword: Set<string>
     };
 
-    const handleFormOnChange = () => {
-        setRegisterFormBody({
-            email: userEmail.value,
-            password: passwordField.value,
-            confirmPassword: confirmPasswordField.value
+    enum CurrentError {
+        email = "email",
+        password = "password"
+    }
+
+    const Register: Component = () => {
+        const [pwdVisibility, setPwdVisibility] = createSignal(false);
+        const [confirmPwdVisibility, setConfirmPwdVisibility] = createSignal(false);
+        let passwordField:HTMLInputElement;
+        let confirmPasswordField:HTMLInputElement;
+        let registerForm: HTMLFormElement;
+        let userEmail: HTMLInputElement;
+
+        const [registerFormBody, setRegisterFormBody] = createStore<TUserRegistration>({
+            email: "",
+            password: "",
+            confirmPassword: ""
         });
-        discoverErrors();
-    };
 
-    const discoverErrors = () => {};
+        const [registerFormErrors, setRegisterFormErrors] = createStore<UserRegistrationErrors>({
+            email: new Set(),
+            password: new Set(),
+            confirmPassword: new Set()
+        });
+
+        const togglePwdVisibility = (passwordReference:HTMLInputElement, toggleVisibilityCallback:Setter<boolean>) => {
+            passwordReference.type = passwordReference.type === "password" ? "text" : "password";
+            toggleVisibilityCallback(prevVisibility => !prevVisibility);
+        };
+
+        const handleFormOnChange = () => {
+            setRegisterFormBody({
+                email: userEmail.value,
+                password: passwordField.value,
+                confirmPassword: confirmPasswordField.value
+            });
+            discoverErrors(registerFormBody);
+        };
+
+        const discoverErrors = (registrationData: TUserRegistration) => {
+            try {
+                const validationResult = UserRegisterFormValidation.parse(registrationData);
+            } catch(err) {
+                if(err instanceof ZodError) {
+                    const errorMap = err.issues.map(error => ({
+                        field: error.path[0] as CurrentError,
+                        message: error.message
+                    }));
+            };
+        };
+    };
 
     return (
         <EntryPointModal>
@@ -55,7 +74,11 @@ const Register: Component = () => {
                         <input ref={userEmail}
                         class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none p-0.5"
                         type="text" name="email" placeholder="Email"/>
-                        {/* <span class="text-red-500 text-xs">{loginErrors.email}</span> */}
+                        <For each={registerFormErrors.email}>
+                            {item => {
+                                return <p>{item}</p>
+                            }}
+                        </For>
 
                         <label for="password" class="mt-2">Password</label>
                         <div class="relative inline-block">
