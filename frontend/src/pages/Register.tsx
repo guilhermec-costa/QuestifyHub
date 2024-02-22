@@ -9,14 +9,17 @@ import { z } from "zod";
 const Register: Component = () => {
     const [pwdVisibility, setPwdVisibility] = createSignal(false);
     const [confirmPwdVisibility, setConfirmPwdVisibility] = createSignal(false);
+    const [userEmailErrors, setUserEmailErrors] = createSignal<string[]>([]);
+    const [passwordErrors, setPasswordErrors] = createSignal<string[]>([]);
+    const [confirmationPasswordErrors, setConfirmationPasswordErrors] = createSignal<string[]>([]);
+    const [allErrors, setAllErrors] = createSignal<[][]>();
+    const [hasErrors, setHasErrors] = createSignal<boolean>(false);
+
     let passwordField:HTMLInputElement;
     let confirmPasswordField:HTMLInputElement;
     let registerForm: HTMLFormElement;
     let userEmail: HTMLInputElement;
 
-    const [userEmailErrors, setUserEmailErrors] = createSignal<string[]>([]);
-    const [passwordErrors, setPasswordErrors] = createSignal<string[]>([]);
-    const [confirmationPasswordErrors, setConfirmationPasswordErrors] = createSignal<string[]>([]);
 
     const [registerFormBody, setRegisterFormBody] = createStore<TUserRegistration>({
         email: "",
@@ -30,11 +33,10 @@ const Register: Component = () => {
     };
 
     const handleFormOnChange = () => {
-        setRegisterFormBody({
-            email: userEmail.value,
-            password: passwordField.value,
-            confirmPassword: confirmPasswordField.value
-        });
+        const possibleErrors = [userEmailErrors(), passwordErrors(), confirmationPasswordErrors()]
+        setAllErrors(possibleErrors as any);
+        const doIHaveErrors = allErrors()?.some(error => error.length > 0) as boolean;
+        setHasErrors(doIHaveErrors);
     };
 
     const handleEmailErrors = () => {
@@ -87,11 +89,12 @@ const Register: Component = () => {
         setConfirmationPasswordErrors(validationErrors);
     }
 
-    const handleRegisterSubmition = () => {
+    const handleRegisterSubmition = (e:Event) => {
+        e.preventDefault();
         const dataToRegister = {
-            email: userEmail,
-            passwordErrors
-        }
+            email: userEmail.value,
+            password: passwordField.value
+        };
     };
 
 
@@ -148,9 +151,9 @@ const Register: Component = () => {
                             </For>
                         </div>
 
-                        <input
-                        class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] p-2 rounded-md mt-3 hover:bg-[#2d2d2de5]"
-                        type="submit" value="Register" />
+                        <input disabled={hasErrors()}
+                        class={`bg-[#2d2d2d] text-[#F0F4EF] p-2 rounded-md mt-3 hover:bg-[#2d2d2de5] ${userEmailErrors().length > 0 ? "cursor-not-allowed" : "cursor-pointer"}`}
+                        type="submit" value="Register" onClick={handleRegisterSubmition} />
                     </div>
                     <p class="text-[#2d2d2d] text-sm mt-3">Already have an account? <span class="text-[#006fff] font-bold"><a href="/signin">Log In</a></span></p>
                 </form>
