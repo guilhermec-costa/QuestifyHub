@@ -36,7 +36,11 @@ const Register: Component = () => {
         const possibleErrors = [userEmailErrors(), passwordErrors(), confirmationPasswordErrors()]
         setAllErrors(possibleErrors as any);
         const doIHaveErrors = allErrors()?.some(error => error.length > 0) as boolean;
-        setHasErrors(doIHaveErrors);
+        setHasErrors(doIHaveErrors &&
+                     !!userEmail.value &&
+                     !!passwordField.value &&
+                     !!confirmPasswordField.value
+                    );
     };
 
     const handleEmailErrors = () => {
