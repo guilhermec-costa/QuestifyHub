@@ -1,9 +1,10 @@
-import { Component, Setter, createSignal, For, ErrorBoundary } from "solid-js";
+import { Component, Setter, createSignal, For } from "solid-js";
 import EntryPointModal from "../components/EntryPointModal";
 import { Eye, EyeOff } from "lucide-solid";
-import {UserRegisterFormValidation, TUserRegistration} from "../types/TUserRegisterForm";
+import {TUserRegistration} from "../types/TUserRegisterForm";
 import { createStore } from "solid-js/store";
-import { ZodError, z } from "zod";
+import {hasSpecialCharacter} from "../utils/hasSpecialCharacter";
+import { z } from "zod";
 
 const Register: Component = () => {
     const [pwdVisibility, setPwdVisibility] = createSignal(false);
@@ -34,7 +35,6 @@ const Register: Component = () => {
             password: passwordField.value,
             confirmPassword: confirmPasswordField.value
         });
-        discoverErrors();
     };
 
     const handleEmailErrors = () => {
@@ -43,71 +43,76 @@ const Register: Component = () => {
         });
 
         const result = emailValidator.safeParse({email: userEmail.value});
+        const validationErrors: string[] = [];
         if(!result.success) {
-            let validationErrors: string[] = [];
             if(userEmail.value) {
-            for(const error of result.error.issues) {
-                validationErrors.push(error.message);
-                };
+                for(const error of result.error.issues) validationErrors.push(error.message);
             };
-            setUserEmailErrors(validationErrors);
-        }
-    }
+        };
+        setUserEmailErrors(validationErrors);
+    };
 
     const handlePasswordErrors = () => {
         const passwordValidator = z.object({
-            password: z.string().min(7, { message: "Password too short"})
+            password: z.string().min(7, { message: "Need at least 7 characters"})
+                      .refine(password => hasSpecialCharacter(password),
+                      { message: "Must contain a special character" } )
         });
 
+        let validationErrors: string[] = [];
         const result = passwordValidator.safeParse({password: passwordField.value});
         if(!result.success) {
-            let validationErrors: string[] = [];
             if(passwordField.value) {
-            for(const error of result.error.issues) {
-                validationErrors.push(error.message);
-                };
+                for(const error of result.error.issues) validationErrors.push(error.message)
             };
-            setPasswordErrors(validationErrors);
         };
+        setPasswordErrors(validationErrors);
     };
 
     const handleConfirmationPasswordErrors = () => {
         const confirmPasswordValidator = z.object({
-            confirmPassword: z.string().min(7, {message: "Password too short"})
-        })
+            confirmPassword: z.string().
+                refine((confirmPwd) => confirmPwd === passwordField.value, {message: "Password does not correspond"})
+        });
 
+        let validationErrors: string[] = [];
         const result = confirmPasswordValidator.safeParse({confirmPassword: confirmPasswordField.value});
         if(!result.success) {
-            let validationErrors: string[] = [];
             if(confirmPasswordField.value) {
             for(const error of result.error.issues) {
                 validationErrors.push(error.message);
                 };
             };
-            setConfirmationPasswordErrors(validationErrors);
         };
+        setConfirmationPasswordErrors(validationErrors);
     }
+
+    const handleRegisterSubmition = () => {
+        const dataToRegister = {
+            email: userEmail,
+            passwordErrors
+        }
+    };
+
 
     return (
         <EntryPointModal>
             <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col items-center relative">
-                <h2 class="text-xl text-[#2d2d2d] mb-4 mt-12">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
-                <form  method="post" ref={registerForm}
+                <h2 class="text-xl text-[#2d2d2d] mb-4 mt-16">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
+                <form  method="post" ref={registerForm} onChange={handleFormOnChange}
                     class="h-1/2 w-4/5 p-3">
                     <div class="flex flex-col gap-2">
-                        <label for="email">Email</label>
+                        <label for="email" class="mt-2">Email</label>
                         <input ref={userEmail} onChange={handleEmailErrors}
                         class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none p-0.5"
                         type="text" name="email" placeholder="Email"/>
-                        <div class="block">
-                            <For each={userEmailErrors()}>
-                                {(item) => <span class="text-red-500 text-xs block">{item}</span>}
-                            </For>
-                        </div>
+                        <For each={userEmailErrors()}>
+                            {(item) => <span class="text-red-500 text-xs block">{item}</span>}
+                        </For>
 
-                        <label for="password">Password</label>
+                        <label for="password" class="mt-2">Password</label>
                         <div class="relative">
-                            <input onChange={handlePasswordErrors}
+                            <input onInput={handlePasswordErrors}
                                 class="w-[100%] outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none p-0.5"
                                 type="password" name="password" ref={passwordField} placeholder="Password" />
                                     <button type="button" class="absolute right-2 bottom-[2px] hover:cursor-pointer" onClick={() => togglePwdVisibility(passwordField, setPwdVisibility)}>
@@ -123,7 +128,7 @@ const Register: Component = () => {
                             {(item) => <span class="text-red-500 text-xs block">{item}</span>}
                         </For>
 
-                        <label for="password">Confirm password</label>
+                        <label for="password" class="mt-2">Confirm password</label>
                         <div class="relative inline-block">
                             <input onChange={handleConfirmationPasswordErrors}
                                 class="w-[100%] outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none p-0.5"
