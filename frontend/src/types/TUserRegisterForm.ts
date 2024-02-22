@@ -9,7 +9,6 @@ export const UserRegisterFormValidation = z.object({
         min(7, { message: "Password too short" }),
     confirmPassword: z.string().
         min(7, { message: "Password too short" })
-        .uuid({ message: "NÃO É UUID" })
 
 });
 

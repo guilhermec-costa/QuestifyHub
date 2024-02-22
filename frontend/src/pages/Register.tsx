@@ -1,67 +1,80 @@
-    import { Component, Setter, createSignal, For } from "solid-js";
-    import EntryPointModal from "../components/EntryPointModal";
-    import { Eye, EyeOff } from "lucide-solid";
-    import {UserRegisterFormValidation, TUserRegistration} from "../types/TUserRegisterForm";
-    import { createStore } from "solid-js/store";
-    import { ZodError, string } from "zod";
+import { Component, Setter, createSignal, For } from "solid-js";
+import EntryPointModal from "../components/EntryPointModal";
+import { Eye, EyeOff } from "lucide-solid";
+import {UserRegisterFormValidation, TUserRegistration} from "../types/TUserRegisterForm";
+import { createStore } from "solid-js/store";
+import { ZodError, string } from "zod";
 
-    type UserRegistrationErrors = {
-        email: Set<string>
-        password: Set<string>
-        confirmPassword: Set<string>
+type UserRegistrationErrors = {
+    email: string[]
+    password: string[]
+    confirmPassword: string[]
+};
+
+enum CurrentError {
+    email = "email",
+    password = "password"
+}
+
+const Register: Component = () => {
+    const [pwdVisibility, setPwdVisibility] = createSignal(false);
+    const [confirmPwdVisibility, setConfirmPwdVisibility] = createSignal(false);
+    let passwordField:HTMLInputElement;
+    let confirmPasswordField:HTMLInputElement;
+    let registerForm: HTMLFormElement;
+    let userEmail: HTMLInputElement;
+
+
+    const [userEmailErrors, setUserEmailErrors] = createSignal<string[]>([]);
+    const [passwordErrors, setPasswordErrors] = createSignal<string[]>([]);
+    const [confirmationPasswordErrors, setConfirmationPasswordErrors] = createSignal<string[]>([]);
+
+    const [registerFormBody, setRegisterFormBody] = createStore<TUserRegistration>({
+        email: "",
+        password: "",
+        confirmPassword: ""
+    });
+
+
+    const togglePwdVisibility = (passwordReference:HTMLInputElement, toggleVisibilityCallback:Setter<boolean>) => {
+        passwordReference.type = passwordReference.type === "password" ? "text" : "password";
+        toggleVisibilityCallback(prevVisibility => !prevVisibility);
     };
 
-    enum CurrentError {
-        email = "email",
-        password = "password"
+    const handleFormOnChange = () => {
+        setRegisterFormBody({
+            email: userEmail.value,
+            password: passwordField.value,
+            confirmPassword: confirmPasswordField.value
+        });
+        discoverErrors();
+    };
+
+    function discoverErrors() {
+        try {
+            const successValidation = UserRegisterFormValidation.parse(registerFormBody);
+        } catch(err) {
+            if(err instanceof ZodError) {
+                const errorMap: Record<string, string[]> = {};
+                for(const error of err.issues) {
+                    const path = error.path[0];
+                    if (!errorMap[path]) {
+                        errorMap[path] = [];
+                    }
+
+                    if (!errorMap[path].includes(error.message)) {
+                        errorMap[path].push(error.message);
+                    };
+                    
+                }
+                const fieldsWithError = Object.keys(errorMap);
+                console.log(errorMap);
+                setUserEmailErrors(fieldsWithError.includes("email") ? errorMap["email"] : []);
+                setPasswordErrors(fieldsWithError.includes("password") ? errorMap["password"] : []);
+                setConfirmationPasswordErrors(fieldsWithError.includes("confirmPassword") ? errorMap["confirmPassword"] : []);
+            }
+        }
     }
-
-    const Register: Component = () => {
-        const [pwdVisibility, setPwdVisibility] = createSignal(false);
-        const [confirmPwdVisibility, setConfirmPwdVisibility] = createSignal(false);
-        let passwordField:HTMLInputElement;
-        let confirmPasswordField:HTMLInputElement;
-        let registerForm: HTMLFormElement;
-        let userEmail: HTMLInputElement;
-
-        const [registerFormBody, setRegisterFormBody] = createStore<TUserRegistration>({
-            email: "",
-            password: "",
-            confirmPassword: ""
-        });
-
-        const [registerFormErrors, setRegisterFormErrors] = createStore<UserRegistrationErrors>({
-            email: new Set(),
-            password: new Set(),
-            confirmPassword: new Set()
-        });
-
-        const togglePwdVisibility = (passwordReference:HTMLInputElement, toggleVisibilityCallback:Setter<boolean>) => {
-            passwordReference.type = passwordReference.type === "password" ? "text" : "password";
-            toggleVisibilityCallback(prevVisibility => !prevVisibility);
-        };
-
-        const handleFormOnChange = () => {
-            setRegisterFormBody({
-                email: userEmail.value,
-                password: passwordField.value,
-                confirmPassword: confirmPasswordField.value
-            });
-            discoverErrors(registerFormBody);
-        };
-
-        const discoverErrors = (registrationData: TUserRegistration) => {
-            try {
-                const validationResult = UserRegisterFormValidation.parse(registrationData);
-            } catch(err) {
-                if(err instanceof ZodError) {
-                    const errorMap = err.issues.map(error => ({
-                        field: error.path[0] as CurrentError,
-                        message: error.message
-                    }));
-            };
-        };
-    };
 
     return (
         <EntryPointModal>
@@ -74,11 +87,7 @@
                         <input ref={userEmail}
                         class="outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none p-0.5"
                         type="text" name="email" placeholder="Email"/>
-                        <For each={registerFormErrors.email}>
-                            {item => {
-                                return <p>{item}</p>
-                            }}
-                        </For>
+                        <span class="text-red-500 text-xs">{userEmailErrors()}</span>
 
                         <label for="password" class="mt-2">Password</label>
                         <div class="relative inline-block">
@@ -93,6 +102,7 @@
                                     )
                                 }
                                 </button>
+                                <p>{passwordErrors()}</p>
                         </div>
 
                         <label for="password" class="mt-2">Confirm password</label>
@@ -108,6 +118,7 @@
                                     )
                                 }
                                 </button>
+                                <p>{confirmationPasswordErrors()}</p>
                         </div>
                         <input
                         class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] p-1 rounded-md mt-3 hover:bg-[#2d2d2de5]"
