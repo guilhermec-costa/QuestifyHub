@@ -33,6 +33,7 @@ const Register: Component = () => {
     };
 
     const handleFormOnChange = () => {
+        console.log("aqui");
         const possibleErrors = [userEmailErrors(), passwordErrors(), confirmationPasswordErrors()]
         setAllErrors(possibleErrors as any);
         const doIHaveErrors = allErrors()?.some(error => error.length > 0) as boolean;
@@ -98,6 +99,7 @@ const Register: Component = () => {
             email: userEmail.value,
             password: passwordField.value
         };
+        console.log(dataToRegister);
     };
 
 
@@ -105,8 +107,8 @@ const Register: Component = () => {
         <EntryPointModal>
             <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col items-center relative">
                 <h2 class="text-xl text-[#2d2d2d] mb-4 mt-16">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
-                <form  method="post" ref={registerForm} onFocusOut={handleFormOnChange}
-                    class="h-1/2 w-4/5 p-3 overflow-scroll">
+                <form  method="post" ref={registerForm} onInput={handleFormOnChange}
+                    class="h-4/5 w-4/5 p-3 overflow-scroll">
                     <div class="flex flex-col gap-2">
                         <label for="email" class="mt-2">Email</label>
                         <input ref={userEmail} onChange={handleEmailErrors}
@@ -136,7 +138,7 @@ const Register: Component = () => {
 
                         <label for="password" class="mt-2">Confirm password</label>
                         <div class="relative inline-block">
-                            <input onChange={handleConfirmationPasswordErrors}
+                            <input onInput={handleConfirmationPasswordErrors}
                                 class="w-[100%] outline-none bg-transparent border-b-2 border-[#9e9e9e3b] focus:outline-none p-0.5"
                                 type="password" name="password" ref={confirmPasswordField} placeholder="Password" />
                                 <button type="button" class="absolute right-2 bottom-[2px] hover:cursor-pointer" onClick={() => togglePwdVisibility(confirmPasswordField, setConfirmPwdVisibility)}>
