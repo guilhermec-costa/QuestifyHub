@@ -9,6 +9,7 @@ class UserController {
     public async store(req: Request, res: Response) {
         try {
             const { body } = req;
+            console.log(body);
             const userCreationBody = UserSchemaValidation.parse(body);
             userCreationBody.password = await hashPassword(userCreationBody.password);
             

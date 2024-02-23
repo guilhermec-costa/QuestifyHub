@@ -1,10 +1,16 @@
-import { Component, Setter, createSignal, For } from "solid-js";
+import { Component, Setter, createSignal, For, createEffect } from "solid-js";
 import EntryPointModal from "../components/EntryPointModal";
 import { Eye, EyeOff } from "lucide-solid";
 import {TUserRegistration} from "../types/TUserRegisterForm";
 import { createStore } from "solid-js/store";
 import {hasSpecialCharacter} from "../utils/hasSpecialCharacter";
 import { z } from "zod";
+import axios from "axios";
+
+type Country = {
+    name:string,
+    code2Letters: string
+}
 
 const Register: Component = () => {
     const [pwdVisibility, setPwdVisibility] = createSignal(false);
@@ -99,8 +105,18 @@ const Register: Component = () => {
             email: userEmail.value,
             password: passwordField.value
         };
-        console.log(dataToRegister);
+        axios.post("http://localhost:3333/users", dataToRegister)
+            .then(response => console.log(response.data))
+            .catch(error => console.log(error));
     };
+
+    createEffect(async () => {
+        const {data: countries } = await axios.get("https://restcountries.com/v3.1/all");
+        const formattedCountries:Country[] = countries.map((country:any) => {
+            return { name: country.name.official, code: country.cca2  }
+        });
+        console.log(formattedCountries);
+    });
 
 
     return (
