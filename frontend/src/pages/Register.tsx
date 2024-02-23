@@ -106,7 +106,7 @@ const Register: Component = () => {
             <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col items-center relative">
                 <h2 class="text-xl text-[#2d2d2d] mb-4 mt-16">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
                 <form  method="post" ref={registerForm} onFocusOut={handleFormOnChange}
-                    class="h-1/2 w-4/5 p-3">
+                    class="h-1/2 w-4/5 p-3 overflow-scroll">
                     <div class="flex flex-col gap-2">
                         <label for="email" class="mt-2">Email</label>
                         <input ref={userEmail} onChange={handleEmailErrors}
