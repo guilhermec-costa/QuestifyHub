@@ -13,7 +13,7 @@ const Register: Component = () => {
     const [passwordErrors, setPasswordErrors] = createSignal<string[]>([]);
     const [confirmationPasswordErrors, setConfirmationPasswordErrors] = createSignal<string[]>([]);
     const [allErrors, setAllErrors] = createSignal<[][]>();
-    const [hasErrors, setHasErrors] = createSignal<boolean>(false);
+    const [hasErrors, setHasErrors] = createSignal<boolean>(true);
 
     let passwordField:HTMLInputElement;
     let confirmPasswordField:HTMLInputElement;
@@ -36,11 +36,10 @@ const Register: Component = () => {
         const possibleErrors = [userEmailErrors(), passwordErrors(), confirmationPasswordErrors()]
         setAllErrors(possibleErrors as any);
         const doIHaveErrors = allErrors()?.some(error => error.length > 0) as boolean;
-        setHasErrors(doIHaveErrors &&
-                     !!userEmail.value &&
-                     !!passwordField.value &&
-                     !!confirmPasswordField.value
-                    );
+        setHasErrors(doIHaveErrors ||
+                    !userEmail.value ||
+                    !passwordField.value ||
+                    !confirmPasswordField.value);
     };
 
     const handleEmailErrors = () => {
@@ -106,7 +105,7 @@ const Register: Component = () => {
         <EntryPointModal>
             <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col items-center relative">
                 <h2 class="text-xl text-[#2d2d2d] mb-4 mt-16">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
-                <form  method="post" ref={registerForm} onChange={handleFormOnChange}
+                <form  method="post" ref={registerForm} onFocusOut={handleFormOnChange}
                     class="h-1/2 w-4/5 p-3">
                     <div class="flex flex-col gap-2">
                         <label for="email" class="mt-2">Email</label>
@@ -156,7 +155,7 @@ const Register: Component = () => {
                         </div>
 
                         <input disabled={hasErrors()}
-                        class={`bg-[#2d2d2d] text-[#F0F4EF] p-2 rounded-md mt-3 hover:bg-[#2d2d2de5] ${userEmailErrors().length > 0 ? "cursor-not-allowed" : "cursor-pointer"}`}
+                        class={`bg-[#2d2d2d] text-[#F0F4EF] p-2 rounded-md mt-3 hover:bg-[#2d2d2de5] ${hasErrors() ? "cursor-not-allowed" : "cursor-pointer"}`}
                         type="submit" value="Register" onClick={handleRegisterSubmition} />
                     </div>
                     <p class="text-[#2d2d2d] text-sm mt-3">Already have an account? <span class="text-[#006fff] font-bold"><a href="/signin">Log In</a></span></p>
