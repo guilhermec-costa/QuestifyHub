@@ -1,4 +1,4 @@
-import { Component, Setter, createSignal, For, createEffect } from "solid-js";
+import { Component, Setter, createSignal, For, createEffect, Show } from "solid-js";
 import EntryPointModal from "../components/EntryPointModal";
 import { Eye, EyeOff } from "lucide-solid";
 import {TUserRegistration} from "../types/TUserRegisterForm";
@@ -8,8 +8,8 @@ import { z } from "zod";
 import axios from "axios";
 
 type Country = {
-    name:string,
-    code2Letters: string
+    common:string,
+    code: string
 }
 
 const Register: Component = () => {
@@ -20,6 +20,7 @@ const Register: Component = () => {
     const [confirmationPasswordErrors, setConfirmationPasswordErrors] = createSignal<string[]>([]);
     const [allErrors, setAllErrors] = createSignal<[][]>();
     const [hasErrors, setHasErrors] = createSignal<boolean>(true);
+    const [countryOptions, setCountryOptions] = createSignal<string[]>();
 
     let passwordField:HTMLInputElement;
     let confirmPasswordField:HTMLInputElement;
@@ -113,9 +114,11 @@ const Register: Component = () => {
     createEffect(async () => {
         const {data: countries } = await axios.get("https://restcountries.com/v3.1/all");
         const formattedCountries:Country[] = countries.map((country:any) => {
-            return { name: country.name.official, code: country.cca2  }
+            return { name: country.name.common, code: country.cca2  }
         });
+        setCountryOptions(formattedCountries.map(country => country.name));
         console.log(formattedCountries);
+        console.log(formattedCountries.filter(country => country.code === "DE"))
     });
 
 
@@ -171,6 +174,13 @@ const Register: Component = () => {
                                 {(item) => <span class="text-red-500 text-xs block">{item}</span>}
                             </For>
                         </div>
+                        <Show when={countryOptions()}>
+                            <select name="countries" id="countries">
+                                <For each={countryOptions()}>
+                                    {(country) => <option value={country}>{country}</option>}
+                                </For>
+                            </select>
+                        </Show>
 
                         <input disabled={hasErrors()}
                         class={`bg-[#2d2d2d] text-[#F0F4EF] p-2 rounded-md mt-3 hover:bg-[#2d2d2de5] ${hasErrors() ? "cursor-not-allowed" : "cursor-pointer"}`}
