@@ -11,7 +11,6 @@ const EntryPointModal: Component<IEntryPointModal> = ({children}) => {
                 {children}
                 <div class="bg-[#B4CDED] w-1/2 rounded-r-xl">
                     <h2>Empower your search capabilities and knowledge</h2>
-                    <img src="https://flagsapi.com/BE/flat/64.png" />
                 </div>
             </div>
         </div>

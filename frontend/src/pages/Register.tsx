@@ -1,14 +1,15 @@
 import { Component, Setter, createSignal, For, createEffect, Show } from "solid-js";
 import EntryPointModal from "../components/EntryPointModal";
-import { Eye, EyeOff } from "lucide-solid";
+import { Eye, EyeOff, Info } from "lucide-solid";
 import {TUserRegistration} from "../types/TUserRegisterForm";
 import { createStore } from "solid-js/store";
 import {hasSpecialCharacter} from "../utils/hasSpecialCharacter";
 import { z } from "zod";
 import axios from "axios";
+import { Portal } from "solid-js/web";
 
 type Country = {
-    common:string,
+    name:string,
     code: string
 }
 
@@ -20,12 +21,14 @@ const Register: Component = () => {
     const [confirmationPasswordErrors, setConfirmationPasswordErrors] = createSignal<string[]>([]);
     const [allErrors, setAllErrors] = createSignal<[][]>();
     const [hasErrors, setHasErrors] = createSignal<boolean>(true);
-    const [countryOptions, setCountryOptions] = createSignal<string[]>();
+    const [countryOptions, setCountryOptions] = createSignal<Country[]>();
+    const [flagUrl, setFlagUrl] = createSignal<string>();
 
     let passwordField:HTMLInputElement;
     let confirmPasswordField:HTMLInputElement;
     let registerForm: HTMLFormElement;
     let userEmail: HTMLInputElement;
+    let countrySelection: HTMLSelectElement;
 
 
     const [registerFormBody, setRegisterFormBody] = createStore<TUserRegistration>({
@@ -40,14 +43,14 @@ const Register: Component = () => {
     };
 
     const handleFormOnChange = () => {
-        console.log("aqui");
         const possibleErrors = [userEmailErrors(), passwordErrors(), confirmationPasswordErrors()]
         setAllErrors(possibleErrors as any);
         const doIHaveErrors = allErrors()?.some(error => error.length > 0) as boolean;
         setHasErrors(doIHaveErrors ||
                     !userEmail.value ||
                     !passwordField.value ||
-                    !confirmPasswordField.value);
+                    !confirmPasswordField.value ||
+                    countrySelection.value === "default");
     };
 
     const handleEmailErrors = () => {
@@ -111,14 +114,19 @@ const Register: Component = () => {
             .catch(error => console.log(error));
     };
 
+    const handleCountrySelection = () => {
+        if(countrySelection.value!=="default") {
+            const country = countryOptions()?.find(country => country.name === countrySelection.value);
+            setFlagUrl(`https://flagsapi.com/${country?.code}/flat/32.png`);
+        };
+    };
+
     createEffect(async () => {
         const {data: countries } = await axios.get("https://restcountries.com/v3.1/all");
         const formattedCountries:Country[] = countries.map((country:any) => {
             return { name: country.name.common, code: country.cca2  }
         });
-        setCountryOptions(formattedCountries.map(country => country.name));
-        console.log(formattedCountries);
-        console.log(formattedCountries.filter(country => country.code === "DE"))
+        setCountryOptions(formattedCountries);
     });
 
 
@@ -174,13 +182,19 @@ const Register: Component = () => {
                                 {(item) => <span class="text-red-500 text-xs block">{item}</span>}
                             </For>
                         </div>
-                        <Show when={countryOptions()}>
-                            <select name="countries" id="countries">
-                                <For each={countryOptions()}>
-                                    {(country) => <option value={country}>{country}</option>}
-                                </For>
-                            </select>
-                        </Show>
+                        <div class="flex justify-start items-center" id="country-section">
+                            <Portal mount={document.querySelector("#country-sectionnn")}><p>teste</p></Portal>
+                            <Info width={14} class="mr-2"/><Show when={countryOptions()}>
+                                <select name="countries" id="countries" ref={countrySelection} onChange={handleCountrySelection}
+                                    class="bg-transparent outline-none text-sm cursor-pointer w-3/4">
+                                    <option value="default">Select a country</option>
+                                    <For each={countryOptions()}>
+                                        {(country) => <option value={country.name}>{country.name}</option>}
+                                    </For>
+                                </select>
+                            </Show>
+                            {flagUrl() && (<img src={flagUrl()} width={32} />)}
+                        </div>
 
                         <input disabled={hasErrors()}
                         class={`bg-[#2d2d2d] text-[#F0F4EF] p-2 rounded-md mt-3 hover:bg-[#2d2d2de5] ${hasErrors() ? "cursor-not-allowed" : "cursor-pointer"}`}

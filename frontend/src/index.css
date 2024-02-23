@@ -30,3 +30,4 @@ input[type=password]:not(:placeholder-shown) {
 input[disabled] {
     cursor: not-allowed;
 }
+
