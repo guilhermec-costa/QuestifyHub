@@ -7,6 +7,7 @@ import {hasSpecialCharacter} from "../utils/hasSpecialCharacter";
 import { z } from "zod";
 import axios from "axios";
 import { Portal } from "solid-js/web";
+import CountryInfoModal from "../components/CountryInfoModal";
 
 type Country = {
     name:string,
@@ -23,6 +24,7 @@ const Register: Component = () => {
     const [hasErrors, setHasErrors] = createSignal<boolean>(true);
     const [countryOptions, setCountryOptions] = createSignal<Country[]>();
     const [flagUrl, setFlagUrl] = createSignal<string>();
+    const [isCountryInfoOpen, setIsCountryInfoOpen] = createSignal<boolean>(false);
 
     let passwordField:HTMLInputElement;
     let confirmPasswordField:HTMLInputElement;
@@ -183,8 +185,13 @@ const Register: Component = () => {
                             </For>
                         </div>
                         <div class="flex justify-start items-center" id="country-section">
-                            <Portal mount={document.querySelector("#country-sectionnn")}><p>teste</p></Portal>
-                            <Info width={14} class="mr-2"/><Show when={countryOptions()}>
+                            <Show when={isCountryInfoOpen()}>
+                                 <CountryInfoModal />
+                            </Show>
+                            <Info width={16} class="mr-2" onPointerEnter={() => {
+                                setIsCountryInfoOpen(true);
+                            }} onPointerLeave={() => setIsCountryInfoOpen(false)}/>
+                                <Show when={countryOptions()}>
                                 <select name="countries" id="countries" ref={countrySelection} onChange={handleCountrySelection}
                                     class="bg-transparent outline-none text-sm cursor-pointer w-3/4">
                                     <option value="default">Select a country</option>
@@ -193,7 +200,7 @@ const Register: Component = () => {
                                     </For>
                                 </select>
                             </Show>
-                            {flagUrl() && (<img src={flagUrl()} width={32} />)}
+                            {flagUrl() && (<img src={flagUrl()} width={28} />)}
                         </div>
 
                         <input disabled={hasErrors()}

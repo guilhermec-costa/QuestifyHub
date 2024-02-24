@@ -6,7 +6,7 @@ interface IEntryPointModal {
 
 const EntryPointModal: Component<IEntryPointModal> = ({children}) => {
     return(
-        <div class="bg-[#0D1821] w-full h-screen flex justify-center items-center ">
+        <div class="bg-[#0D1821] w-full h-screen flex justify-center items-center " id="entry-modal">
             <div class="w-1/2 flex h-[55%] mx-auto shadow-xl shadow-blue-500/50 rounded-xl">
                 {children}
                 <div class="bg-[#B4CDED] w-1/2 rounded-r-xl">
