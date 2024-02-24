@@ -23,7 +23,7 @@ class UserController {
     }
 
     public async all(req: Request, res:Response) {
-        const users = await User.find().select({"fullname": 1, "email": 1});
+        const users = await User.find().select({"email": 1, "country": 1});
         return res.status(200).json(users);
     }
 

@@ -109,7 +109,8 @@ const Register: Component = () => {
         e.preventDefault();
         const dataToRegister = {
             email: userEmail.value,
-            password: passwordField.value
+            password: passwordField.value,
+            country: countrySelection.value
         };
         axios.post("http://localhost:3333/users", dataToRegister)
             .then(response => console.log(response.data))
@@ -134,7 +135,7 @@ const Register: Component = () => {
 
     return (
         <EntryPointModal>
-            <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col items-center relative">
+            <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col items-center relative max-[768px]:w-full max-[768px]:rounded-r-xl max-[768px]:max-w-full">
                 <h2 class="text-xl text-[#2d2d2d] mb-4 mt-16">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
                 <form  method="post" ref={registerForm} onInput={handleFormOnChange}
                     class="h-4/5 w-4/5 p-3 overflow-scroll">

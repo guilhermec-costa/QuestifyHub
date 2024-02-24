@@ -88,6 +88,7 @@ const Login: Component = () => {
                                 }
                                 </button>
                         </div>
+                        <p class="text-[#2d2d2d] text-sm">Forget password? <span class="text-[#006fff] font-bold">Recover</span></p>
                         <span class="text-red-500 text-xs">{loginErrors.password}</span>
 
                         <input
