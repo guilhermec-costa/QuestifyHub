@@ -6,8 +6,8 @@ import { createStore } from "solid-js/store";
 import {hasSpecialCharacter} from "../utils/hasSpecialCharacter";
 import { z } from "zod";
 import axios from "axios";
-import { Portal } from "solid-js/web";
 import CountryInfoModal from "../components/CountryInfoModal";
+import { useNavigate } from "@solidjs/router";
 
 type Country = {
     name:string,
@@ -31,6 +31,8 @@ const Register: Component = () => {
     let registerForm: HTMLFormElement;
     let userEmail: HTMLInputElement;
     let countrySelection: HTMLSelectElement;
+
+    const navigator = useNavigate();
 
 
     const [registerFormBody, setRegisterFormBody] = createStore<TUserRegistration>({
@@ -113,7 +115,10 @@ const Register: Component = () => {
             country: countrySelection.value
         };
         axios.post("http://localhost:3333/users", dataToRegister)
-            .then(response => console.log(response.data))
+            .then(response => {
+                const {signedToken} = response.data;
+                console.log(signedToken);
+            })
             .catch(error => console.log(error));
     };
 

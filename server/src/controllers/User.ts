@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import { handleValidationErrors } from "../utils/SchemaExceptionHandler";
 import {userParamsValidation, UserSchemaValidation} from "../validations/UserValidation";
+import Jwt from "utils/jwt";
 import { z } from "zod";
 import { hashPassword } from "utils/cryptog";
 
@@ -15,9 +16,12 @@ class UserController {
             
             const user = new User(userCreationBody);
             const savedUser = await user.save();
-            return res.status(200).json(user);
+            const token = new Jwt(user.id, 3600); 
+            token.sign();
+            return res.status(200).json(token);
         } catch(err) {
            err = err instanceof z.ZodError ? handleValidationErrors(res, err) : err;
+           console.log(err);
            return res.status(500).json(err);
         }
     }

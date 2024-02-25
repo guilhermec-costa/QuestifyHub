@@ -12,6 +12,8 @@ const Home: Component = () => {
     const navigator = useNavigate();
     const username = localStorage.getItem("username");
     const [searchItems, setSearchItems] = createStore<Object[]>([]);
+    const userData = location?.state;
+    console.log(userData);
 
     checkAuthentication(navigator);
     onMount(() => document.addEventListener("keydown", handleSearch));
