@@ -36,7 +36,9 @@ const Home: Component = () => {
                     q: searchRef.value
                 }
             });
-            console.log(searchResults);
+            const searchData = searchResults.data;
+            const { items: searchItems } = searchData;
+            setSearchItems(searchItems);
         } catch(err) {
             console.log(err);
         }

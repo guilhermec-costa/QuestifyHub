@@ -10,7 +10,6 @@ class SearchController {
         const {q:searchQuery} = req.query as TSearchParams;
         const searchEngineId = process.env.SEARCH_ENGINE_ID;
         const apiKey = process.env.SEARCH_ENGINE_API_KEY;
-        console.log(searchQuery, "\n", searchEngineId, "\n", apiKey);
         try {
             const searchResult = await axios.get("https://customsearch.googleapis.com/customsearch/v1", {
                 params: {
