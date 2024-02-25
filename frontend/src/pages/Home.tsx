@@ -30,8 +30,16 @@ const Home: Component = () => {
 
     const handleSearch = async (event:Event) => {
         event.preventDefault();
-        const searchResults = await axios.get(`http://localhost:3333/search?q=${searchRef.value}`);
-        console.log(searchResults);
+        try {
+            const searchResults = await axios.get("http://localhost:3333/search", {
+                params: {
+                    q: searchRef.value
+                }
+            });
+            console.log(searchResults);
+        } catch(err) {
+            console.log(err);
+        }
     };
 
     return (
