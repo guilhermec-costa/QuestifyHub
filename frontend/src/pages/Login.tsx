@@ -92,7 +92,7 @@ const Login: Component = () => {
                         <span class="text-red-500 text-xs">{loginErrors.password}</span>
 
                         <input
-                        class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] p-1 rounded-md mt-3 hover:bg-[#2d2d2de5]"
+                        class="hover:cursor-pointer bg-[#2d2d2d] text-[#F0F4EF] text-md p-2 rounded-md mt-3 hover:bg-[#2d2d2de5]"
                         type="submit" value="Login" />
                     </div>
                     <p class="text-[#2d2d2d] text-sm mt-3">Don't have an account yet? <span class="text-[#006fff] font-bold"><A href="/register">Register</A></span></p>

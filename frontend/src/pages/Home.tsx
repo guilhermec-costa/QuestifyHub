@@ -4,6 +4,7 @@ import { useNavigate } from "@solidjs/router";
 import { Telescope } from "lucide-solid";
 import HomeProfileMenu from "../components/HomeProfileMenu";
 import SearchItem from "../components/SearchItem";
+import PulseLoading from "../components/PulseLoading";
 import data from "../data.json";
 import { createStore } from "solid-js/store";
 import axios from "axios";
@@ -31,13 +32,13 @@ const Home: Component = () => {
     const handleSearch = async (event:Event) => {
         event.preventDefault();
         try {
-            const searchResults = await axios.get("http://localhost:3333/search", {
-                params: {
-                    q: searchRef.value
-                }
-            });
-            const searchData = searchResults.data;
-            const { items: searchItems } = searchData;
+        /*     const searchResults = await axios.get("http://localhost:3333/search", { */
+        /*         params: { */
+        /*             q: searchRef.value */
+        /*         } */
+        /*     }); */
+            /* const searchData = data; */
+            const { items: searchItems } = data;
             setSearchItems(searchItems);
         } catch(err) {
             console.log(err);
@@ -55,16 +56,18 @@ const Home: Component = () => {
                     <Telescope width={48} height={30} class="hover:cursor-pointer relative right-12" color="#344966" onClick={handleSearch}/>
                 </form>
                 <button class="w-[15%] text-[#ffffff] font-bold bg-[#6c35de] py-2 px-4 rounded-md mt-4 hover:bg-[#a364ff]">Customize your search</button>
-                <div class="bg-[#182938] mt-10">
+                <div class="bg-[#182938] mt-10 rounded-lg">
+                    {/* <PulseLoading /> */}
                     <Show when={searchItems}>
                         <For each={searchItems}>
                             {(search:any, i) => (
-                                <SearchItem
-                                    displayLink={search.link}
-                                    snippet={search.snippet}
-                                    title={search.title}
-                                    position={i()}
-                                />
+                                    <SearchItem
+                                        displayLink={search.link}
+                                        snippet={search.snippet}
+                                        title={search.title}
+                                        position={i()}
+                                        lastPosition={searchItems.length}
+                                    />
                             )}
                         </For>
                     </Show>

@@ -1,9 +1,18 @@
 import { Component } from "solid-js";
 import { TSearchProps } from "../types/SearchProps";
 
-const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, position}) => {
+const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, position, lastPosition}) => {
+    const searchItemBorder = () => {
+        if(position===0) {
+            return "rounded-t-lg"
+        } else if(position===lastPosition-1) {
+            return "rounded-b-lg pb-4"
+        } else {
+            return "";
+        }
+    }
     return (
-        <div class="p-5 border border-[#344966]">
+        <div class={`border border-[#344966] ${searchItemBorder()} p-3`}>
             <h3 class="text-[#B4CDED] text-xl font-bold hover:underline decoration-1 decoration-[#B4CDED]">
                 <a href={displayLink} target="_blank">
                     {title}

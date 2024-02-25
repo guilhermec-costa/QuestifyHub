@@ -9,8 +9,8 @@ const Register = lazy(() => import("../pages/Register"));
 const Routes = () => {
     return (
         <Router>
-            <Route path={["/register", "/"]} component={Register} />   
-            <Route path="/signin" component={Login} />
+            <Route path={["/signin", "/"]} component={Login} />   
+            <Route path="/register" component={Register} />
             <Route path="/home" component={Home}/>
             <Route path="*" component={NotFound} />
         </Router>
