@@ -11,37 +11,27 @@ import axios from "axios";
 const Home: Component = () => {
     const navigator = useNavigate();
     const username = localStorage.getItem("username");
+    const jwt = localStorage.getItem("token");
     const [searchItems, setSearchItems] = createStore<Object[]>([]);
-    const userId = localStorage.getItem("token");
+    checkAuthentication(navigator);
+
+    let searchRef: HTMLInputElement;
 
     createEffect(async () => {
         try {
-            const response = await axios.get("http://localhost:3333/users/jwt");
-            console.log(response.data);
+            const response = await axios.get("http://localhost:3333/users/jwt", {
+                headers: { Authorization: `Bearer ${jwt}` }
+            });
         } catch(err) {
-            console.log("erro");
-            console.log(err);
+            throw new Error("Error on get user");
         };
     });
 
-    checkAuthentication(navigator);
-    onMount(() => document.addEventListener("keydown", handleSearch));
-    onCleanup(() => document.removeEventListener("keydown", handleSearch));
 
-    const handleSearch = (event:Event) => {
-        const {items} = data;
-        switch(event.type) {
-            case "keydown": {
-                const { key } = (event as KeyboardEvent);
-                if(key==="Enter") setSearchItems(items);
-                break;
-            };
-
-            case "click": {
-                setSearchItems(items);
-                break;
-            };
-        };
+    const handleSearch = async (event:Event) => {
+        event.preventDefault();
+        const searchResults = await axios.get(`http://localhost:3333/search?q=${searchRef.value}`);
+        console.log(searchResults);
     };
 
     return (
@@ -49,8 +39,8 @@ const Home: Component = () => {
             <HomeProfileMenu />
             {/* <img src={logo} alt="" /> */}
             <div class="min-w-4/5 mx-auto flex flex-col justify-center items-center">
-                <form method="post" class="w-[40%] mt-[200px] relative flex justify-between items-center">
-                    <input type="text"
+                <form method="post" class="w-[40%] mt-[200px] relative flex justify-between items-center" onSubmit={handleSearch}>
+                    <input type="text" ref={searchRef}
                        placeholder="Type anything" class="pl-6 py-3 w-full rounded-md text-xl outline-none hover:outline-none border-3 border-[#cccbc8]"/>
                     <Telescope width={48} height={30} class="hover:cursor-pointer relative right-12" color="#344966" onClick={handleSearch}/>
                 </form>

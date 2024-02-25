@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import { handleValidationErrors } from "../utils/SchemaExceptionHandler";
 import {userParamsValidation, UserSchemaValidation} from "../validations/UserValidation";
+import jwt from "jsonwebtoken";
 import Jwt from "utils/jwt";
 import { z } from "zod";
 import { hashPassword } from "utils/cryptog";
@@ -10,7 +11,6 @@ class UserController {
     public async store(req: Request, res: Response) {
         try {
             const { body } = req;
-            console.log(body);
             const userCreationBody = UserSchemaValidation.parse(body);
             userCreationBody.password = await hashPassword(userCreationBody.password);
             
@@ -21,7 +21,6 @@ class UserController {
             return res.status(200).json(token);
         } catch(err) {
            err = err instanceof z.ZodError ? handleValidationErrors(res, err) : err;
-           console.log(err);
            return res.status(500).json(err);
         }
     }
@@ -32,9 +31,7 @@ class UserController {
     }
 
     public async byUserId(req: Request, res: Response) {
-        console.log("TESTEEEEEEEEEEEEEEEE");
         const headers = req.headers;
-        console.log(headers);
         const { id: userId } = userParamsValidation.parse(req.params);
         const user = await User.findById(userId);
         
@@ -42,8 +39,17 @@ class UserController {
     }
 
     public async viaJwt(req:Request, res:Response) {
-        return res.status(200).json({text: "Sucesso"});
-    }
+        const token = req.headers.authorization?.split(" ")[1];
+        let requestedUser: {email:string, country: string};
+        if(!token) return res.status(400).json({ error: "You are not logged in yet"});
+
+        jwt.verify(token, process.env.JWT_SECRET as string,
+                    async (err:any, user:any) => {
+                        if(err) return res.status(400).json({ error: "Invalid Token"});
+                        requestedUser = await User.findById(user.id).select({"email": 1, "country": 1});
+                        return res.status(200).json(requestedUser)
+                });
+    };
 
     public async delete(req: Request, res: Response) {
        const { id: userId } = userParamsValidation.parse(req.params);
