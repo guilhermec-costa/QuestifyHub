@@ -7,7 +7,7 @@ import {hasSpecialCharacter} from "../utils/hasSpecialCharacter";
 import { z } from "zod";
 import axios from "axios";
 import CountryInfoModal from "../components/CountryInfoModal";
-import { useNavigate } from "@solidjs/router";
+import { Navigate, useNavigate } from "@solidjs/router";
 
 type Country = {
     name:string,
@@ -117,7 +117,8 @@ const Register: Component = () => {
         axios.post("http://localhost:3333/users", dataToRegister)
             .then(response => {
                 const {signedToken} = response.data;
-                console.log(signedToken);
+                localStorage.setItem("token", signedToken);
+                navigator("/home", {replace: true});
             })
             .catch(error => console.log(error));
     };
@@ -130,6 +131,7 @@ const Register: Component = () => {
     };
 
     createEffect(async () => {
+        console.log("aqui")
         const {data: countries } = await axios.get("https://restcountries.com/v3.1/all");
         const formattedCountries:Country[] = countries.map((country:any) => {
             return { name: country.name.common, code: country.cca2  }
@@ -143,7 +145,7 @@ const Register: Component = () => {
             <div class="w-1/2 bg-[#F0F4EF] rounded-l-xl flex flex-col items-center relative max-[768px]:w-full max-[768px]:rounded-r-xl max-[768px]:max-w-full">
                 <h2 class="text-xl text-[#2d2d2d] mb-4 mt-16">Get started on <span class="text-[#006fff] font-bold">QuestifyHub</span></h2>
                 <form  method="post" ref={registerForm} onInput={handleFormOnChange}
-                    class="h-4/5 w-4/5 p-3 overflow-scroll">
+                    class="h-4/5 w-4/5 p-3 overflow-y-auto">
                     <div class="flex flex-col gap-2">
                         <label for="email" class="mt-2">Email</label>
                         <input ref={userEmail} onChange={handleEmailErrors}

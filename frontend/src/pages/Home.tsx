@@ -1,4 +1,4 @@
-import { Component, For, Show, onCleanup, onMount} from "solid-js";
+import { Component, For, Show, createEffect, onCleanup, onMount} from "solid-js";
 import { checkAuthentication } from "../utils/auth";
 import { useNavigate } from "@solidjs/router";
 import { Telescope } from "lucide-solid";
@@ -6,14 +6,23 @@ import HomeProfileMenu from "../components/HomeProfileMenu";
 import SearchItem from "../components/SearchItem";
 import data from "../data.json";
 import { createStore } from "solid-js/store";
-import logo from "../assets/logo.png";
+import axios from "axios";
 
 const Home: Component = () => {
     const navigator = useNavigate();
     const username = localStorage.getItem("username");
     const [searchItems, setSearchItems] = createStore<Object[]>([]);
-    const userData = location?.state;
-    console.log(userData);
+    const userId = localStorage.getItem("token");
+
+    createEffect(async () => {
+        try {
+            const response = await axios.get("http://localhost:3333/users/jwt");
+            console.log(response.data);
+        } catch(err) {
+            console.log("erro");
+            console.log(err);
+        };
+    });
 
     checkAuthentication(navigator);
     onMount(() => document.addEventListener("keydown", handleSearch));

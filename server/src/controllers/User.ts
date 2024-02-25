@@ -32,10 +32,17 @@ class UserController {
     }
 
     public async byUserId(req: Request, res: Response) {
+        console.log("TESTEEEEEEEEEEEEEEEE");
+        const headers = req.headers;
+        console.log(headers);
         const { id: userId } = userParamsValidation.parse(req.params);
         const user = await User.findById(userId);
         
         return res.status(200).json(user);
+    }
+
+    public async viaJwt(req:Request, res:Response) {
+        return res.status(200).json({text: "Sucesso"});
     }
 
     public async delete(req: Request, res: Response) {
