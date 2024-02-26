@@ -4,6 +4,7 @@ import { useNavigate } from "@solidjs/router";
 import { Telescope } from "lucide-solid";
 import HomeProfileMenu from "../components/HomeProfileMenu";
 import SearchItem from "../components/SearchItem";
+import { ChevronsDown } from "lucide-solid";
 import PulseLoading from "../components/PulseLoading";
 import data from "../data.json";
 import { createStore } from "solid-js/store";
@@ -53,15 +54,20 @@ const Home: Component = () => {
             <div class="min-w-4/5 mx-auto flex flex-col justify-center items-center">
                 <form method="post" class="w-[40%] mt-[200px] relative flex justify-between items-center" onSubmit={handleSearch}>
                     <input type="text" ref={searchRef}
-                       placeholder="Type anything" class="pl-6 py-3 w-full rounded-md text-xl outline-none hover:outline-none border-3 border-[#cccbc8]"/>
+                       placeholder="Type anything" class="pl-6 py-3 min-w-full rounded-md text-xl outline-none hover:outline-none border-3 border-[#cccbc8]"/>
                     <Telescope width={48} height={30} class="hover:cursor-pointer relative right-12" color="#344966" onClick={handleSearch}/>
                 </form>
-                <button class="w-[15%] text-[#ffffff] font-bold bg-[#6c35de] py-2 px-4 rounded-md mt-4 hover:bg-[#a364ff]">Customize your search</button>
-                <label>
-                    <h4>Customize your search</h4>
-                    <input type="checkbox"/>
-                        <div class="collapsed">aoshnoashbajhdvauhdgahujdvujhavdhujavdhjgavsdghjvahjdvahjsdbaskd</div>
-               </label>
+                <div class="mt-[20px] w-[35%] bg-slate-700 rounded-sm">
+                    <label class="cursor-pointer">
+                        <div class="flex justify-between items-center px-2">
+                            <h4 class="p-2 text-[#F0F4EF]">Customize your search</h4>
+                            <ChevronsDown />
+                        </div>
+                        <input type="checkbox"/>
+                            <div class="collapsed">
+                            <p class="p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus vero earum quae numquam vel! Fugiat, molestias quibusdam neque repellendus debitis dolorum. Veniam consectetur tenetur omnis ex cupiditate, ratione libero ullam.</p></div>
+                   </label>
+                </div>
                 <div class="bg-[#182938] mt-10 rounded-lg">
                     {/* <PulseLoading /> */}
                     <Show when={searchItems}>
