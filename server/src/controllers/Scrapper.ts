@@ -8,11 +8,13 @@ type TScrape = {
 class ScrapeController {
     public async performCrawl(req:Request, res:Response) {
         const data:TScrape = req.query as TScrape;
+        const decodedScrapeURI = decodeURIComponent(data.scrapeOn);
+        console.log(decodedScrapeURI);
         try {
-            const scrapeResult = await axios.get(data.scrapeOn);
-            return res.sendStatus(200).json(scrapeResult);
+            const { data } = await axios.get(decodedScrapeURI);
+            return res.status(200).json({content: data});
         } catch(err) {
-            return res.status(400).json()
+            return res.status(400).json({message: err});
         }
     }
 }

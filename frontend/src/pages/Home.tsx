@@ -40,7 +40,7 @@ const Home: Component = () => {
         /*     }); */
             /* const searchData = data; */
             const { items: searchItems } = data;
-            const toScrape = searchItems[0].formattedUrl;
+            const toScrape = encodeURIComponent(searchItems[0].formattedUrl);
             const scrapeTest = await api.get("/scrape", {
                 params: {
                     scrapeOn: toScrape
