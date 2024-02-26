@@ -1,0 +1,22 @@
+label input[type="checkbox"] {
+    display: none;
+}
+
+label h4 {
+	cursor: pointer;
+	text-decoration: underline;
+    color: red;
+}
+
+.collapsed {
+    height: 0px;
+    color: #ffffff;
+    overflow: hidden;
+    transition: height 0.8s;
+    background: red;
+}
+
+input:checked + .collapsed {
+    height: 200px;
+    color: white;
+}

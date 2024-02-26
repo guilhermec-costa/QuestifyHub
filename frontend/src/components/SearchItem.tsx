@@ -8,7 +8,7 @@ const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, posit
         } else if(position===lastPosition-1) {
             return "rounded-b-lg pb-4"
         } else {
-            return "";
+            return;
         }
     }
     return (

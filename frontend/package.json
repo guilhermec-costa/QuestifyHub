@@ -24,11 +24,17 @@
     "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
     "@solidjs/router": "^0.12.3",
     "axios": "^1.6.7",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "create-vite": "^5.2.0",
+    "lucide-react": "^0.341.0",
     "lucide-solid": "^0.331.0",
     "solid-js": "^1.8.11",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7",
     "vite": "^3.0.0",
     "zod": "^3.22.4"
   }

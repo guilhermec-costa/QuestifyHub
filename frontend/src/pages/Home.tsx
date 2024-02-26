@@ -7,6 +7,7 @@ import SearchItem from "../components/SearchItem";
 import PulseLoading from "../components/PulseLoading";
 import data from "../data.json";
 import { createStore } from "solid-js/store";
+import "./style.css";
 import axios from "axios";
 
 const Home: Component = () => {
@@ -56,6 +57,11 @@ const Home: Component = () => {
                     <Telescope width={48} height={30} class="hover:cursor-pointer relative right-12" color="#344966" onClick={handleSearch}/>
                 </form>
                 <button class="w-[15%] text-[#ffffff] font-bold bg-[#6c35de] py-2 px-4 rounded-md mt-4 hover:bg-[#a364ff]">Customize your search</button>
+                <label>
+                    <h4>Customize your search</h4>
+                    <input type="checkbox"/>
+                        <div class="collapsed">aoshnoashbajhdvauhdgahujdvujhavdhujavdhjgavsdghjvahjdvahjsdbaskd</div>
+               </label>
                 <div class="bg-[#182938] mt-10 rounded-lg">
                     {/* <PulseLoading /> */}
                     <Show when={searchItems}>
