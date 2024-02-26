@@ -10,6 +10,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^20.11.20",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.0.1",
@@ -30,6 +31,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "create-vite": "^5.2.0",
+    "dotenv": "^16.4.5",
     "lucide-react": "^0.341.0",
     "lucide-solid": "^0.331.0",
     "solid-js": "^1.8.11",

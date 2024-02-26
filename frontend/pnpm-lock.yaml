@@ -23,6 +23,9 @@ dependencies:
   create-vite:
     specifier: ^5.2.0
     version: 5.2.0
+  dotenv:
+    specifier: ^16.4.5
+    version: 16.4.5
   lucide-react:
     specifier: ^0.341.0
     version: 0.341.0(react@18.2.0)
@@ -40,12 +43,15 @@ dependencies:
     version: 1.0.7(tailwindcss@3.4.1)
   vite:
     specifier: ^3.0.0
-    version: 3.2.8
+    version: 3.2.8(@types/node@20.11.20)
   zod:
     specifier: ^3.22.4
     version: 3.22.4
 
 devDependencies:
+  '@types/node':
+    specifier: ^20.11.20
+    version: 20.11.20
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.4.0
     version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.56.0)(typescript@5.3.3)
@@ -849,6 +855,11 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
+  /@types/node@20.11.20:
+    resolution: {integrity: sha512-7/rR21OS+fq8IyHTgtLkDK949uzsa6n8BkziAKtPVpugIkO6D+/ooXMvzXxDnZrmtXVfjb1bKQafYpb8s89LOg==}
+    dependencies:
+      undici-types: 5.26.5
+
   /@types/semver@7.5.7:
     resolution: {integrity: sha512-/wdoPq1QqkSj9/QOeKkFquEuPzQbHTWAMPH/PaUMB+JuR31lXhlWXRZ52IpfDYVlDOUBvX09uBrPwxGT1hjNBg==}
     dev: true
@@ -1447,6 +1458,11 @@ packages:
     dependencies:
       esutils: 2.0.3
     dev: true
+
+  /dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
+    engines: {node: '>=12'}
+    dev: false
 
   /eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -3083,7 +3099,7 @@ packages:
       '@solid-devtools/debugger': 0.23.3(solid-js@1.8.11)
       '@solid-devtools/shared': 0.13.1(solid-js@1.8.11)
       solid-js: 1.8.11
-      vite: 3.2.8
+      vite: 3.2.8(@types/node@20.11.20)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3366,6 +3382,9 @@ packages:
       which-boxed-primitive: 1.0.2
     dev: true
 
+  /undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+
   /update-browserslist-db@1.0.13(browserslist@4.22.2):
     resolution: {integrity: sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==}
     hasBin: true
@@ -3403,13 +3422,13 @@ packages:
       merge-anything: 5.1.7
       solid-js: 1.8.11
       solid-refresh: 0.6.3(solid-js@1.8.11)
-      vite: 3.2.8
+      vite: 3.2.8(@types/node@20.11.20)
       vitefu: 0.2.5(vite@3.2.8)
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite@3.2.8:
+  /vite@3.2.8(@types/node@20.11.20):
     resolution: {integrity: sha512-EtQU16PLIJpAZol2cTLttNP1mX6L0SyI0pgQB1VOoWeQnMSvtiwovV3D6NcjN8CZQWWyESD2v5NGnpz5RvgOZA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -3434,6 +3453,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 20.11.20
       esbuild: 0.15.18
       postcss: 8.4.35
       resolve: 1.22.8
@@ -3449,7 +3469,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 3.2.8
+      vite: 3.2.8(@types/node@20.11.20)
     dev: true
 
   /which-boxed-primitive@1.0.2:

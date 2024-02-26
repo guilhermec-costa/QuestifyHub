@@ -12,7 +12,7 @@ const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, posit
         }
     }
     return (
-        <div class={`border border-[#344966] ${searchItemBorder()} p-3`}>
+        <div class={`bg-[#182938] border border-[#344966] ${searchItemBorder()} p-3`}>
             <h3 class="text-[#B4CDED] text-xl font-bold hover:underline decoration-1 decoration-[#B4CDED]">
                 <a href={displayLink} target="_blank">
                     {title}
