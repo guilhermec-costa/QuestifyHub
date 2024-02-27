@@ -54,8 +54,8 @@ const Home: Component = () => {
             const query = createQuery(() => ({
                 queryKey: ['todos'],
                 queryFn: () => console.log("oi"),
-              }))
-            console.log(scrapeTest);
+              }));
+            console.log(query);
             setSearchItems(searchItems);
         } catch(err) {
             console.log(err);

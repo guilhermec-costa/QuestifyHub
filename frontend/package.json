@@ -1,6 +1,7 @@
 {
   "name": "vite-template-solid",
   "version": "0.0.0",
+  "type":"module",
   "description": "",
   "scripts": {
     "start": "vite",
@@ -10,8 +11,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^20.11.20",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@types/node": "^20.11.21",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.57.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
@@ -32,11 +33,11 @@
     "clsx": "^2.1.0",
     "create-vite": "^5.2.1",
     "dotenv": "^16.4.5",
-    "lucide-solid": "^0.331.0",
+    "lucide-solid": "^0.341.0",
     "solid-js": "^1.8.15",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "vite": "^3.2.8",
+    "vite": "^5.1.4",
     "zod": "^3.22.4"
   }
 }
