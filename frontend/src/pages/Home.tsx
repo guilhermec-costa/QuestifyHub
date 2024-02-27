@@ -1,4 +1,5 @@
 import { Component, For, Show, createEffect, createSignal } from "solid-js";
+import { createQuery } from "@tanstack/solid-query";
 import { checkAuthentication } from "../utils/auth";
 import { useNavigate } from "@solidjs/router";
 import { Telescope } from "lucide-solid";
@@ -9,10 +10,10 @@ import { ChevronsDown, ChevronsUp } from "lucide-solid";
 import data from "../data.json";
 import { createStore } from "solid-js/store";
 import "./style.css";
-import PulseLoading from "../components/PulseLoading";
 
 const Home: Component = () => {
     const navigator = useNavigate();
+
     const jwt = localStorage.getItem("token");
     const [searchItems, setSearchItems] = createStore<Object[]>([]);
     const [isCustomSearchExpanded, setIsCustomSearchExpanded] = createSignal<boolean>(false);
@@ -34,19 +35,26 @@ const Home: Component = () => {
     const handleSearch = async (event:Event) => {
         event.preventDefault();
         try {
-        /*     const searchResults = await axios.get("http://localhost:3333/search", { */
-        /*         params: { */
-        /*             q: searchRef.value */
-        /*         } */
-        /*     }); */
-            /* const searchData = data; */
             const { items: searchItems } = data;
             let routesToScrape = searchItems.map(item => encodeURIComponent(item.formattedUrl));
+            console.log(routesToScrape);
             const scrapeTest = await api.get("/scrape", {
                 params: {
                     scrapeOn: routesToScrape.slice(0, 5)
                 }
             });
+
+            /* const pagesContent = createQuery(() => ({ */
+            /*     queryKey: ["pagesContent"], */
+            /*     queryFn:  async () => { */
+            /*         return await api.get("/scrape", { */
+            /*             params: { scrapeOn: routesToScrape.slice(0, 5) } */
+            /*         }); */
+            /*     }})) */
+            const query = createQuery(() => ({
+                queryKey: ['todos'],
+                queryFn: () => console.log("oi"),
+              }))
             console.log(scrapeTest);
             setSearchItems(searchItems);
         } catch(err) {
