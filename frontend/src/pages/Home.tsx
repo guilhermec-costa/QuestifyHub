@@ -9,6 +9,7 @@ import { ChevronsDown, ChevronsUp } from "lucide-solid";
 import data from "../data.json";
 import { createStore } from "solid-js/store";
 import "./style.css";
+import PulseLoading from "../components/PulseLoading";
 
 const Home: Component = () => {
     const navigator = useNavigate();
@@ -40,10 +41,10 @@ const Home: Component = () => {
         /*     }); */
             /* const searchData = data; */
             const { items: searchItems } = data;
-            const toScrape = encodeURIComponent(searchItems[0].formattedUrl);
+            let routesToScrape = searchItems.map(item => encodeURIComponent(item.formattedUrl));
             const scrapeTest = await api.get("/scrape", {
                 params: {
-                    scrapeOn: toScrape
+                    scrapeOn: routesToScrape.slice(0, 5)
                 }
             });
             console.log(scrapeTest);
