@@ -11,9 +11,6 @@ dependencies:
   '@tanstack/solid-query':
     specifier: ^5.24.1
     version: 5.24.1(solid-js@1.8.15)
-  '@tanstack/solid-query-devtools':
-    specifier: ^5.24.1
-    version: 5.24.1(@tanstack/solid-query@5.24.1)(solid-js@1.8.15)
   axios:
     specifier: ^1.6.7
     version: 1.6.7
@@ -43,7 +40,7 @@ dependencies:
     version: 1.0.7(tailwindcss@3.4.1)
   vite:
     specifier: ^3.2.8
-    version: 3.2.8(@types/node@20.11.20)
+    version: 3.2.8(@types/node@20.11.21)
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -51,7 +48,7 @@ dependencies:
 devDependencies:
   '@types/node':
     specifier: ^20.11.20
-    version: 20.11.20
+    version: 20.11.21
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.21.0
     version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.3.3)
@@ -668,21 +665,6 @@ packages:
     resolution: {integrity: sha512-DZ6Nx9p7BhjkG50ayJ+MKPgff+lMeol7QYXkvuU5jr2ryW/4ok5eanaS9W5eooA4xN0A/GPHdLGOZGzArgf5Cg==}
     dev: false
 
-  /@tanstack/query-devtools@5.24.0:
-    resolution: {integrity: sha512-pThim455t69zrZaQKa7IRkEIK8UBTS+gHVAdNfhO72Xh4rWpMc63ovRje5/n6iw63+d6QiJzVadsJVdPoodSeQ==}
-    dev: false
-
-  /@tanstack/solid-query-devtools@5.24.1(@tanstack/solid-query@5.24.1)(solid-js@1.8.15):
-    resolution: {integrity: sha512-It3yb7a8DjlYJTLet7FtMknmKz5W3IV4HO6bzAYVRnWlmrOrxX3BhhFsMMTenUQAyv2aTU2qEfScHa38jdedgQ==}
-    peerDependencies:
-      '@tanstack/solid-query': ^5.24.1
-      solid-js: ^1.8.14
-    dependencies:
-      '@tanstack/query-devtools': 5.24.0
-      '@tanstack/solid-query': 5.24.1(solid-js@1.8.15)
-      solid-js: 1.8.15
-    dev: false
-
   /@tanstack/solid-query@5.24.1(solid-js@1.8.15):
     resolution: {integrity: sha512-06jJ6ddBqmMDRjWbLMq8gB0ojOQFVB/3tOLPdRhjzeluOvUXUnq/obaLYMc+KRGCkywO7oXuyNYYSVvucyLyFQ==}
     peerDependencies:
@@ -729,8 +711,8 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
-  /@types/node@20.11.20:
-    resolution: {integrity: sha512-7/rR21OS+fq8IyHTgtLkDK949uzsa6n8BkziAKtPVpugIkO6D+/ooXMvzXxDnZrmtXVfjb1bKQafYpb8s89LOg==}
+  /@types/node@20.11.21:
+    resolution: {integrity: sha512-/ySDLGscFPNasfqStUuWWPfL78jompfIoVzLJPVVAHBh6rpG68+pI2Gk+fNLeI8/f1yPYL4s46EleVIc20F1Ow==}
     dependencies:
       undici-types: 5.26.5
 
@@ -2956,7 +2938,7 @@ packages:
       '@solid-devtools/debugger': 0.23.3(solid-js@1.8.15)
       '@solid-devtools/shared': 0.13.1(solid-js@1.8.15)
       solid-js: 1.8.15
-      vite: 3.2.8(@types/node@20.11.20)
+      vite: 3.2.8(@types/node@20.11.21)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3282,13 +3264,13 @@ packages:
       merge-anything: 5.1.7
       solid-js: 1.8.15
       solid-refresh: 0.6.3(solid-js@1.8.15)
-      vite: 3.2.8(@types/node@20.11.20)
+      vite: 3.2.8(@types/node@20.11.21)
       vitefu: 0.2.5(vite@3.2.8)
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite@3.2.8(@types/node@20.11.20):
+  /vite@3.2.8(@types/node@20.11.21):
     resolution: {integrity: sha512-EtQU16PLIJpAZol2cTLttNP1mX6L0SyI0pgQB1VOoWeQnMSvtiwovV3D6NcjN8CZQWWyESD2v5NGnpz5RvgOZA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -3313,7 +3295,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.11.20
+      '@types/node': 20.11.21
       esbuild: 0.15.18
       postcss: 8.4.35
       resolve: 1.22.8
@@ -3329,7 +3311,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 3.2.8(@types/node@20.11.20)
+      vite: 3.2.8(@types/node@20.11.21)
     dev: true
 
   /which-boxed-primitive@1.0.2:

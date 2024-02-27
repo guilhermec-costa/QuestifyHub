@@ -15,7 +15,7 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 const queryClient = new QueryClient();
 
 render(() => 
-    <QueryClientProvider client={queryClient}>
-        <App />
-    </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+            <App />
+        </QueryClientProvider>
 , root!);
