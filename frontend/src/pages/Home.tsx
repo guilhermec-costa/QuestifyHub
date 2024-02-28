@@ -25,7 +25,7 @@ const Home: Component = () => {
     const fetchURIsContent = async () => {
         return await api.get("/scrape", {
             params: {
-                scrapeOn: routesToScrape().slice(0, 5)
+                scrapeOn: routesToScrape()
             }
         });
     };
