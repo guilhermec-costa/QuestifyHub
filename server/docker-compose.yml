@@ -8,6 +8,15 @@ services:
       - 27017:27017
     volumes:
       - mongo_db:/data/db
+  redis:
+    image: bitnami/redis:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6380:6379"
+    volumes:
+      - "scrape_data:/bitnami/redis/data"
 
 volumes:
   mongo_db:
+  scrape_data:
