@@ -1,5 +1,4 @@
-import { Component, For, Show, createEffect, createSignal } from "solid-js";
-import { createQuery } from "@tanstack/solid-query";
+import { Component, For, Show, createEffect, createSignal, createResource, Switch, Match } from "solid-js";
 import { checkAuthentication } from "../utils/auth";
 import { useNavigate } from "@solidjs/router";
 import { Telescope } from "lucide-solid";
@@ -10,6 +9,7 @@ import { ChevronsDown, ChevronsUp } from "lucide-solid";
 import data from "../data.json";
 import { createStore } from "solid-js/store";
 import "./style.css";
+import PulseLoading from "../components/PulseLoading";
 
 const Home: Component = () => {
     const navigator = useNavigate();
@@ -17,9 +17,20 @@ const Home: Component = () => {
     const jwt = localStorage.getItem("token");
     const [searchItems, setSearchItems] = createStore<Object[]>([]);
     const [isCustomSearchExpanded, setIsCustomSearchExpanded] = createSignal<boolean>(false);
+    const [routesToScrape, setRoutesToScrape] = createSignal<string[]>([]);
     checkAuthentication(navigator);
 
-    let searchRef: HTMLInputElement;
+    let searchRef: HTMLInputElement|undefined;
+
+    const fetchURIsContent = async () => {
+        return await api.get("/scrape", {
+            params: {
+                scrapeOn: routesToScrape().slice(0, 5)
+            }
+        });
+    };
+
+    const [pagesContent, {mutate, refetch}] = createResource(fetchURIsContent);
 
     createEffect(async () => {
         try {
@@ -36,26 +47,9 @@ const Home: Component = () => {
         event.preventDefault();
         try {
             const { items: searchItems } = data;
-            let routesToScrape = searchItems.map(item => encodeURIComponent(item.formattedUrl));
-            console.log(routesToScrape);
-            const scrapeTest = await api.get("/scrape", {
-                params: {
-                    scrapeOn: routesToScrape.slice(0, 5)
-                }
-            });
-
-            /* const pagesContent = createQuery(() => ({ */
-            /*     queryKey: ["pagesContent"], */
-            /*     queryFn:  async () => { */
-            /*         return await api.get("/scrape", { */
-            /*             params: { scrapeOn: routesToScrape.slice(0, 5) } */
-            /*         }); */
-            /*     }})) */
-            const query = createQuery(() => ({
-                queryKey: ['todos'],
-                queryFn: () => console.log("oi"),
-              }));
-            console.log(query);
+            let encodedRoutes = searchItems.map(item => encodeURIComponent(item.formattedUrl));
+            setRoutesToScrape(encodedRoutes);
+            refetch();
             setSearchItems(searchItems);
         } catch(err) {
             console.log(err);
@@ -86,24 +80,30 @@ const Home: Component = () => {
                             <p class="p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus vero earum quae numquam vel! Fugiat, molestias quibusdam neque repellendus debitis dolorum. Veniam consectetur tenetur omnis ex cupiditate, ratione libero ullam.</p></div>
                    </label>
                 </div>
-                <div class="mt-10 rounded-lg">
-                {searchItems.length > 0 && (
-                    <h2 class="text-[#ffffff] text-2xl">{searchItems.length} items displayed</h2>
-                )}
-                    {/* <PulseLoading /> */}
-                    <Show when={searchItems}>
-                        <For each={searchItems}>
-                            {(search:any, i) => (
-                                    <SearchItem
-                                        displayLink={search.link}
-                                        snippet={search.snippet}
-                                        title={search.title}
-                                        position={i()}
-                                        lastPosition={searchItems.length}
-                                    />
-                            )}
-                        </For>
-                    </Show>
+                <div class="mt-10 rounded-lg w-[70%]">
+                {pagesContent.loading ?
+                <For each={Array(6)}>
+                    {(number, i) => (<PulseLoading />)}
+                </For>:
+                 pagesContent.error ? null :
+                 pagesContent() ? (
+                 <>
+                    {searchItems.length > 0 && (
+                        <h2 class="text-[#ffffff] text-2xl">{searchItems.length} items displayed</h2>
+                    )}
+                    <For each={searchItems}>
+                        {(search:any, i) => (
+                                <SearchItem
+                                    displayLink={search.link}
+                                    snippet={search.snippet}
+                                    title={search.title}
+                                    position={i()}
+                                    lastPosition={searchItems.length}
+                                />
+                        )}
+                    </For>
+                 </>
+                 ) : null}
                 </div>
             </div>
         </div>
