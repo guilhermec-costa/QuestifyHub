@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Request, Response } from "express";
-import { load, CheerioAPI, Cheerio } from "cheerio";
+import { load, CheerioAPI } from "cheerio";
 import redis from "lib/redis";
 
 type TScrape = {
@@ -18,22 +18,20 @@ const importantTags:string[] = [
 ];
 
 class Scraper {
-    public async getRawHTML(req:Request, res:Response) {
+    public async scrape(req:Request, res:Response) {
         const data:TScrape = req.query as TScrape;
 
         try {
             const decodedScrapeURIs:string[] = data.scrapeOn.map(uri => decodeURIComponent(uri));
-            const requests = decodedScrapeURIs.map(async (uri) => {
-                const { data:content } = await axios.get(uri);
-                return content;
-            });
-            const URIsContent = await Promise.all(requests);
-            Scraper.cacheRawHTML(URIsContent);
+            const requests = decodedScrapeURIs.map(
+                                    async (uri) => await axios.get(uri).then(response => response.data));
 
+            const URIsContent = await Promise.all(requests);
 
             for(let i=0; i<URIsContent.length; ++i) {
                 const preLoadedSpider = Scraper.loadDocumentToScrape(URIsContent.at(i));
-                const scrapedContent = Scraper.scrapeDocument(preLoadedSpider, importantTags);
+                const scrapedContent = Scraper.scrapeDocument(preLoadedSpider, importantTags, i);
+                Scraper.cacheScrapedDocument(i, scrapedContent);
             };
 
             return res.status(200).json({content: URIsContent});
@@ -46,25 +44,16 @@ class Scraper {
         return load(documentContent);
     }
 
-    private static scrapeDocument(spider:CheerioAPI, allowedSelectors:string[]) {
-        let mappedContent = allowedSelectors.reduce((target, current) => {
-            target[current] = "";
+    private static cacheScrapedDocument(documentId:number, scrapedDocument:Record<string, string>) {
+        redis.hset(documentId.toString(), scrapedDocument);
+    }
+
+    private static scrapeDocument(spider:CheerioAPI, allowedSelectors:string[], documentId:number) {
+        let mappedContent = allowedSelectors.reduce((target, currentSelector) => {
+            target[currentSelector] = spider(currentSelector).text();
             return target;
         }, {} as Record<string, string>)
-        for(const selector of allowedSelectors) {
-            if(selector==="span") {
-                const scrapedContent = spider(selector).text();
-                console.log(scrapedContent);
-            }
-        }
-        return "ALOOOOOOOOOOOOO";
-    }
-    
-    private static async cacheRawHTML(contents:string[]) {
-        const URIS_CONTENT_CACHE:string = "uris_cache_content";
-        for(let i=0; i<contents.length; ++i) {
-            redis.lpush(URIS_CONTENT_CACHE, contents[i]);
-        }
+        return mappedContent;
     }
 
     public async getCachedRawHTML(req:Request, res:Response) {
