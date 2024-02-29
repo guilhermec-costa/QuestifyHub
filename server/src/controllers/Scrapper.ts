@@ -18,7 +18,7 @@ const importantTags:string[] = [
 ];
 
 class Scraper {
-    public async scrape(req:Request, res:Response) {
+    public async startCrawlingProcess(req:Request, res:Response) {
         const data:TScrape = req.query as TScrape;
 
         try {
@@ -31,10 +31,11 @@ class Scraper {
             for(let i=0; i<URIsContent.length; ++i) {
                 const preLoadedSpider = Scraper.loadDocumentToScrape(URIsContent.at(i));
                 const scrapedContent = Scraper.scrapeDocument(preLoadedSpider, importantTags, i);
-                Scraper.cacheScrapedDocument(i, scrapedContent);
+                await Scraper.cacheScrapedDocument(i, scrapedContent);
             };
-
-            return res.status(200).json({content: URIsContent});
+            
+            const everythingScraped = await Scraper.getAllScrapedDocuments([...Array(5).keys()]);
+            return res.status(200).json({content: everythingScraped});
         } catch(err) {
             return res.status(400).json({message: err});
         }
@@ -44,8 +45,21 @@ class Scraper {
         return load(documentContent);
     }
 
-    private static cacheScrapedDocument(documentId:number, scrapedDocument:Record<string, string>) {
-        redis.hset(documentId.toString(), scrapedDocument);
+    private static async cacheScrapedDocument(documentId:number, scrapedDocument:Record<string, string>) {
+        await redis.hset(documentId.toString(), scrapedDocument);
+        return;
+    }
+
+    private static async getScrapedDocument(documentId:number) {
+        return await redis.hgetall(documentId.toString());
+    }
+
+    private static async getAllScrapedDocuments(documentsIds:number[]) {
+        const allScrapes = await Promise.all(
+            documentsIds.map(async (id) => await Scraper.getScrapedDocument(id))
+        );
+
+        return allScrapes;
     }
 
     private static scrapeDocument(spider:CheerioAPI, allowedSelectors:string[], documentId:number) {

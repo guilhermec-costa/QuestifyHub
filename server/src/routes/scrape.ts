@@ -3,7 +3,6 @@ import ScrapeController from "../controllers/Scrapper";
 
 const router = Router();
 
-router.get("/scrape", ScrapeController.scrape);
-router.get("/scrape/cachedContents", ScrapeController.getCachedRawHTML);
+router.get("/scrape", ScrapeController.startCrawlingProcess);
 
 export default router;
