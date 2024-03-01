@@ -7,21 +7,32 @@ type TScrape = {
     scrapeOn: string[]
 }
 
-const importantTags:string[] = [
+const selectors:string[] = [
     "p",
-    "h1", "h2",
-    "h3", "h4", "h5",
-    "h6", "ul", "ol", "li",
-    "a", "span", "article",
-    "section", "img", "title"
+    "h1", 
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "ul",
+    "ol",
+    "li",
+    "span",
+    "article",
+    "section"
 ];
 
 class Scraper {
     public async startCrawlingProcess(req:Request, res:Response) {
         const data:TScrape = req.query as TScrape;
+        console.log(data);
+        const decodedScrapeURIs:string[] = data.scrapeOn.map(uri => decodeURIComponent(uri));
 
         try {
-            const decodedScrapeURIs:string[] = data.scrapeOn.map(uri => decodeURIComponent(uri));
+            const cachedScrapedDocuments = await Scraper.getAllScrapedDocuments([...Array(decodedScrapeURIs.length).keys()]);
+            return res.status(200).json(cachedScrapedDocuments);
+        } catch(err) {
             const requests = decodedScrapeURIs.map(
                                     async (uri) => await axios.get(uri).then(response => response.data));
 
@@ -29,14 +40,12 @@ class Scraper {
 
             for(let i=0; i<URIsContent.length; ++i) {
                 const preLoadedSpider = Scraper.loadDocumentToScrape(URIsContent.at(i));
-                const scrapedContent = Scraper.scrapeDocument(preLoadedSpider, importantTags);
+                const scrapedContent = Scraper.scrapeDocument(preLoadedSpider, selectors);
                 await Scraper.cacheScrapedDocument(i, scrapedContent);
             };
             
             const everythingScraped = await Scraper.getAllScrapedDocuments([...Array(decodedScrapeURIs.length).keys()]);
-            return res.status(200).json({content: everythingScraped});
-        } catch(err) {
-            return res.status(400).json({message: err});
+            return res.status(400).json(everythingScraped);
         }
     };
 
@@ -60,18 +69,22 @@ class Scraper {
         const allScrapes = await Promise.all(
             documentsIds.map(async (id) => await Scraper.getScrapedDocument(id))
         );
-
-        return allScrapes;
+        return allScrapes; 
     }
 
     private static scrapeDocument(spider:CheerioAPI, allowedSelectors:string[]) {
         let mappedContent = allowedSelectors.reduce((target, currentSelector) => {
             const tagOccurencies = spider(currentSelector).get();
-            target[currentSelector] = tagOccurencies.map(occurency => spider(occurency).text());
+            target[currentSelector] = tagOccurencies.map(occurency => Scraper.cleanScrapeContent(spider(occurency).text()))
+                                                    .filter(ocurrency => ocurrency !== "");
             return target;
-        }, {} as Record<string, string[]>)
+        }, {} as Record<string, string[]>);
         return mappedContent;
     }
+
+   private static cleanScrapeContent(content:string) {
+        return content.replace(/\s+/g, " ").trim();
+    };
 }
 
 export default new Scraper();

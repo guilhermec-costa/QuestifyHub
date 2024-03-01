@@ -25,7 +25,7 @@ const Home: Component = () => {
     const fetchURIsContent = async () => {
         return await api.get("/scrape", {
             params: {
-                scrapeOn: routesToScrape().slice(0, 6)
+                scrapeOn: routesToScrape().slice(0, 10)
             }
         });
     };
@@ -48,10 +48,13 @@ const Home: Component = () => {
         try {
             const { items: searchItems } = data;
             let encodedRoutes = searchItems.map(item => encodeURIComponent(item.formattedUrl));
+            console.log(encodedRoutes);
             setRoutesToScrape(encodedRoutes);
             const response = await refetch();
-            console.log(response?.data.content);
-            console.log(JSON.parse(response?.data.content))
+            console.log(response);
+            /* for(let i=0;i<response?.data.length;++i) { */
+            /*     console.log(JSON.parse(response?.data[i])) */
+            /* } */
             setSearchItems(searchItems);
         } catch(err:any) {
             throw new Error(err.message);
