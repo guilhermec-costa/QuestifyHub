@@ -13,8 +13,7 @@ const importantTags:string[] = [
     "h3", "h4", "h5",
     "h6", "ul", "ol", "li",
     "a", "span", "article",
-    "section", "img", "legend",
-    "figcaption", "title"
+    "section", "img", "title"
 ];
 
 class Scraper {
@@ -30,11 +29,11 @@ class Scraper {
 
             for(let i=0; i<URIsContent.length; ++i) {
                 const preLoadedSpider = Scraper.loadDocumentToScrape(URIsContent.at(i));
-                const scrapedContent = Scraper.scrapeDocument(preLoadedSpider, importantTags, i);
+                const scrapedContent = Scraper.scrapeDocument(preLoadedSpider, importantTags);
                 await Scraper.cacheScrapedDocument(i, scrapedContent);
             };
             
-            const everythingScraped = await Scraper.getAllScrapedDocuments([...Array(5).keys()]);
+            const everythingScraped = await Scraper.getAllScrapedDocuments([...Array(decodedScrapeURIs.length).keys()]);
             return res.status(200).json({content: everythingScraped});
         } catch(err) {
             return res.status(400).json({message: err});
@@ -45,13 +44,16 @@ class Scraper {
         return load(documentContent);
     }
 
-    private static async cacheScrapedDocument(documentId:number, scrapedDocument:Record<string, string>) {
-        await redis.hset(documentId.toString(), scrapedDocument);
+    private static async cacheScrapedDocument(documentId:number, scrapedDocument:Record<string, string[]>) {
+        const stringifiedMap = JSON.stringify(scrapedDocument);
+        await redis.set(documentId.toString(), stringifiedMap, (err, ok) => {
+            console.log(err ? `Error: ${err}` : `Success: ${ok}`);
+        });
         return;
     }
 
     private static async getScrapedDocument(documentId:number) {
-        return await redis.hgetall(documentId.toString());
+        return await redis.get(documentId.toString());
     }
 
     private static async getAllScrapedDocuments(documentsIds:number[]) {
@@ -62,17 +64,13 @@ class Scraper {
         return allScrapes;
     }
 
-    private static scrapeDocument(spider:CheerioAPI, allowedSelectors:string[], documentId:number) {
+    private static scrapeDocument(spider:CheerioAPI, allowedSelectors:string[]) {
         let mappedContent = allowedSelectors.reduce((target, currentSelector) => {
-            target[currentSelector] = spider(currentSelector).text();
+            const tagOccurencies = spider(currentSelector).get();
+            target[currentSelector] = tagOccurencies.map(occurency => spider(occurency).text());
             return target;
-        }, {} as Record<string, string>)
+        }, {} as Record<string, string[]>)
         return mappedContent;
-    }
-
-    public async getCachedRawHTML(req:Request, res:Response) {
-        const cachedContent = await redis.lrange("uris_cache_content", 0, -1);
-        return res.status(200).json(cachedContent);
     }
 }
 
