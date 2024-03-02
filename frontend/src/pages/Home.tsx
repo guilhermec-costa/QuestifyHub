@@ -60,6 +60,17 @@ const Home: Component = () => {
         }
     };
 
+    const clearCachedContent = async () => {
+        console.log("cleaning");
+        try {
+            await api.post("/clearCachedContent", {
+                documentsId: [...Array(routesToScrape().length).keys()]
+            });
+        } catch(err) {
+            console.log("Error on cleaninn cache");
+        }
+    }
+
     return (
         <div class="min-h-screen bg-[#0D1821] relative">
             <HomeProfileMenu />
@@ -84,7 +95,7 @@ const Home: Component = () => {
                                 <p class="p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus vero earum quae numquam vel! Fugiat, molestias quibusdam neque repellendus debitis dolorum. Veniam consectetur tenetur omnis ex cupiditate, ratione libero ullam.</p></div>
                        </label>
                     </div>
-                    <button class="bg-[#ff983f] px-2 rounded-md w-1/5 mt-[20px]">Clear cache</button>
+                    <button class="bg-[#ff983f] px-2 rounded-md w-1/5 mt-[20px]" onClick={clearCachedContent}>Clear cache</button>
                 <div class="mt-10 rounded-lg w-[70%]">
                 {pagesContent.loading ?
                 <For each={Array(6)}>

@@ -3,8 +3,12 @@ import { Request, Response } from "express";
 import { load, CheerioAPI } from "cheerio";
 import redis from "lib/redis";
 
-type TScrape = {
+type TScrapeParams = {
     scrapeOn: string[]
+}
+
+type TClearCacheParams = {
+    documentsId:string[]
 }
 
 const selectors:string[] = [
@@ -25,13 +29,13 @@ const selectors:string[] = [
 
 class Scraper {
     public async startCrawlingProcess(req:Request, res:Response) {
-        const data:TScrape = req.query as TScrape;
-        console.log(data);
+        const data:TScrapeParams = req.query as TScrapeParams;
+        if(!Object.keys(data).length) return res.sendStatus(400);
         const decodedScrapeURIs:string[] = data.scrapeOn.map(uri => decodeURIComponent(uri));
 
         try {
-            const cachedScrapedDocuments = await Scraper.getAllScrapedDocuments([...Array(decodedScrapeURIs.length).keys()]);
-            return res.status(200).json(cachedScrapedDocuments);
+            const cachedScrapedContent = await Scraper.getAllScrapedDocuments([...Array(decodedScrapeURIs.length).keys()]);
+            return res.status(200).json(cachedScrapedContent);
         } catch(err) {
             const requests = decodedScrapeURIs.map(
                                     async (uri) => await axios.get(uri).then(response => response.data));
@@ -45,7 +49,7 @@ class Scraper {
             };
             
             const everythingScraped = await Scraper.getAllScrapedDocuments([...Array(decodedScrapeURIs.length).keys()]);
-            return res.status(400).json(everythingScraped);
+            return res.status(200).json({content: everythingScraped});
         }
     };
 
@@ -54,8 +58,9 @@ class Scraper {
     }
 
     private static async cacheScrapedDocument(documentId:number, scrapedDocument:Record<string, string[]>) {
-        const stringifiedMap = JSON.stringify(scrapedDocument);
-        await redis.set(documentId.toString(), stringifiedMap, (err, ok) => {
+        const filteredScrapedDocument = scrapedDocument[documentId].filter(i => i.length > 1);
+        const stringifiedContent = JSON.stringify(filteredScrapedDocument);
+        await redis.set(documentId.toString(), stringifiedContent, (err, ok) => {
             console.log(err ? `Error: ${err}` : `Success: ${ok}`);
         });
         return;
@@ -69,22 +74,28 @@ class Scraper {
         const allScrapes = await Promise.all(
             documentsIds.map(async (id) => await Scraper.getScrapedDocument(id))
         );
+
         return allScrapes; 
     }
-
     private static scrapeDocument(spider:CheerioAPI, allowedSelectors:string[]) {
         let mappedContent = allowedSelectors.reduce((target, currentSelector) => {
             const tagOccurencies = spider(currentSelector).get();
-            target[currentSelector] = tagOccurencies.map(occurency => Scraper.cleanScrapeContent(spider(occurency).text()))
+            target[currentSelector] = tagOccurencies.map(occurency => Scraper.cleanScrapedString(spider(occurency).text()))
                                                     .filter(ocurrency => ocurrency !== "");
             return target;
         }, {} as Record<string, string[]>);
         return mappedContent;
     }
 
-   private static cleanScrapeContent(content:string) {
+    private static cleanScrapedString(content:string) {
         return content.replace(/\s+/g, " ").trim();
     };
+
+    public async clearDocumentsCache(req:Request, res:Response) {
+        const params:TClearCacheParams = req.body as TClearCacheParams;
+        await Promise.all(params.documentsId.map(async (id) => await redis.del(id)))
+        return res.sendStatus(200);
+    }
 }
 
 export default new Scraper();
