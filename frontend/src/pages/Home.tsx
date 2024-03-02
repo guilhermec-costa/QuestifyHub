@@ -1,11 +1,10 @@
 import { Component, For, Show, createEffect, createSignal, createResource, Switch, Match } from "solid-js";
 import { checkAuthentication } from "../utils/auth";
 import { useNavigate } from "@solidjs/router";
-import { Telescope } from "lucide-solid";
+import { Telescope, Eraser, ChevronsUp, ChevronsDown, SlidersHorizontal } from "lucide-solid";
 import { api } from "../lib/axios";
 import HomeProfileMenu from "../components/HomeProfileMenu";
 import SearchItem from "../components/SearchItem";
-import { ChevronsDown, ChevronsUp } from "lucide-solid";
 import data from "../data.json";
 import { createStore } from "solid-js/store";
 import "./style.css";
@@ -47,12 +46,17 @@ const Home: Component = () => {
     const handleSearch = async (event:Event) => {
         event.preventDefault();
         try {
-            const { items: searchItems } = data;
+            const searchResponse = await api.get("/search", {
+                params: {
+                    q: searchRef?.value
+                }
+            });
+            const {items:searchItems} = searchResponse.data;
             let encodedRoutes = searchItems.map(item => encodeURIComponent(item.formattedUrl));
             setRoutesToScrape(encodedRoutes);
             const response = await refetch();
             for(let i=0;i<response?.data.length;++i) {
-                console.log(JSON.parse(response?.data[i]))
+                /* console.log(JSON.parse(response?.data[i])) */
             }
             setSearchItems(searchItems);
         } catch(err:any) {
@@ -82,10 +86,10 @@ const Home: Component = () => {
                         <Telescope width={48} height={30} class="hover:cursor-pointer absolute right-2 z-20" color="#344966" onClick={handleSearch}/>
                     </form>
                     <div class="w-full relative mx-auto">
-                        <div class="mt-[20px] w-[75%] bg-slate-700 rounded-sm inline-block">
+                        <div class="mt-[20px] w-[80%] bg-slate-700 rounded-sm inline-block">
                             <label class="cursor-pointer" >
                                 <div class="flex justify-between items-center px-2" onClick={() => setIsCustomSearchExpanded(prev => !prev)}>
-                                    <h4 class="p-2 text-[#F0F4EF]">Customize your search</h4>
+                                    <h4 class="p-2 text-[#F0F4EF] flex gap-x-3 items-center">Customize your search<SlidersHorizontal width={18}/></h4>
                                     {!isCustomSearchExpanded() ? (
                                         <ChevronsDown color="#ffffff"/>
                                     ) : (
@@ -97,7 +101,10 @@ const Home: Component = () => {
                                     <p class="p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus vero earum quae numquam vel! Fugiat, molestias quibusdam neque repellendus debitis dolorum. Veniam consectetur tenetur omnis ex cupiditate, ratione libero ullam.</p></div>
                            </label>
                         </div>
-                        <button class="text-[#0D1821] bg-[#BFCC94] p-2 rounded-md w-1/5 absolute top-[20px] right-0" onClick={clearCachedContent}>Clear cache</button>
+                        <button class="text-[#0D1821] bg-[#BFCC94] p-2 rounded-md w-[18%] absolute top-[20px] right-0 flex justify-center items-center gap-x-2" onClick={clearCachedContent}>
+                            Clear cache
+                            <Eraser width={18} color="#0d1821" strokeWidth={1.6}/>
+                        </button>
                     </div>
                 </div>
                 <div class="mt-10 rounded-lg w-[70%]">
