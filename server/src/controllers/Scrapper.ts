@@ -35,8 +35,13 @@ class Scraper {
 
         try {
             const cachedScrapedContent = await Scraper.getAllScrapedDocuments([...Array(decodedScrapeURIs.length).keys()]);
+            console.log(cachedScrapedContent);
+            if(cachedScrapedContent.every(content => content === undefined)) {
+                throw new Error("Not possible to get cache");
+            };
             return res.status(200).json(cachedScrapedContent);
         } catch(err) {
+            console.log(err);
             const requests = decodedScrapeURIs.map(
                                     async (uri) => await axios.get(uri).then(response => response.data));
 
@@ -58,8 +63,8 @@ class Scraper {
     }
 
     private static async cacheScrapedDocument(documentId:number, scrapedDocument:Record<string, string[]>) {
-        const filteredScrapedDocument = scrapedDocument[documentId].filter(i => i.length > 1);
-        const stringifiedContent = JSON.stringify(filteredScrapedDocument);
+        /* const filteredScrapedDocument = scrapedDocument[documentId].filter(i => i.length > 1); */
+        const stringifiedContent = JSON.stringify(scrapedDocument);
         await redis.set(documentId.toString(), stringifiedContent, (err, ok) => {
             console.log(err ? `Error: ${err}` : `Success: ${ok}`);
         });
@@ -67,7 +72,9 @@ class Scraper {
     }
 
     private static async getScrapedDocument(documentId:number) {
-        return await redis.get(documentId.toString());
+        const content = await redis.get(documentId.toString());
+        if(content) return content;
+        return;
     }
 
     private static async getAllScrapedDocuments(documentsIds:number[]) {

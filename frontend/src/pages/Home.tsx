@@ -75,33 +75,38 @@ const Home: Component = () => {
         <div class="min-h-screen bg-[#0D1821] relative">
             <HomeProfileMenu />
             <div class="min-w-4/5 mx-auto flex flex-col justify-center items-center">
-                <form method="post" class="w-[40%] mt-[200px] relative flex justify-between items-center" onSubmit={handleSearch}>
-                    <input type="text" ref={searchRef}
-                       placeholder="Type anything" class="pl-6 py-3 min-w-full rounded-md text-xl outline-none hover:outline-none border-3 border-[#cccbc8]"/>
-                    <Telescope width={48} height={30} class="hover:cursor-pointer absolute right-2 z-20" color="#344966" onClick={handleSearch}/>
-                </form>
-                    <div class="mt-[20px] w-[35%] bg-slate-700 rounded-sm">
-                        <label class="cursor-pointer" >
-                            <div class="flex justify-between items-center px-2" onClick={() => setIsCustomSearchExpanded(prev => !prev)}>
-                                <h4 class="p-2 text-[#F0F4EF]">Customize your search</h4>
-                                {!isCustomSearchExpanded() ? (
-                                    <ChevronsDown color="#ffffff"/>
-                                ) : (
-                                    <ChevronsUp color="#ffffff" />
-                                )}
-                            </div>
-                            <input type="checkbox"/>
-                                <div class="collapsed">
-                                <p class="p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus vero earum quae numquam vel! Fugiat, molestias quibusdam neque repellendus debitis dolorum. Veniam consectetur tenetur omnis ex cupiditate, ratione libero ullam.</p></div>
-                       </label>
+                <div class="w-[45%]">
+                    <form method="post" class="w-full mt-[200px] relative flex justify-between items-center" onSubmit={handleSearch}>
+                        <input type="text" ref={searchRef}
+                           placeholder="Type anything" class="pl-6 py-3 min-w-full rounded-md text-xl outline-none hover:outline-none border-3 border-[#cccbc8]"/>
+                        <Telescope width={48} height={30} class="hover:cursor-pointer absolute right-2 z-20" color="#344966" onClick={handleSearch}/>
+                    </form>
+                    <div class="w-full relative mx-auto">
+                        <div class="mt-[20px] w-[75%] bg-slate-700 rounded-sm inline-block">
+                            <label class="cursor-pointer" >
+                                <div class="flex justify-between items-center px-2" onClick={() => setIsCustomSearchExpanded(prev => !prev)}>
+                                    <h4 class="p-2 text-[#F0F4EF]">Customize your search</h4>
+                                    {!isCustomSearchExpanded() ? (
+                                        <ChevronsDown color="#ffffff"/>
+                                    ) : (
+                                        <ChevronsUp color="#ffffff" />
+                                    )}
+                                </div>
+                                <input type="checkbox"/>
+                                    <div class="collapsed">
+                                    <p class="p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus vero earum quae numquam vel! Fugiat, molestias quibusdam neque repellendus debitis dolorum. Veniam consectetur tenetur omnis ex cupiditate, ratione libero ullam.</p></div>
+                           </label>
+                        </div>
+                        <button class="text-[#0D1821] bg-[#BFCC94] p-2 rounded-md w-1/5 absolute top-[20px] right-0" onClick={clearCachedContent}>Clear cache</button>
                     </div>
-                    <button class="bg-[#ff983f] px-2 rounded-md w-1/5 mt-[20px]" onClick={clearCachedContent}>Clear cache</button>
+                </div>
                 <div class="mt-10 rounded-lg w-[70%]">
-                {pagesContent.loading ?
+                {
+                pagesContent.error ? null :
+                pagesContent.loading ?
                 <For each={Array(6)}>
                     {(number, i) => (<PulseLoading />)}
                 </For>:
-                 pagesContent.error ? null :
                  pagesContent() ? (
                  <>
                     {searchItems.length > 0 && (
