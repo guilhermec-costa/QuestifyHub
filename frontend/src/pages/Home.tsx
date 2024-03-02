@@ -23,9 +23,10 @@ const Home: Component = () => {
     let searchRef: HTMLInputElement|undefined;
 
     const fetchURIsContent = async () => {
+        setRoutesToScrape(routesToScrape().length > 0 ? routesToScrape() : []);
         return await api.get("/scrape", {
             params: {
-                scrapeOn: routesToScrape().slice(0, 10)
+                scrapeOn: routesToScrape()
             }
         });
     };
@@ -48,13 +49,11 @@ const Home: Component = () => {
         try {
             const { items: searchItems } = data;
             let encodedRoutes = searchItems.map(item => encodeURIComponent(item.formattedUrl));
-            console.log(encodedRoutes);
             setRoutesToScrape(encodedRoutes);
             const response = await refetch();
-            console.log(response);
-            /* for(let i=0;i<response?.data.length;++i) { */
-            /*     console.log(JSON.parse(response?.data[i])) */
-            /* } */
+            for(let i=0;i<response?.data.length;++i) {
+                console.log(JSON.parse(response?.data[i]))
+            }
             setSearchItems(searchItems);
         } catch(err:any) {
             throw new Error(err.message);
@@ -70,21 +69,22 @@ const Home: Component = () => {
                        placeholder="Type anything" class="pl-6 py-3 min-w-full rounded-md text-xl outline-none hover:outline-none border-3 border-[#cccbc8]"/>
                     <Telescope width={48} height={30} class="hover:cursor-pointer absolute right-2 z-20" color="#344966" onClick={handleSearch}/>
                 </form>
-                <div class="mt-[20px] w-[35%] bg-slate-700 rounded-sm">
-                    <label class="cursor-pointer" >
-                        <div class="flex justify-between items-center px-2" onClick={() => setIsCustomSearchExpanded(prev => !prev)}>
-                            <h4 class="p-2 text-[#F0F4EF]">Customize your search</h4>
-                            {!isCustomSearchExpanded() ? (
-                                <ChevronsDown color="#ffffff"/>
-                            ) : (
-                                <ChevronsUp color="#ffffff" />
-                            )}
-                        </div>
-                        <input type="checkbox"/>
-                            <div class="collapsed">
-                            <p class="p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus vero earum quae numquam vel! Fugiat, molestias quibusdam neque repellendus debitis dolorum. Veniam consectetur tenetur omnis ex cupiditate, ratione libero ullam.</p></div>
-                   </label>
-                </div>
+                    <div class="mt-[20px] w-[35%] bg-slate-700 rounded-sm">
+                        <label class="cursor-pointer" >
+                            <div class="flex justify-between items-center px-2" onClick={() => setIsCustomSearchExpanded(prev => !prev)}>
+                                <h4 class="p-2 text-[#F0F4EF]">Customize your search</h4>
+                                {!isCustomSearchExpanded() ? (
+                                    <ChevronsDown color="#ffffff"/>
+                                ) : (
+                                    <ChevronsUp color="#ffffff" />
+                                )}
+                            </div>
+                            <input type="checkbox"/>
+                                <div class="collapsed">
+                                <p class="p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus vero earum quae numquam vel! Fugiat, molestias quibusdam neque repellendus debitis dolorum. Veniam consectetur tenetur omnis ex cupiditate, ratione libero ullam.</p></div>
+                       </label>
+                    </div>
+                    <button class="bg-[#ff983f] px-2 rounded-md w-1/5 mt-[20px]">Clear cache</button>
                 <div class="mt-10 rounded-lg w-[70%]">
                 {pagesContent.loading ?
                 <For each={Array(6)}>
