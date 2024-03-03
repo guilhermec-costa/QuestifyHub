@@ -2,7 +2,7 @@
 import { render } from 'solid-js/web';
 import './index.css';
 import App from './App';
-import { QueryClientProvider, QueryClient } from '@tanstack/solid-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
 
 
 const root = document.getElementById('root');

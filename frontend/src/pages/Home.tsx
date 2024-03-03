@@ -1,7 +1,7 @@
-import { Component, For, Show, createEffect, createSignal, createResource, Switch, Match } from "solid-js";
+import { Component, For, createEffect, createSignal, createResource, Switch, Match } from "solid-js";
 import { checkAuthentication } from "../utils/auth";
 import { useNavigate } from "@solidjs/router";
-import { Telescope, Eraser, ChevronsUp, ChevronsDown, SlidersHorizontal } from "lucide-solid";
+import { Telescope, Eraser, ChevronsUp, ChevronsDown, SlidersHorizontal, Loader } from "lucide-solid";
 import { api } from "../lib/axios";
 import HomeProfileMenu from "../components/HomeProfileMenu";
 import SearchItem from "../components/SearchItem";
@@ -17,12 +17,18 @@ const Home: Component = () => {
     const [searchItems, setSearchItems] = createStore<Object[]>([]);
     const [isCustomSearchExpanded, setIsCustomSearchExpanded] = createSignal<boolean>(false);
     const [routesToScrape, setRoutesToScrape] = createSignal<string[]>([]);
+    const [firstRender, setFirstRender] = createSignal<boolean>(true);
+    const [cleaningCacheState, setCleaningCacheState] = createSignal<boolean>(false);
     checkAuthentication(navigator);
 
     let searchRef: HTMLInputElement|undefined;
 
     const fetchURIsContent = async () => {
         setRoutesToScrape(routesToScrape().length > 0 ? routesToScrape() : []);
+        if(firstRender()) {
+            setFirstRender(false);
+            return;
+        }
         return await api.get("/scrape", {
             params: {
                 scrapeOn: routesToScrape()
@@ -46,12 +52,12 @@ const Home: Component = () => {
     const handleSearch = async (event:Event) => {
         event.preventDefault();
         try {
-            const searchResponse = await api.get("/search", {
-                params: {
-                    q: searchRef?.value
-                }
-            });
-            const {items:searchItems} = searchResponse.data;
+            /* const searchResponse = await api.get("/search", { */
+            /*     params: { */
+            /*         q: searchRef?.value */
+            /*     } */
+            /* }); */
+            const {items:searchItems} = data;
             let encodedRoutes = searchItems.map(item => encodeURIComponent(item.formattedUrl));
             setRoutesToScrape(encodedRoutes);
             const response = await refetch();
@@ -65,11 +71,12 @@ const Home: Component = () => {
     };
 
     const clearCachedContent = async () => {
-        console.log("cleaning");
         try {
+            setCleaningCacheState(true)
             await api.post("/clearCachedContent", {
                 documentsId: [...Array(routesToScrape().length).keys()]
-            });
+            }).then(() => setCleaningCacheState(false));
+            console.log("CLEANADO")
         } catch(err) {
             console.log("Error on cleaninn cache");
         }
@@ -101,7 +108,10 @@ const Home: Component = () => {
                                     <p class="p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus vero earum quae numquam vel! Fugiat, molestias quibusdam neque repellendus debitis dolorum. Veniam consectetur tenetur omnis ex cupiditate, ratione libero ullam.</p></div>
                            </label>
                         </div>
-                        <button class="text-[#0D1821] bg-[#BFCC94] p-2 rounded-md w-[18%] absolute top-[20px] right-0 flex justify-center items-center gap-x-2" onClick={clearCachedContent}>
+                        <button class="text-[#0D1821] bg-[#BFCC94] p-2 rounded-md w-[25%] absolute top-[20px] right-0 flex justify-center items-center gap-x-2" onClick={clearCachedContent}>
+                            {cleaningCacheState() && (
+                              <Loader class="animate-spin" width={16}/>  
+                            )}
                             Clear cache
                             <Eraser width={18} color="#0d1821" strokeWidth={1.6}/>
                         </button>
