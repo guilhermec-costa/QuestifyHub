@@ -22,9 +22,11 @@ const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, posit
                 <a href={displayLink} target="_blank">
                     {title}
                 </a>
-                {showBookmark() &&
-                    <BookmarkPlus class="cursor-pointer ml-3" color="#e9aa2b"/>
-                }
+                <div title="Add to favorites">
+                    {showBookmark() &&
+                        <BookmarkPlus class="cursor-pointer ml-3" color="#e9aa2b"/>
+                    }
+                </div>
             </h3>
             <p class="text-[#F0F4EF] text-lg ml-8 py-2">{snippet}</p>
         </div>

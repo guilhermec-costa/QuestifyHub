@@ -215,7 +215,7 @@ const Register: Component = () => {
                         class={`bg-[#2d2d2d] text-[#F0F4EF] p-2 rounded-md mt-3 hover:bg-[#2d2d2de5] ${hasErrors() ? "cursor-not-allowed" : "cursor-pointer"}`}
                         type="submit" value="Register" onClick={handleRegisterSubmition} />
                     </div>
-                    <p class="text-[#2d2d2d] text-sm mt-3">Already have an account? <span class="text-[#006fff] font-bold"><a href="/signin">Log In</a></span></p>
+                    <p class="text-[#2d2d2d] text-sm mt-3 mx-auto w-[98%]">Already have an account? <span class="text-[#006fff] font-bold"><a href="/signin">Log In</a></span></p>
                 </form>
             </div>
         </EntryPointModal>
