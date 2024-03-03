@@ -1,4 +1,5 @@
 import { Component, For, createEffect, createSignal, createResource, Switch, Match } from "solid-js";
+import toast, {Toaster} from "solid-toast";
 import { checkAuthentication } from "../utils/auth";
 import { useNavigate } from "@solidjs/router";
 import { Telescope, Eraser, ChevronsUp, ChevronsDown, SlidersHorizontal, Loader } from "lucide-solid";
@@ -19,6 +20,10 @@ const Home: Component = () => {
     const [routesToScrape, setRoutesToScrape] = createSignal<string[]>([]);
     const [firstRender, setFirstRender] = createSignal<boolean>(true);
     const [cleaningCacheState, setCleaningCacheState] = createSignal<boolean>(false);
+    const cachedSuccess = () => toast.success("Cache cleaned!", {
+        duration: 1700,
+        position: "bottom-right",
+    });
     checkAuthentication(navigator);
 
     let searchRef: HTMLInputElement|undefined;
@@ -76,7 +81,10 @@ const Home: Component = () => {
             setCleaningCacheState(true)
             await api.post("/clearCachedContent", {
                 documentsId: [...Array(routesToScrape().length).keys()]
-            }).then(() => setCleaningCacheState(false));
+            }).then(() => {
+                setCleaningCacheState(false);
+                cachedSuccess()
+            });
         } catch(err) {
             console.log("Error on cleaninn cache");
         }
@@ -112,6 +120,7 @@ const Home: Component = () => {
                             )}
                             Clear cache
                             <Eraser width={18} color="#0d1821" strokeWidth={1.6}/>
+                            <Toaster />
                         </button>
                     </div>
                 </div>
