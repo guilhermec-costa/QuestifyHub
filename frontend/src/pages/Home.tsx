@@ -11,6 +11,12 @@ import { createStore } from "solid-js/store";
 import "./style.css";
 import PulseLoading from "../components/PulseLoading";
 
+type TUserData = {
+    _id:string
+    country:string,
+    email:string
+}
+
 const Home: Component = () => {
     const navigator = useNavigate();
 
@@ -20,6 +26,7 @@ const Home: Component = () => {
     const [routesToScrape, setRoutesToScrape] = createSignal<string[]>([]);
     const [firstRender, setFirstRender] = createSignal<boolean>(true);
     const [cleaningCacheState, setCleaningCacheState] = createSignal<boolean>(false);
+    const [userData, setUserData] = createStore<TUserData>({} as TUserData);
     const cachedSuccess = () => toast.success("Cache cleaned!", {
         duration: 1700,
         position: "bottom-right",
@@ -49,6 +56,7 @@ const Home: Component = () => {
             const response = await api.get("/users/jwt", {
                 headers: { Authorization: `Bearer ${jwt}` }
             });
+            setUserData(response.data);
         } catch(err) {
             throw new Error("Error on get user");
         };
@@ -93,6 +101,7 @@ const Home: Component = () => {
     return (
         <div class="min-h-screen bg-[#0D1821] relative">
             <HomeProfileMenu />
+            <p>{userData.email}</p>
             <div class="min-w-4/5 mx-auto flex flex-col justify-center items-center">
                 <div class="w-[45%]">
                     <form method="post" class="w-full mt-[200px] relative flex justify-between items-center" onSubmit={handleSearch}>
@@ -110,8 +119,12 @@ const Home: Component = () => {
                                     <ChevronsUp color="#ffffff" class="cursor-pointer"/>
                                 )}
                            </button>
-                               <div class={`${isCustomSearchExpanded() ? "h-[200px] overflow-auto" : "h-0 overflow-hidden"} content bg-slate-800 w-full`}>
-                                    <p class="text-[#F0F4EF] p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae esse alias maiores repellat officiis praesentium omnis, quos aliquam earum porro eveniet velit ullam aut mollitia accusamus assumenda cum veritatis delectus?</p>
+                               <div class={`${isCustomSearchExpanded() ? "h-[200px] overflow-auto" : "h-0 overflow-hidden"} content bg-slate-800 w-full rounded-b-sm`}>
+                                    <div class="p-4">
+                                        <label for="search-range">Range</label>
+                                        <input type="date" name="search-engine"/>
+                                        <p class="text-[#F0F4EF]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae esse alias maiores repellat officiis praesentium omnis, quos aliquam earum porro eveniet velit ullam aut mollitia accusamus assumenda cum veritatis delectus?</p>
+                                    </div>
                                </div>
                         </div>
                         <button class="text-[#0D1821] bg-[#BFCC94] p-2 rounded-md w-[18%] absolute top-[20px] right-0 flex justify-center items-center gap-x-2 hover:bg-[#BFCC99]" onClick={clearCachedContent}>
@@ -128,13 +141,13 @@ const Home: Component = () => {
                 {
                 pagesContent.error ? null :
                 pagesContent.loading ?
-                <For each={Array(6)}>
+                <For each={Array(7)}>
                     {(number, i) => (<PulseLoading />)}
                 </For>:
                  pagesContent() ? (
-                 <>
+                 <div>
                     {searchItems.length > 0 && (
-                        <h2 class="text-[#ffffff] text-2xl">{searchItems.length} items displayed</h2>
+                        <h2 class="text-[#ffffff] text-2xl mb-2">{searchItems.length} items displayed</h2>
                     )}
                     <For each={searchItems}>
                         {(search:any, i) => (
@@ -147,7 +160,7 @@ const Home: Component = () => {
                                 />
                         )}
                     </For>
-                 </>
+                 </div>
                  ) : null}
                 </div>
             </div>

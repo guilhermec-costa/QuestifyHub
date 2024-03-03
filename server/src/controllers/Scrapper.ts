@@ -30,13 +30,11 @@ const selectors:string[] = [
 class Scraper {
     public async startCrawlingProcess(req:Request, res:Response) {
         const data:TScrapeParams = req.query as TScrapeParams;
-        console.log(data);
         if(!Object.keys(data).length) return res.sendStatus(400);
         const decodedScrapeURIs:string[] = data.scrapeOn.map(uri => decodeURIComponent(uri));
 
         try {
             const cachedScrapedContent = await Scraper.getAllScrapedDocuments([...Array(decodedScrapeURIs.length).keys()]);
-            console.log(cachedScrapedContent);
             if(cachedScrapedContent.every(content => content === undefined)) {
                 throw new Error("Not possible to get cache");
             };

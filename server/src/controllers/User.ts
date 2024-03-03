@@ -40,6 +40,7 @@ class UserController {
 
     public async viaJwt(req:Request, res:Response) {
         const token = req.headers.authorization?.split(" ")[1];
+        console.log(token);
         let requestedUser: {email:string, country: string};
         if(!token) return res.status(400).json({ error: "You are not logged in yet"});
 
