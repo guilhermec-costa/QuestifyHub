@@ -9,31 +9,29 @@ export type TUserContext = {
     email:string
 }
 
-export const UserContext = createContext({} as TUserContext, {});
+export const UserContext = createContext({} as TUserContext);
 
 export function UserContextProvider(props) {
     const jwt = localStorage.getItem("token");
-    const [userData, setUserData] = createSignal();
-    createEffect(() => {
-        setTimeout(() => {
-            setUserData({a: "teste"})
-            console.log("SETTADO");
-        }, 6000);
-    }, 0)
-    /* createEffect(async () => { */
-    /*     try { */
-    /*         const response = await api.get("/users/jwt", { */
-    /*             headers: { Authorization: `Bearer ${jwt}` } */
-    /*         }); */
-    /*         setUserData(response.data); */
-    /*         console.log(userData()); */
-    /*     } catch(err) { */
-    /*         throw new Error("Error on get user"); */
-    /*     }; */
+    const [userData, setUserData] = createStore();
+    /* createEffect(() => { */
+    /*     setTimeout(() => { */
+    /*         setUserData({email: 1, test: 2}) */
+    /*     }, 3000); */
     /* }); */
+    createEffect(async () => {
+        try {
+            const response = await api.get("/users/jwt", {
+                headers: { Authorization: `Bearer ${jwt}` }
+            });
+            setUserData(response.data);
+        } catch(err) {
+            throw new Error("Error on get user");
+        };
+    });
 
     return (
-        <UserContext.Provider value={userData()}>
+        <UserContext.Provider value={userData}>
             {props.children}
         </UserContext.Provider>
     );

@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import Jwt from "utils/jwt";
 import { z } from "zod";
 import { hashPassword } from "utils/cryptog";
+import BookmarkModel from "models/Bookmarks";
 
 class UserController {
     public async store(req: Request, res: Response) {
@@ -62,7 +63,20 @@ class UserController {
     }
 
     public async addBookmark(req:Request, res:Response) {
-        console.log(req.body);
+        const bookmarkValidator = z.object({
+            link: z.string(),
+            title: z.string(),
+            userId: z.string()
+        })
+        
+        const { userId,title,link} = bookmarkValidator.parse(req.body);
+
+        const bookmark = await BookmarkModel.create({
+            title: title,
+            link: link
+        });
+
+        await User.findByIdAndUpdate(userId, {$push: { bookmarks: bookmark }});
         return res.sendStatus(200);
     }
 

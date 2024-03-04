@@ -21,17 +21,13 @@ type TUserData = {
 function Home() {
     const navigator = useNavigate();
     const userContext = useUserContext();
-    if(Object.keys(userContext).length) {
-        console.log(userContext);
-    }
-
     const jwt = localStorage.getItem("token");
     const [searchItems, setSearchItems] = createStore<Object[]>([]);
     const [isCustomSearchExpanded, setIsCustomSearchExpanded] = createSignal<boolean>(false);
     const [routesToScrape, setRoutesToScrape] = createSignal<string[]>([]);
     const [firstRender, setFirstRender] = createSignal<boolean>(true);
     const [cleaningCacheState, setCleaningCacheState] = createSignal<boolean>(false);
-    const [userData, setUserData] = createStore<TUserData>({} as TUserData);
+    /* const [userData, setUserData] = createStore<TUserData>({} as TUserData); */
     const cachedSuccess = () => toast.success("Cache cleaned!", {
         duration: 1700,
         position: "bottom-right",

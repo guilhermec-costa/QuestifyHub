@@ -7,11 +7,13 @@ import { UserContext, useUserContext } from "../contexts/userContext";
 
 type TBookmark = {
     title:string,
-    link:string|undefined|null
+    link:string|undefined|null,
+    userId: string
 }
 
 const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, position, lastPosition}) => {
-    const config = useContext(UserContext);
+    const userConfig = useUserContext();
+    console.log(userConfig);
     const [showBookmark, setShowBookmark] = createSignal<boolean>(false);
     const [searchItemStore, setSearchItemStore] = createStore<TBookmark>({} as TBookmark);
     const searchItemBorder = () => {
@@ -25,16 +27,20 @@ const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, posit
     }
 
     const addBookmark = async (e:Event) => {
+        const { _id } = userConfig;
         const eventCaller:SVGElement = e.target as SVGElement;
         const link = eventCaller.parentElement?.parentElement?.children[0].children;
         setSearchItemStore({
             title: link?.item(0)?.innerHTML,
-            link: link?.item(0)?.getAttribute("href")
+            link: link?.item(0)?.getAttribute("href"),
+            userId: _id
         });
+        console.log(searchItemStore);
         try {
             await api.post("/new-bookmark", {
                 title: searchItemStore.title,
-                link: searchItemStore.link
+                link: searchItemStore.link,
+                userId: searchItemStore.userId
             });
         } catch(err) {
             console.log("Failed to add to bookmarks");
