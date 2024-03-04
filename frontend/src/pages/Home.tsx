@@ -72,7 +72,6 @@ const Home: Component = () => {
             /*     } */
             /* }); */
             const {items:searchItems} = data;
-            console.log(searchItems);
             let encodedRoutes = searchItems.map(item => encodeURIComponent(item.formattedUrl));
             setRoutesToScrape(encodedRoutes);
             const response = await refetch();

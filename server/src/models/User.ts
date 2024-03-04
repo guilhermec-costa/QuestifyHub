@@ -1,4 +1,5 @@
 import mongoose, { Model } from "mongoose";
+import BookmarkModel from "./Bookmarks";
 const { Types } = mongoose.Schema;
 
 const UserSchema = new mongoose.Schema({
@@ -14,7 +15,11 @@ const UserSchema = new mongoose.Schema({
     country: {
         type: Types.String,
         required: true
-    }},
+    },
+    bookmarks: [{
+        type: Types.ObjectId,
+        ref: "Bookmark",
+        }]},
     {
         timestamps: {
         createdAt: "created_at",
