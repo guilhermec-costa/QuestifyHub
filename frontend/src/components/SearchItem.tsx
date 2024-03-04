@@ -1,8 +1,9 @@
-import { Component, createSignal } from "solid-js";
+import { Component, createSignal, useContext } from "solid-js";
 import { TSearchProps } from "../types/SearchProps";
 import { BookmarkPlus } from "lucide-solid";
 import { api } from "../lib/axios";
 import { createStore } from "solid-js/store";
+import { UserContext, useUserContext } from "../contexts/userContext";
 
 type TBookmark = {
     title:string,
@@ -10,6 +11,7 @@ type TBookmark = {
 }
 
 const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, position, lastPosition}) => {
+    const config = useContext(UserContext);
     const [showBookmark, setShowBookmark] = createSignal<boolean>(false);
     const [searchItemStore, setSearchItemStore] = createStore<TBookmark>({} as TBookmark);
     const searchItemBorder = () => {

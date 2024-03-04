@@ -6,6 +6,7 @@ import { Logger } from "middlewares/logger";
 const router = Router();
 
 router.post("/users", UserController.store);
+router.post("/new-bookmark", Logger, UserController.addBookmark);
 router.get("/users", isAuthenticated, UserController.all);
 router.get("/users/jwt", UserController.viaJwt);
 router.get("/users/:id", UserController.byUserId);

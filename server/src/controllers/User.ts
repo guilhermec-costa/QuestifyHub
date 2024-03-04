@@ -61,6 +61,11 @@ class UserController {
        return res.status(200).json({ message: "User was deleted" });
     }
 
+    public async addBookmark(req:Request, res:Response) {
+        console.log(req.body);
+        return res.sendStatus(200);
+    }
+
 }
 
 export default new UserController();

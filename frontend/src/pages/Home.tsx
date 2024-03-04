@@ -1,4 +1,4 @@
-import { Component, For, createEffect, createSignal, createResource, Switch, Match } from "solid-js";
+import { Component, For, createEffect, createSignal, createResource, Switch, Match, useContext } from "solid-js";
 import toast, {Toaster} from "solid-toast";
 import { checkAuthentication } from "../utils/auth";
 import { useNavigate } from "@solidjs/router";
@@ -10,6 +10,7 @@ import data from "../data.json";
 import { createStore } from "solid-js/store";
 import "./style.css";
 import PulseLoading from "../components/PulseLoading";
+import { useUserContext } from "../contexts/userContext";
 
 type TUserData = {
     _id:string
@@ -17,8 +18,12 @@ type TUserData = {
     email:string
 }
 
-const Home: Component = () => {
+function Home() {
     const navigator = useNavigate();
+    const userContext = useUserContext();
+    if(Object.keys(userContext).length) {
+        console.log(userContext);
+    }
 
     const jwt = localStorage.getItem("token");
     const [searchItems, setSearchItems] = createStore<Object[]>([]);
@@ -51,16 +56,16 @@ const Home: Component = () => {
 
     const [pagesContent, {mutate, refetch}] = createResource(fetchURIsContent);
 
-    createEffect(async () => {
-        try {
-            const response = await api.get("/users/jwt", {
-                headers: { Authorization: `Bearer ${jwt}` }
-            });
-            setUserData(response.data);
-        } catch(err) {
-            throw new Error("Error on get user");
-        };
-    });
+    /* createEffect(async () => { */
+    /*     try { */
+    /*         const response = await api.get("/users/jwt", { */
+    /*             headers: { Authorization: `Bearer ${jwt}` } */
+    /*         }); */
+    /*         setUserData(response.data); */
+    /*     } catch(err) { */
+    /*         throw new Error("Error on get user"); */
+    /*     }; */
+    /* }); */
 
 
     const handleSearch = async (event:Event) => {
@@ -101,7 +106,6 @@ const Home: Component = () => {
     return (
         <div class="min-h-screen bg-[#0D1821] relative">
             <HomeProfileMenu />
-            <p>{userData.email}</p>
             <div class="min-w-4/5 mx-auto flex flex-col justify-center items-center">
                 <div class="w-[45%]">
                     <form method="post" class="w-full mt-[200px] relative flex justify-between items-center" onSubmit={handleSearch}>
@@ -146,20 +150,20 @@ const Home: Component = () => {
                 </For>:
                  pagesContent() ? (
                  <div>
-                    {searchItems.length > 0 && (
-                        <h2 class="text-[#ffffff] text-2xl mb-2">{searchItems.length} items displayed</h2>
-                    )}
-                    <For each={searchItems}>
-                        {(search:any, i) => (
-                                <SearchItem
-                                    displayLink={search.link}
-                                    snippet={search.snippet}
-                                    title={search.title}
-                                    position={i()}
-                                    lastPosition={searchItems.length}
-                                />
+                        {searchItems.length > 0 && (
+                            <h2 class="text-[#ffffff] text-2xl mb-2">{searchItems.length} items displayed</h2>
                         )}
-                    </For>
+                            <For each={searchItems}>
+                                {(search:any, i) => (
+                                        <SearchItem
+                                            displayLink={search.link}
+                                            snippet={search.snippet}
+                                            title={search.title}
+                                            position={i()}
+                                            lastPosition={searchItems.length}
+                                        />
+                                )}
+                            </For>
                  </div>
                  ) : null}
                 </div>

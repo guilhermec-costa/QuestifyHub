@@ -131,7 +131,6 @@ const Register: Component = () => {
     };
 
     createEffect(async () => {
-        console.log("aqui")
         const {data: countries } = await axios.get("https://restcountries.com/v3.1/all");
         const formattedCountries:Country[] = countries.map((country:any) => {
             return { name: country.name.common, code: country.cca2  }
