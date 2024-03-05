@@ -3,6 +3,7 @@ import { logout } from "../utils/auth"
 import { useNavigate } from "@solidjs/router";
 import { Menu } from "lucide-solid";
 import handleOutsideClick from "../utils/onOutsideClick";
+import { useUserContext } from "../contexts/userContext";
 
 interface IMenuOptions {
     [key:string]: any
@@ -10,8 +11,9 @@ interface IMenuOptions {
 
 const HomeProfileMenu: Component = () => {
     const navigator = useNavigate();
+    const userConfig = useUserContext();
     const menuOptions:IMenuOptions = {
-        Profile: () => console.log("profile"),
+        Profile: () => navigator("/me", { state: userConfig }),
         Logout: () => logout(navigator)
     };
 
@@ -41,7 +43,7 @@ const HomeProfileMenu: Component = () => {
             </div>
             <Show when={menuModal()}>
                 <div ref={menuModalRef}
-                    class="h-[120px] w-[130px] bg-[#b6ccd8] absolute right-8 top-[5%] z-1
+                    class="h-[120px] w-[130px] bg-[#b6ccd8] absolute right-8 top-[3%] z-1
                     rounded-md">
                     <ul class="absolute bottom-1/2">
                         <For each={Object.keys(menuOptions)}>

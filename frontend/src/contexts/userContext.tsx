@@ -14,11 +14,6 @@ export const UserContext = createContext({} as TUserContext);
 export function UserContextProvider(props) {
     const jwt = localStorage.getItem("token");
     const [userData, setUserData] = createStore();
-    /* createEffect(() => { */
-    /*     setTimeout(() => { */
-    /*         setUserData({email: 1, test: 2}) */
-    /*     }, 3000); */
-    /* }); */
     createEffect(async () => {
         try {
             const response = await api.get("/users/jwt", {

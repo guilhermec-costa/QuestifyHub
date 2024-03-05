@@ -44,12 +44,12 @@ const Home: Component = () => {
     const handleSearch = async (event:Event) => {
         event.preventDefault();
         try {
-            const searchResponse = await api.get("/search", {
-                params: {
-                    q: searchRef?.value
-                }
-            });
-            const {items:searchItems} = searchResponse.data;
+            /* const searchResponse = await api.get("/search", { */
+            /*     params: { */
+            /*         q: searchRef?.value */
+            /*     } */
+            /* }); */
+            const {items:searchItems} = data;
             let encodedRoutes = searchItems.map(item => encodeURIComponent(item.formattedUrl));
             setRoutesToScrape(encodedRoutes);
             const response = await refetch();
