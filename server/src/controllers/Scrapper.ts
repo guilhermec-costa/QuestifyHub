@@ -62,7 +62,6 @@ class Scraper {
     }
 
     private static async cacheScrapedDocument(documentId:number, scrapedDocument:Record<string, string[]>) {
-        /* const filteredScrapedDocument = scrapedDocument[documentId].filter(i => i.length > 1); */
         const stringifiedContent = JSON.stringify(scrapedDocument);
         await redis.set(documentId.toString(), stringifiedContent, (err, ok) => {
             console.log(err ? `Error: ${err}` : `Success: ${ok}`);

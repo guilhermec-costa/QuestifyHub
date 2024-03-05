@@ -17,8 +17,14 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
     bookmarks: [{
-        type: Types.ObjectId,
-        ref: "Bookmark",
+        title: {
+            type: Types.String,
+            required: true
+        },
+        link: {
+            type: Types.String,
+            required: true
+        }
         }]},
     {
         timestamps: {

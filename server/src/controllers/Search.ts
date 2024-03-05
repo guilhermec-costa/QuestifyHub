@@ -7,7 +7,6 @@ type TSearchParams = {
 
 class SearchController {
     public async search(req:Request, res:Response) {
-        console.log(req.query);
         const {q:searchQuery} = req.query as TSearchParams;
         const searchEngineId = process.env.SEARCH_ENGINE_ID;
         const apiKey = process.env.SEARCH_ENGINE_API_KEY;

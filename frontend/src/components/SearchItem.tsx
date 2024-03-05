@@ -4,6 +4,7 @@ import { BookmarkPlus } from "lucide-solid";
 import { api } from "../lib/axios";
 import { createStore } from "solid-js/store";
 import { UserContext, useUserContext } from "../contexts/userContext";
+import toast from "solid-toast";
 
 type TBookmark = {
     title:string,
@@ -13,9 +14,14 @@ type TBookmark = {
 
 const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, position, lastPosition}) => {
     const userConfig = useUserContext();
-    console.log(userConfig);
     const [showBookmark, setShowBookmark] = createSignal<boolean>(false);
     const [searchItemStore, setSearchItemStore] = createStore<TBookmark>({} as TBookmark);
+    let linkRef:HTMLAnchorElement|undefined;
+    let linkTitleRef:HTMLHeadingElement|undefined;
+    const cachedSuccess = () => toast.success("Bookmark added!", {
+        duration: 3000,
+        position: "bottom-right",
+    });
     const searchItemBorder = () => {
         if(position===0) {
             return "rounded-t-lg"
@@ -31,17 +37,16 @@ const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, posit
         const eventCaller:SVGElement = e.target as SVGElement;
         const link = eventCaller.parentElement?.parentElement?.children[0].children;
         setSearchItemStore({
-            title: link?.item(0)?.innerHTML,
-            link: link?.item(0)?.getAttribute("href"),
+            title: linkRef?.innerHTML,
+            link: linkRef?.getAttribute("href"),
             userId: _id
         });
-        console.log(searchItemStore);
         try {
             await api.post("/new-bookmark", {
                 title: searchItemStore.title,
                 link: searchItemStore.link,
                 userId: searchItemStore.userId
-            });
+            }).then(() => cachedSuccess());
         } catch(err) {
             console.log("Failed to add to bookmarks");
         }
@@ -53,8 +58,8 @@ const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, posit
                 setShowBookmark(false);
             }}>
             <div class="flex justify-start items-center">
-                <h3 class="text-[#B4CDED] text-xl font-bold hover:underline decoration-1 decoration-[#B4CDED] flex justify-start items-center">
-                    <a href={displayLink} target="_blank">
+                <h3 class="text-[#B4CDED] text-xl font-bold hover:underline decoration-1 decoration-[#B4CDED] flex justify-start items-center" ref={linkTitleRef}>
+                    <a href={displayLink} target="_blank" ref={linkRef}>
                         {title}
                     </a>
                 </h3>

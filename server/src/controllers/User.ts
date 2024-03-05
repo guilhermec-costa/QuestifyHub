@@ -71,12 +71,7 @@ class UserController {
         
         const { userId,title,link} = bookmarkValidator.parse(req.body);
 
-        const bookmark = await BookmarkModel.create({
-            title: title,
-            link: link
-        });
-
-        await User.findByIdAndUpdate(userId, {$push: { bookmarks: bookmark }});
+        await User.findByIdAndUpdate(userId, {$push: { bookmarks: { title, link } }});
         return res.sendStatus(200);
     }
 

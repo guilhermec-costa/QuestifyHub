@@ -10,24 +10,14 @@ import data from "../data.json";
 import { createStore } from "solid-js/store";
 import "./style.css";
 import PulseLoading from "../components/PulseLoading";
-import { useUserContext } from "../contexts/userContext";
 
-type TUserData = {
-    _id:string
-    country:string,
-    email:string
-}
-
-function Home() {
+const Home: Component = () => {
     const navigator = useNavigate();
-    const userContext = useUserContext();
-    const jwt = localStorage.getItem("token");
     const [searchItems, setSearchItems] = createStore<Object[]>([]);
     const [isCustomSearchExpanded, setIsCustomSearchExpanded] = createSignal<boolean>(false);
     const [routesToScrape, setRoutesToScrape] = createSignal<string[]>([]);
     const [firstRender, setFirstRender] = createSignal<boolean>(true);
     const [cleaningCacheState, setCleaningCacheState] = createSignal<boolean>(false);
-    /* const [userData, setUserData] = createStore<TUserData>({} as TUserData); */
     const cachedSuccess = () => toast.success("Cache cleaned!", {
         duration: 1700,
         position: "bottom-right",
@@ -35,7 +25,6 @@ function Home() {
     checkAuthentication(navigator);
 
     let searchRef: HTMLInputElement|undefined;
-    let collapsibleContainer: HTMLDivElement|undefined;
 
     const fetchURIsContent = async () => {
         setRoutesToScrape(routesToScrape().length > 0 ? routesToScrape() : []);
@@ -52,32 +41,20 @@ function Home() {
 
     const [pagesContent, {mutate, refetch}] = createResource(fetchURIsContent);
 
-    /* createEffect(async () => { */
-    /*     try { */
-    /*         const response = await api.get("/users/jwt", { */
-    /*             headers: { Authorization: `Bearer ${jwt}` } */
-    /*         }); */
-    /*         setUserData(response.data); */
-    /*     } catch(err) { */
-    /*         throw new Error("Error on get user"); */
-    /*     }; */
-    /* }); */
-
-
     const handleSearch = async (event:Event) => {
         event.preventDefault();
         try {
-            /* const searchResponse = await api.get("/search", { */
-            /*     params: { */
-            /*         q: searchRef?.value */
-            /*     } */
-            /* }); */
-            const {items:searchItems} = data;
+            const searchResponse = await api.get("/search", {
+                params: {
+                    q: searchRef?.value
+                }
+            });
+            const {items:searchItems} = searchResponse.data;
             let encodedRoutes = searchItems.map(item => encodeURIComponent(item.formattedUrl));
             setRoutesToScrape(encodedRoutes);
             const response = await refetch();
             for(let i=0;i<response?.data.length;++i) {
-                /* console.log(JSON.parse(response?.data[i])) */
+                console.log(JSON.parse(response?.data[i]))
             }
             setSearchItems(searchItems);
         } catch(err:any) {
