@@ -31,7 +31,7 @@ const Login: Component = () => {
             const { data: { token, user } } = await axios.post("http://localhost:3333/auth/login", loginBody);
             localStorage.setItem("token", token);
             localStorage.setItem("username", user.displayName);
-            navigate("/home");
+            navigate("/hub");
             } catch(err) {
             if(err instanceof AxiosError) {
                 const errorData = err.response?.data;

@@ -16,9 +16,9 @@ const Routes:Component = () => {
                 <Route path={["/signin"]} component={Login} />   
                 <Route path="/register" component={Register} />
                 <Route path="/" component={PrivateRoute} >
-                    <Route path="/home" component={Home} />
+                    <Route path={["/hub","/"]} component={Home} />
+                    <Route path="/me" component={Profile} />
                 </Route>
-                <Route path="/me" component={Profile} />
                 <Route path="*" component={NotFound} />
             </Router>
         </UserContextProvider>

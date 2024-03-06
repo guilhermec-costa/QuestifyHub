@@ -1,4 +1,3 @@
-import { useLocation, useParams } from "@solidjs/router";
 import { Component } from "solid-js";
 import { useUserContext } from "../contexts/userContext";
 
