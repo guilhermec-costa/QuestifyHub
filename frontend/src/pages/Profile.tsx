@@ -3,12 +3,10 @@ import { Component } from "solid-js";
 import { useUserContext } from "../contexts/userContext";
 
 const Profile:Component = () => {
-    const user = useUserContext();
-    console.log(user);
-    const data = useLocation();
-    console.log(data);
+    const userConfig = useUserContext();
+
     return (
-        <h1>PROFILE PAGE</h1>
+        <div class="min-h-screen bg-[#0D1821] relative">{userConfig.email}</div>
     );
 };
 

@@ -22,7 +22,7 @@ const Home: Component = () => {
         duration: 1700,
         position: "bottom-right",
     });
-    checkAuthentication(navigator);
+    /* checkAuthentication(navigator); */
 
     let searchRef: HTMLInputElement|undefined;
 

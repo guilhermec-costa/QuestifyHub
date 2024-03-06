@@ -13,7 +13,7 @@ const HomeProfileMenu: Component = () => {
     const navigator = useNavigate();
     const userConfig = useUserContext();
     const menuOptions:IMenuOptions = {
-        Profile: () => navigator("/me", { state: userConfig }),
+        Profile: () => navigator("/me"),
         Logout: () => logout(navigator)
     };
 
