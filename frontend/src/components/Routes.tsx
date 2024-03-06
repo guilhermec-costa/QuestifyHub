@@ -13,11 +13,11 @@ const Routes:Component = () => {
     return (
         <UserContextProvider>
             <Router>
-                <Route path={["/signin", "/"]} component={Login} />   
+                <Route path={["/signin"]} component={Login} />   
                 <Route path="/register" component={Register} />
-                <PrivateRoute>
+                <Route path="/" component={PrivateRoute} >
                     <Route path="/home" component={Home} />
-                </PrivateRoute>
+                </Route>
                 <Route path="/me" component={Profile} />
                 <Route path="*" component={NotFound} />
             </Router>

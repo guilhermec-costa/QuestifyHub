@@ -6,7 +6,11 @@ import { Navigate, Navigator, useNavigate } from "@solidjs/router";
 const PrivateRoute:Component<PropsWithChildren> = ({children}) => {
     const isAuthorized = checkAuthentication();
     const navigator = useNavigate();
-    if(isAuthorized) return children;
+    if(isAuthorized) {
+        return (
+            <>{children}</>
+        )
+    }
 
     navigator("/signin", {replace: true});
 }
