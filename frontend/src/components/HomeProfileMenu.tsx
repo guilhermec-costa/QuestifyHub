@@ -44,8 +44,8 @@ const HomeProfileMenu: Component = () => {
                 </button>
             </div>
             <Show when={menuModal()}>
-                <div ref={menuModalRef}
-                    class="h-[40%] w-[230px] bg-slate-600 absolute right-8 top-[6%] z-1
+                <div ref={menuModalRef} style={{"z-index": "1"}}
+                    class="min-h-[400px] w-[300px] bg-slate-600 absolute right-8 top-[4%]
                     rounded-md overflow-y-auto">
                     <p class="text-center mt-3">Hi, {userConfig.email}</p>
                     <img src={profile} alt="profile-pic" class="w-[110px] block mx-auto mt-4" />

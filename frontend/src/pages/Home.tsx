@@ -10,6 +10,7 @@ import data from "../data.json";
 import { createStore } from "solid-js/store";
 import "./style.css";
 import PulseLoading from "../components/PulseLoading";
+import { AxiosResponse } from "axios";
 
 const Home: Component = () => {
     const navigator = useNavigate();
@@ -18,20 +19,16 @@ const Home: Component = () => {
     const [routesToScrape, setRoutesToScrape] = createSignal<string[]>([]);
     const [firstRender, setFirstRender] = createSignal<boolean>(true);
     const [cleaningCacheState, setCleaningCacheState] = createSignal<boolean>(false);
+    const [isScrapingLoading, setIsScrapingLoading] = createSignal<boolean>(false);
+    const [scrapedData, setScrapedData] = createSignal([]);
     const cachedSuccess = () => toast.success("Cache cleaned!", {
         duration: 1700,
         position: "bottom-right",
     });
-    /* checkAuthentication(navigator); */
 
     let searchRef: HTMLInputElement|undefined;
 
     const fetchURIsContent = async () => {
-        setRoutesToScrape(routesToScrape().length > 0 ? routesToScrape() : []);
-        if(firstRender()) {
-            setFirstRender(false);
-            return;
-        }
         return await api.get("/scrape", {
             params: {
                 scrapeOn: routesToScrape()
@@ -39,11 +36,10 @@ const Home: Component = () => {
         });
     };
 
-    const [pagesContent, {mutate, refetch}] = createResource(fetchURIsContent);
-
     const handleSearch = async (event:Event) => {
         event.preventDefault();
         try {
+            setIsScrapingLoading(true);
             /* const searchResponse = await api.get("/search", { */
             /*     params: { */
             /*         q: searchRef?.value */
@@ -52,9 +48,13 @@ const Home: Component = () => {
             const {items:searchItems} = data;
             let encodedRoutes = searchItems.map(item => encodeURIComponent(item.formattedUrl));
             setRoutesToScrape(encodedRoutes);
-            const response = await refetch();
-            for(let i=0;i<response?.data.length;++i) {
-                console.log(JSON.parse(response?.data[i]))
+            await fetchURIsContent()
+                .then((response) => {
+                    setScrapedData(response?.data)
+                    setIsScrapingLoading(false)
+                });
+            for(let i=0;i<scrapedData()?.length;++i) {
+                console.log(JSON.parse(scrapedData()[i]))
             }
             setSearchItems(searchItems);
         } catch(err:any) {
@@ -116,12 +116,11 @@ const Home: Component = () => {
                 </div>
                 <div class="mt-10 rounded-lg w-[70%]">
                 {
-                pagesContent.error ? null :
-                pagesContent.loading ?
+                isScrapingLoading() ?
                 <For each={Array(7)}>
                     {(number, i) => (<PulseLoading />)}
                 </For>:
-                 pagesContent() ? (
+                 (
                  <div>
                         {searchItems.length > 0 && (
                             <h2 class="text-[#ffffff] text-2xl mb-2">{searchItems.length} items displayed</h2>
@@ -138,7 +137,7 @@ const Home: Component = () => {
                                 )}
                             </For>
                  </div>
-                 ) : null}
+                 )}
                 </div>
             </div>
         </div>
