@@ -1,6 +1,5 @@
 import { Component, For, createEffect, createSignal, createResource, Switch, Match, useContext } from "solid-js";
 import toast, {Toaster} from "solid-toast";
-import { checkAuthentication } from "../utils/auth";
 import { useNavigate } from "@solidjs/router";
 import { Telescope, Eraser, ChevronsUp, ChevronsDown, SlidersHorizontal, Loader } from "lucide-solid";
 import { api } from "../lib/axios";
@@ -10,6 +9,7 @@ import data from "../data.json";
 import { createStore } from "solid-js/store";
 import "./style.css";
 import PulseLoading from "../components/PulseLoading";
+import SearchCustomizer from "../components/SearchCustomizer";
 import { AxiosResponse } from "axios";
 
 const Home: Component = () => {
@@ -96,12 +96,8 @@ const Home: Component = () => {
                                     <ChevronsUp color="#ffffff" class="cursor-pointer"/>
                                 )}
                            </button>
-                               <div class={`${isCustomSearchExpanded() ? "h-[200px] overflow-auto" : "h-0 overflow-hidden"} content bg-slate-800 w-full rounded-b-sm`}>
-                                    <div class="p-4">
-                                        <label for="search-range">Range</label>
-                                        <input type="date" name="search-engine"/>
-                                        <p class="text-[#F0F4EF]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae esse alias maiores repellat officiis praesentium omnis, quos aliquam earum porro eveniet velit ullam aut mollitia accusamus assumenda cum veritatis delectus?</p>
-                                    </div>
+                               <div class={`${isCustomSearchExpanded() ? "h-[320px] overflow-auto" : "h-0 overflow-hidden"} content bg-slate-800 w-full rounded-b-sm`}>
+                                    <SearchCustomizer />
                                </div>
                         </div>
                         <button class="text-[#0D1821] bg-[#BFCC94] p-2 rounded-md w-[18%] absolute top-[20px] right-0 flex justify-center items-center gap-x-2 hover:bg-[#BFCC99]" onClick={clearCachedContent}>
