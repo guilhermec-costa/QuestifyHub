@@ -8,7 +8,7 @@ const router = Router();
 router.post("/users", UserController.store);
 router.post("/new-bookmark", Logger, UserController.addBookmark);
 router.get("/users", isAuthenticated, UserController.all);
-router.get("/users/jwt", UserController.viaJwt);
+router.get("/users/info", UserController.info);
 router.get("/users/:id", UserController.byUserId);
 router.delete("/users/:id", UserController.delete);
 

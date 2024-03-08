@@ -1,5 +1,4 @@
-import { PropsWithChildren } from "../types/TPropsWithChildren";
-import { Component, createContext, createEffect, createSignal, useContext } from "solid-js";
+import { createContext, createEffect, useContext } from "solid-js";
 import { api } from "../lib/axios";
 import { createStore } from "solid-js/store";
 
@@ -11,12 +10,12 @@ export type TUserContext = {
 
 export const UserContext = createContext({} as TUserContext);
 
-export function UserContextProvider(props) {
+export function UserContextProvider(props:any) {
     const jwt = localStorage.getItem("token");
     const [userData, setUserData] = createStore();
     createEffect(async () => {
         try {
-            const response = await api.get("/users/jwt", {
+            const response = await api.get("/users/info", {
                 headers: { Authorization: `Bearer ${jwt}` }
             });
             setUserData(response.data);

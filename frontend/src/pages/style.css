@@ -11,7 +11,6 @@ label input[type="checkbox"] {
 
 input:checked + .collapsed {
     height: 200px;
-    /* padding: 1rem; */
 }
 
 .content {
@@ -29,3 +28,8 @@ input:checked + .collapsed {
   outline: none;
   font-size: 15px;
 }
+
+.search-customizer {
+    box-shadow: 0px 7px 20px 0px rgba(99,102,241,0.78);
+}
+

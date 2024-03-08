@@ -39,7 +39,7 @@ class UserController {
         return res.status(200).json(user);
     }
 
-    public async viaJwt(req:Request, res:Response) {
+    public async info(req:Request, res:Response) {
         const token = req.headers.authorization?.split(" ")[1];
         console.log(token);
         let requestedUser: {email:string, country: string};

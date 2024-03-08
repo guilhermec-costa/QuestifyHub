@@ -11,17 +11,15 @@ const Profile = lazy(() => import("../pages/Profile"));
 
 const Routes:Component = () => {
     return (
-        <UserContextProvider>
             <Router>
-                <Route path={["/signin"]} component={Login} />   
+                <Route path="/signin" component={Login} />   
                 <Route path="/register" component={Register} />
                 <Route path="/" component={PrivateRoute} >
-                    <Route path={["/hub","/"]} component={Home} />
-                    <Route path="/me" component={Profile} />
+                <Route path={["/hub","/"]} component={Home} />
+                <Route path="/me" component={Profile} />
                 </Route>
                 <Route path="*" component={NotFound} />
             </Router>
-        </UserContextProvider>
     );
 };
 

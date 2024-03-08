@@ -14,6 +14,7 @@ type TBookmark = {
 
 const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, position, lastPosition}) => {
     const userConfig = useUserContext();
+    console.log(userConfig);
     const [showBookmark, setShowBookmark] = createSignal<boolean>(false);
     const [searchItemStore, setSearchItemStore] = createStore<TBookmark>({} as TBookmark);
     let linkRef:HTMLAnchorElement|undefined;
@@ -34,8 +35,6 @@ const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, posit
 
     const addBookmark = async (e:Event) => {
         const { _id } = userConfig;
-        const eventCaller:SVGElement = e.target as SVGElement;
-        const link = eventCaller.parentElement?.parentElement?.children[0].children;
         setSearchItemStore({
             title: linkRef?.innerHTML,
             link: linkRef?.getAttribute("href"),
@@ -48,6 +47,7 @@ const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, posit
                 userId: searchItemStore.userId
             }).then(() => cachedSuccess());
         } catch(err) {
+            console.log(err);
             console.log("Failed to add to bookmarks");
         }
     }
