@@ -30,6 +30,6 @@ input:checked + .collapsed {
 }
 
 .search-customizer {
-    box-shadow: 0px 7px 20px 0px rgba(99,102,241,0.78);
+    box-shadow: 0px 10px 13px -1px rgba(99,102,241,0.78);
 }
 

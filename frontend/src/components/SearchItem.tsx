@@ -14,7 +14,6 @@ type TBookmark = {
 
 const SearchItem: Component<TSearchProps> = ({title, displayLink, snippet, position, lastPosition}) => {
     const userConfig = useUserContext();
-    console.log(userConfig);
     const [showBookmark, setShowBookmark] = createSignal<boolean>(false);
     const [searchItemStore, setSearchItemStore] = createStore<TBookmark>({} as TBookmark);
     let linkRef:HTMLAnchorElement|undefined;
