@@ -7,6 +7,7 @@ interface ICustomSearch {
     dateRange: Date[]
     excludeTerms: string[]
     includeTerms: string[]
+    items: () => string
 }
 
 const SearchCustomizer = () => {
@@ -14,7 +15,10 @@ const SearchCustomizer = () => {
     const [searchConfiguration, setSearchConfiguration] = createStore<ICustomSearch>({
         includeTerms: [],
         excludeTerms: [],
-        dateRange: [new Date(), new Date()]
+        dateRange: [new Date(), new Date()],
+        get items() {
+            return `Olá`
+        }
     });
 
     let wordToIncludeRef: HTMLInputElement|undefined;
@@ -23,6 +27,7 @@ const SearchCustomizer = () => {
     const addWordToIncludeTerms = () => {
         setSearchConfiguration("includeTerms", (prevTerms) => [...prevTerms, wordToIncludeRef?.value as string]);
         if(wordToIncludeRef?.value) wordToIncludeRef.value = "";
+        console.log()
     }
 
     return (
