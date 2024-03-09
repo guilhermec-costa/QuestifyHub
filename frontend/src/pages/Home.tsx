@@ -40,12 +40,12 @@ const Home: Component = () => {
         event.preventDefault();
         try {
             setIsScrapingLoading(true);
-            const searchResponse = await api.get("/search", {
-                params: {
-                    q: searchRef?.value
-                }
-            });
-            const {items:searchItems} = searchResponse.data;
+            /* const searchResponse = await api.get("/search", { */
+            /*     params: { */
+            /*         q: searchRef?.value */
+            /*     } */
+            /* }); */
+            const {items:searchItems} = data;
             let encodedRoutes = searchItems.map((item:any) => encodeURIComponent(item.formattedUrl));
             setRoutesToScrape(encodedRoutes);
             await fetchURIsContent()

@@ -1,4 +1,5 @@
 import { createContext, createEffect, useContext } from "solid-js";
+import { useNavigate } from "@solidjs/router";
 import { api } from "../lib/axios";
 import { createStore } from "solid-js/store";
 
@@ -11,6 +12,7 @@ export type TUserContext = {
 export const UserContext = createContext({} as TUserContext);
 
 export function UserContextProvider(props:any) {
+    const navigator = useNavigate();
     const jwt = localStorage.getItem("token");
     const [userData, setUserData] = createStore();
     createEffect(async () => {
@@ -20,7 +22,8 @@ export function UserContextProvider(props:any) {
             });
             setUserData(response.data);
         } catch(err) {
-            throw new Error("Error on get user");
+            console.log(err);
+            navigator("/signin");
         };
     });
 
